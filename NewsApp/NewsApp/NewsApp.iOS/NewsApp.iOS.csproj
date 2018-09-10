@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4D0C9952-92DF-4AC6-B568-5FDB15C2C16B}</ProjectGuid>
+    <ProjectGuid>{33A7377C-98C8-4337-9FE9-925D147070B6}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
     <OutputType>Exe</OutputType>
@@ -153,7 +153,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\NewsApp\NewsApp.csproj">
-      <Project>{D72E1334-D636-471B-A532-127963D3FB9C}</Project>
+      <Project>{777FC9EC-E0FE-4B9F-8EF1-79ABE85B0591}</Project>
       <Name>NewsApp</Name>
     </ProjectReference>
   </ItemGroup>

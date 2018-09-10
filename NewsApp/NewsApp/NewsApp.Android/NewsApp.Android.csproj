@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53C99D9F-846C-4C0C-8D5B-3F86D9A40081}</ProjectGuid>
+    <ProjectGuid>{7744A201-5F3D-4CFE-8939-ECFD3907BF6A}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{c9e5eea5-ca05-42a1-839b-61506e0a37df}</TemplateGuid>
     <OutputType>Library</OutputType>
@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NewsApp\NewsApp.csproj">
-      <Project>{D72E1334-D636-471B-A532-127963D3FB9C}</Project>
+      <Project>{777FC9EC-E0FE-4B9F-8EF1-79ABE85B0591}</Project>
       <Name>NewsApp</Name>
     </ProjectReference>
   </ItemGroup>
