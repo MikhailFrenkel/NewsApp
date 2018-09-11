@@ -29,7 +29,9 @@ namespace NewsApp
 	    {
 	        WorldNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
 	        {
-	            Language = Languages.EN
+	            Language = Languages.EN,
+                PageSize = 10,
+                Sources = new List<String>() { "bbc-news" }
 	        });
            
 	        if (WorldNewsResult.Status == Statuses.Ok)
@@ -37,5 +39,11 @@ namespace NewsApp
 	            this.BindingContext = this;
 	        }
 	    }
-    }
+
+	    private async void ItemSelectedHandler(object sender, SelectedItemChangedEventArgs e)
+	    {
+	        string url = (e.SelectedItem as Article)?.Url;
+	        await Navigation.PushAsync(new BrowserPage(url));
+	    }
+	}
 }

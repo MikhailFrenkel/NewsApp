@@ -6,13 +6,18 @@
 
     <StackLayout>
         <ListView  ItemsSource="{Binding WorldNewsResult.Articles}"
-                   RowHeight="80">
+                   RowHeight="60"
+                   ItemSelected="ItemSelectedHandler">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
-                            <StackLayout>
-                                <Label Text="{Binding Title}" FontSize="12" />
+                            <StackLayout Orientation="Horizontal" Padding="5">
+                                <Image Source="{Binding UrlToImage}" HeightRequest="50" WidthRequest="80" Aspect="AspectFill" />
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" />
+                                    <Label Text="{Binding PublishedAt}" FontSize="6" />
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>
@@ -21,5 +26,5 @@
         </ListView>
     </StackLayout>
 
-
+    
 </ContentPage>

@@ -17,4 +17,24 @@
         <local:ScienceNews />
     </TabbedPage.Children>
 
+    <!--<TabbedPage.Children>
+        <NavigationPage Title="World">
+            <x:Arguments>
+                <local:WorldNews />
+            </x:Arguments>
+        </NavigationPage>
+
+        <NavigationPage Title="Russian">
+            <x:Arguments>
+                <local:RussianNews />
+            </x:Arguments>
+        </NavigationPage>
+
+        <NavigationPage Title="Science">
+            <x:Arguments>
+                <local:ScienceNews />
+            </x:Arguments>
+        </NavigationPage>
+    </TabbedPage.Children>-->  
+
 </TabbedPage>
