@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:NewsApp"
              x:Class="NewsApp.MainPage">
 
+    <TabbedPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0, 20, 0, 0" />
+            <On Platform="Android" Value="0, 0, 0, 0" />
+        </OnPlatform>
+    </TabbedPage.Padding>
+
     <TabbedPage.Children>
         <local:WorldNews />
         <local:RussianNews />
