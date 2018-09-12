@@ -8,6 +8,7 @@ using NewsAPI.Constants;
 using NewsAPI.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ListView = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ListView;
 
 namespace NewsApp
 {
@@ -24,7 +25,7 @@ namespace NewsApp
 			InitializeComponent ();
 		    _newsApiClient = new NewsApiClient(Key);
 		    GetNews();
-        }
+		}
         private async void GetNews()
 	    {
 	        WorldNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest

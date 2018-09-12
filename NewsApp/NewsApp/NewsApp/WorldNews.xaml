@@ -5,7 +5,8 @@
              Title="World">
 
     <StackLayout>
-        <ListView  ItemsSource="{Binding WorldNewsResult.Articles}"
+        <ListView  x:Name="NewsListView"
+                   ItemsSource="{Binding WorldNewsResult.Articles}"
                    RowHeight="60"
                    ItemSelected="ItemSelectedHandler">
             <ListView.ItemTemplate>

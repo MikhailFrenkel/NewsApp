@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.BrowserPage"
              Title="Browser">
-    <ContentPage.Content>
-        <WebView Source="{Binding Url}" HorizontalOptions="FillAndExpand" />
-    </ContentPage.Content>
+
+    <StackLayout>
+        <ProgressBar x:Name="ProgressBarBrowser" Progress="0.2"
+                     HorizontalOptions="FillAndExpand" IsVisible="True"
+                     ProgressColor="Gray"/>
+        <WebView Source="{Binding Url}" VerticalOptions="FillAndExpand" 
+                 Navigating="WebOnNavigating"
+                 Navigated="WebOnNavigated" />
+    </StackLayout>
 </ContentPage>

@@ -20,5 +20,21 @@ namespace NewsApp
 		    Url = url;
 		    BindingContext = this;
 		}
+
+	    protected override async void OnAppearing()
+	    {
+	        base.OnAppearing();
+	        await ProgressBarBrowser.ProgressTo(0.9, 1800, Easing.SpringIn);
+	    }
+
+	    private void WebOnNavigating(object sender, WebNavigatingEventArgs e)
+	    {
+	        ProgressBarBrowser.IsVisible = true;
+	    }
+
+	    private void WebOnNavigated(object sender, WebNavigatedEventArgs e)
+	    {
+	        ProgressBarBrowser.IsVisible = false;
+	    }
 	}
 }
