@@ -11,7 +11,9 @@
                    SelectionMode="None"
                    ItemTapped="NewsListView_OnItemTapped"
                    SeparatorVisibility="None"
-                   HasUnevenRows="True">
+                   HasUnevenRows="True"
+                   IsPullToRefreshEnabled="True"
+                   RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

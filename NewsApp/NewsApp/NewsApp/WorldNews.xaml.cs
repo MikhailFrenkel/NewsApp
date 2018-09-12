@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using NewsAPI;
 using NewsAPI.Constants;
 using NewsAPI.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using ListView = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ListView;
 
 namespace NewsApp
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class WorldNews : ContentPage
 	{
         public ArticlesResult WorldNewsResult { get; private set; }
 
+	    public ICommand RefreshCommand
+	    {
+	        get
+	        {
+                return new Command(async () =>
+                {
+                    await RefreshListView();
+                    NewsListView.IsRefreshing = false;
+                });
+	        }
+	    }
+
+
 	    private const string Key = "432f183736024ac4aa97b1975eb468ef";
-	    private NewsApiClient _newsApiClient;
+	    private readonly NewsApiClient _newsApiClient;
 
         public WorldNews ()
 		{
@@ -31,13 +42,12 @@ namespace NewsApp
 	        WorldNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
 	        {
 	            Language = Languages.EN,
-                PageSize = 15,
                 Sources = new List<String>() { "bbc-news" }
 	        });
-           
-	        if (WorldNewsResult.Status == Statuses.Ok)
+
+            if (WorldNewsResult.Status == Statuses.Ok)
 	        {
-	            this.BindingContext = this;
+	            BindingContext = this;
 	        }
 	    }
 
@@ -46,5 +56,15 @@ namespace NewsApp
 	        string url = (e.Item as Article)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));
         }
+
+	    private async Task RefreshListView()
+	    {
+	        WorldNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+	        {
+	            Language = Languages.EN,
+	            Sources = new List<String>() { "bbc-news" }
+	        }); 
+            NewsListView.ItemsSource = WorldNewsResult.Articles;
+	    }
 	}
 }
