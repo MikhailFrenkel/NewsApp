@@ -8,7 +8,8 @@
         <ListView  x:Name="NewsListView"
                    ItemsSource="{Binding WorldNewsResult.Articles}"
                    RowHeight="60"
-                   ItemSelected="ItemSelectedHandler">
+                   SelectionMode="None"
+                   ItemTapped="NewsListView_OnItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

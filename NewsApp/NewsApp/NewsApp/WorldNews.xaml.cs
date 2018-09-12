@@ -41,10 +41,10 @@ namespace NewsApp
 	        }
 	    }
 
-	    private async void ItemSelectedHandler(object sender, SelectedItemChangedEventArgs e)
+	    private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        string url = (e.SelectedItem as Article)?.Url;
+	        string url = (e.Item as Article)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));
-	    }
+        }
 	}
 }
