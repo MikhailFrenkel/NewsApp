@@ -31,7 +31,7 @@ namespace NewsApp
 	        WorldNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
 	        {
 	            Language = Languages.EN,
-                PageSize = 10,
+                PageSize = 15,
                 Sources = new List<String>() { "bbc-news" }
 	        });
            
