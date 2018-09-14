@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
@@ -10,20 +11,28 @@ namespace NewsApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var ticks = DateTime.Now.TimeOfDay.Ticks - ((DateTime) value).TimeOfDay.Ticks;
-            if (ticks > 0)
+            try
             {
-                var timeAgo = new DateTime(ticks);
-                if (timeAgo.TimeOfDay.Hours == 0)
-                    return timeAgo.Minute + "min ago";
+                var ticks = DateTime.Now.TimeOfDay.Ticks - ((DateTime)value).TimeOfDay.Ticks;
+                if (ticks > 0)
+                {
+                    var timeAgo = new DateTime(ticks);
+                    if (timeAgo.TimeOfDay.Hours == 0)
+                        return timeAgo.Minute + "min ago";
+                    else
+                        return timeAgo.Hour + "h ago";
+                }
                 else
-                    return timeAgo.Hour + "h ago";
+                {
+                    ticks = DateTime.Now.Ticks - ((DateTime)value).Ticks;
+                    var timeAgo = new DateTime(ticks);
+                    return timeAgo.Day + "d ago";
+                }
             }
-            else
+            catch (Exception e)
             {
-                ticks = DateTime.Now.Ticks - ((DateTime) value).Ticks;
-                var timeAgo = new DateTime(ticks);
-                return timeAgo.Day + "d ago";
+                Debug.WriteLine($"DateTimeConverterException : {e.Message}");
+                return "";
             }
         }
 
