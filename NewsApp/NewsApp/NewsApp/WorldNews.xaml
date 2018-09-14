@@ -1,12 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:NewsApp"
+             xmlns:local="clr-namespace:NewsApp.Converters;assembly=NewsApp"
              x:Class="NewsApp.WorldNews"
              Title="World news">
 
     <!--<local:NewsView NewsResult="{Binding WorldNewsResult}"
                     RefreshNews="{Binding RefreshNews}"/>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:DateTimeConverter x:Key="dateConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <StackLayout BackgroundColor="#e5e5e5">
         <ListView  x:Name="NewsListView"
@@ -29,7 +35,7 @@
                                 <StackLayout Padding="3">
                                     <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="Black"
                                            VerticalOptions="FillAndExpand"/>
-                                    <Label Text="{Binding PublishedAt}" FontSize="14" VerticalOptions="End" />
+                                    <Label Text="{Binding PublishedAt, Converter={StaticResource dateConverter}}" FontSize="14" VerticalOptions="End" />
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell.View>
