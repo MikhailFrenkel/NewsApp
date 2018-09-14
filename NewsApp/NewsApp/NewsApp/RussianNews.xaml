@@ -2,12 +2,37 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.RussianNews"
-             Title="Russia">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Russian News"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             Title="News in Russia">
+
+
+    <StackLayout BackgroundColor="#e5e5e5">
+        <ListView  x:Name="NewsListView"
+                   ItemsSource="{Binding WorldNewsResult.Articles}"
+                   RowHeight="70"
+                   SelectionMode="None"
+                   ItemTapped="NewsListView_OnItemTapped"
+                   SeparatorVisibility="None"
+                   HasUnevenRows="True"
+                   IsPullToRefreshEnabled="True"
+                   RefreshCommand="{Binding RefreshCommand}"
+                   CachingStrategy="RecycleElement">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal" Margin="7,3,7,3" BackgroundColor="White">
+                                <Image Source="{Binding UrlToImage}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
+                                <StackLayout Padding="3">
+                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="Black"
+                                           VerticalOptions="FillAndExpand"/>
+                                    <Label Text="{Binding PublishedAt}" FontSize="14" VerticalOptions="End" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>

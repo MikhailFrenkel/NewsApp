@@ -5,6 +5,9 @@
              x:Class="NewsApp.WorldNews"
              Title="World news">
 
+    <!--<local:NewsView NewsResult="{Binding WorldNewsResult}"
+                    RefreshNews="{Binding RefreshNews}"/>-->
+
     <StackLayout BackgroundColor="#e5e5e5">
         <ListView  x:Name="NewsListView"
                    ItemsSource="{Binding WorldNewsResult.Articles}"
