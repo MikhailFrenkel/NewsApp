@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NewsAPI;
 using NewsAPI.Constants;
 using NewsAPI.Models;
+using Plugin.Connectivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace NewsApp
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RussianNews : ContentPage
+	public partial class ScienceNews : ContentPage
 	{
-	    public ArticlesResult RussianNewsResult { get; private set; }
+	    public ArticlesResult ScienceNewsResult { get; private set; }
 
 	    public ICommand RefreshCommand
 	    {
@@ -33,7 +33,7 @@ namespace NewsApp
 	    private const string Key = "432f183736024ac4aa97b1975eb468ef";
 	    private readonly NewsApiClient _newsApiClient;
 
-	    public RussianNews()
+	    public ScienceNews()
 	    {
 	        InitializeComponent();
 	        BindingContext = this;
@@ -50,16 +50,19 @@ namespace NewsApp
 
 	    private async Task GetNews()
 	    {
-	        RussianNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+	        if (CrossConnectivity.Current.IsConnected)
 	        {
-	            Q = "russia",
-                Language = Languages.EN,
-	            PageSize = 10
-	        });
+	            ScienceNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+	            {
+	                Language = Languages.EN,
+	                Q = "science",
+	                PageSize = 10
+	            });
 
-	        if (RussianNewsResult.Status == Statuses.Ok)
-	        {
-	            NewsListView.ItemsSource = RussianNewsResult.Articles;
+	            if (ScienceNewsResult.Status == Statuses.Ok)
+	            {
+	                NewsListView.ItemsSource = ScienceNewsResult.Articles;
+	            }
 	        }
 	    }
 

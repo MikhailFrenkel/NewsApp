@@ -18,7 +18,7 @@ namespace NewsApp
 		{
 			InitializeComponent ();
 		    Url = url;
-		    BindingContext = this;
+		    BindingContext = Url;
 		}
 
 	    protected override async void OnAppearing()

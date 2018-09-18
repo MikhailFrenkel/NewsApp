@@ -13,9 +13,10 @@ namespace NewsApp
     [ContentProperty("Conditions")]
     public class StateContainer : ContentView
     {
+        //todo: other bindable property
         public List<StateCondition> Conditions { get; set; } = new List<StateCondition>();
 
-        public readonly BindableProperty StateProperty = BindableProperty.Create(nameof(State), typeof(object), 
+        public static readonly BindableProperty StateProperty = BindableProperty.Create(nameof(State), typeof(object), 
             typeof(StateContainer), null, BindingMode.Default, null, StateChanged);
 
         public static void Init()
