@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,18 +20,6 @@ namespace NewsApp
 
         private WorldNewsViewModel _worldNewsViewModels;
 
-        /*public ICommand RefreshCommand
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    if (_worldNewsViewModels != null)
-                        await _worldNewsViewModels.GetNews();
-                    NewsListView.IsRefreshing = false;
-                });
-            }
-        }*/
         public WorldNews()
         {
             InitializeComponent();
@@ -41,15 +30,29 @@ namespace NewsApp
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            
-            await _worldNewsViewModels.GetNews();
+            if (_worldNewsViewModels.WorldNewsArticles == null)
+                await _worldNewsViewModels.GetNews();
         }
-        
-
         private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             string url = (e.Item as Article)?.Url;
             await Navigation.PushAsync(new BrowserPage(url));
+        }
+
+        private async void NewsListView_OnRefreshing(object sender, EventArgs e)
+        {
+            if (_worldNewsViewModels != null)
+                await _worldNewsViewModels.GetNews();
+            NewsListView.IsRefreshing = false;
+        }
+
+        private async void Button_OnClicked(object sender, EventArgs e)
+        {
+            if (_worldNewsViewModels != null)
+            {
+                _worldNewsViewModels.IsState = State.Loading;
+                await _worldNewsViewModels.GetNews();
+            }
         }
     }
 }
