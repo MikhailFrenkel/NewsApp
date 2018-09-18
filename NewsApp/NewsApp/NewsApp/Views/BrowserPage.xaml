@@ -8,7 +8,8 @@
         <ProgressBar x:Name="ProgressBarBrowser" Progress="0.2"
                      HorizontalOptions="FillAndExpand" IsVisible="True"
                      ProgressColor="Gray"/>
-        <WebView Source="{Binding Url}" VerticalOptions="FillAndExpand" 
+        <WebView x:Name="webView" 
+                 VerticalOptions="FillAndExpand" 
                  Navigating="WebOnNavigating"
                  Navigated="WebOnNavigated" />
     </StackLayout>
