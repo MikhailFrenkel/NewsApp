@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,15 +18,8 @@ namespace NewsApp.ViewModels
     {
         private const string Key = "432f183736024ac4aa97b1975eb468ef";
         private readonly NewsApiClient _newsApiClient;
-        private ArticlesResult _worldNewsResult;
+        private List<Article> _worldNewsArticles;
         private State _state;
-        public enum State
-        {
-            Normal,
-            Loading,
-            Error,
-            NoInternet
-        }
 
         public State IsState
         {
@@ -42,22 +36,22 @@ namespace NewsApp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ArticlesResult WorldNewsResult
+        public List<Article> WorldNewsArticles
         {
-            get => _worldNewsResult;
+            get => _worldNewsArticles;
             set
             {
-                if (_worldNewsResult != value)
+                if (_worldNewsArticles != value)
                 {
-                    _worldNewsResult = value;
-                    OnPropertyChanged("WorldNewsResult");
+                    _worldNewsArticles = value;
+                    OnPropertyChanged("WorldNewsArticles");
                 }
             }
         }
 
         public WorldNewsViewModel()
         {
-            _state = State.Loading;
+            _state = State.Loading;            
             _newsApiClient = new NewsApiClient(Key);
         }
 
@@ -71,28 +65,35 @@ namespace NewsApp.ViewModels
             if (CrossConnectivity.Current.IsConnected)
             {
                 //todo: api get news
-                _worldNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+                var result = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
                 {
                     Sources = new List<string>() { "google-news" },
                     Language = Languages.EN,
                     PageSize = 10
                 });
 
-                if (_worldNewsResult.Status == Statuses.Ok)
+                if (result.Status == Statuses.Ok)
                 {
-                    //NewsListView.ItemsSource = WorldNewsResult.Articles;
-                    IsState = State.Normal;
-                    OnPropertyChanged("WorldNewsResult");
-                }
+                    if (WorldNewsArticles == null)
+                    {
+                        WorldNewsArticles = result.Articles;
+                    }
+                    else if (WorldNewsArticles.SequenceEqual(result.Articles))
+                    {
+                        WorldNewsArticles = result.Articles;
+                    }
 
-                if (_worldNewsResult.Status == Statuses.Error)
+                    IsState = State.Normal;
+                }
+                else if (result.Status == Statuses.Error)
                 {
                     IsState = State.Error;
                 }
             }
             else
             {
-                IsState = State.NoInternet;
+                if (WorldNewsArticles == null)
+                    IsState = State.NoInternet;
             }
         }
     }

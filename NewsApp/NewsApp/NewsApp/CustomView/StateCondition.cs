@@ -6,6 +6,14 @@ using Xamarin.Forms.Internals;
 
 namespace NewsApp
 {
+    public enum State
+    {
+        Normal,
+        Loading,
+        Error,
+        NoInternet
+    }
+
     [ContentProperty("Content")]
     public class StateCondition : View
     {
