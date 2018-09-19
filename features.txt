@@ -1,0 +1,5 @@
++1. Refreshing listView
++2. TabPage scrollable
++3. ViewModel for Articles
++4. StateContainer
+5. ContentView for display news
