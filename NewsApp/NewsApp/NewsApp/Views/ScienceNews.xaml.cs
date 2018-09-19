@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using BingSearchNewsAPI;
+using NewsApp.Models;
 using NewsAPI;
 using NewsAPI.Constants;
 using NewsAPI.Models;
+using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,7 +22,22 @@ namespace NewsApp
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ScienceNews : ContentPage
 	{
-	    public ArticlesResult ScienceNewsResult { get; private set; }
+	    private const string accessKey = "968875276d614dea8c0f82afbbb6c853";
+	    private BingSearchNewsClient _newsClient;
+	    private List<Value> _scienceNewsResult;
+
+	    public List<Value> ScienceNewsResult
+	    {
+	        get => _scienceNewsResult;
+	        set
+	        {
+	            if (_scienceNewsResult != value)
+	            {
+	                _scienceNewsResult = value;
+	                NewsListView.ItemsSource = _scienceNewsResult;
+	            }
+	        }
+	    }
 
 	    public ICommand RefreshCommand
 	    {
@@ -30,14 +51,13 @@ namespace NewsApp
 	        }
 	    }
 
-	    private const string Key = "432f183736024ac4aa97b1975eb468ef";
-	    private readonly NewsApiClient _newsApiClient;
+	    
 
 	    public ScienceNews()
 	    {
 	        InitializeComponent();
+            _newsClient = new BingSearchNewsClient(accessKey);
 	        BindingContext = this;
-	        _newsApiClient = new NewsApiClient(Key);
 	    }
 
 	    protected override async void OnAppearing()
@@ -52,23 +72,14 @@ namespace NewsApp
 	    {
 	        if (CrossConnectivity.Current.IsConnected)
 	        {
-	            ScienceNewsResult = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
-	            {
-	                Language = Languages.EN,
-	                Q = "science",
-	                PageSize = 10
-	            });
-
-	            if (ScienceNewsResult.Status == Statuses.Ok)
-	            {
-	                NewsListView.ItemsSource = ScienceNewsResult.Articles;
-	            }
+	            var result = await _newsClient.GetNews("Science");
+	            ScienceNewsResult = result.Value;
 	        }
 	    }
 
 	    private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        string url = (e.Item as Article)?.Url;
+	        string url = (e.Item as Value)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));
 	    }
     }
