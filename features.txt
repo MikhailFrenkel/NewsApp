@@ -3,3 +3,4 @@
 +3. ViewModel for Articles
 +4. StateContainer
 5. ContentView for display news
++6. BingSearchNewsApi
