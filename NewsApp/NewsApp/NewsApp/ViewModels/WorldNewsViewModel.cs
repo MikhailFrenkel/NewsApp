@@ -29,7 +29,7 @@ namespace NewsApp.ViewModels
                 if (_state != value)
                 {
                     _state = value;
-                    OnPropertyChanged("IsState");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace NewsApp.ViewModels
                 if (_worldNewsArticles != value)
                 {
                     _worldNewsArticles = value;
-                    OnPropertyChanged("WorldNewsArticles");
+                    OnPropertyChanged();
                 }
             }
         }
@@ -64,7 +64,6 @@ namespace NewsApp.ViewModels
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                //todo: api get news
                 var result = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
                 {
                     Sources = new List<string>() { "google-news" },

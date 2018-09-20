@@ -6,7 +6,9 @@
              x:Class="NewsApp.WorldNews"
              Title="World news">
 
-    <ContentPage.Resources>
+    <newsApp:NewsView x:Name="WorldNewsView" />
+
+        <!--<ContentPage.Resources>
         <ResourceDictionary>
             <converters:DateTimeConverter x:Key="dateConverter" />
         </ResourceDictionary>
@@ -63,6 +65,6 @@
                 <Button Text="Repeat" Clicked="Button_OnClicked" />
             </StackLayout>
         </newsApp:StateCondition>
-    </newsApp:StateContainer>
+    </newsApp:StateContainer>-->
 
 </ContentPage>
