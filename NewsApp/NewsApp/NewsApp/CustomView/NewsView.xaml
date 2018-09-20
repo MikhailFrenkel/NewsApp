@@ -6,11 +6,11 @@
              x:Class="NewsApp.NewsView">
 
 
-    <ContentPage.Resources>
+    <ContentView.Resources>
         <ResourceDictionary>
             <converters:DateTimeConverter x:Key="dateConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentView.Resources>
 
     <newsApp:StateContainer State="{Binding IsState}">
         <newsApp:StateCondition Is="Loading">
@@ -20,13 +20,15 @@
         <newsApp:StateCondition Is="Normal">
             <StackLayout BackgroundColor="#e5e5e5">
                 <ListView  x:Name="NewsListView"
-                       ItemsSource="{Binding WorldNewsResult.Articles}"
+                       ItemsSource="{Binding NewsResult}"
                        RowHeight="70"
                        SelectionMode="None"
                        ItemTapped="NewsListView_OnItemTapped"
                        SeparatorVisibility="None"
                        HasUnevenRows="True"
-                       CachingStrategy="RecycleElement">
+                       CachingStrategy="RecycleElement"
+                       IsPullToRefreshEnabled="True"
+                       RefreshCommand="{Binding RefreshCommand}">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -49,11 +51,17 @@
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="Error">
-            <Label Text="Error"/>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="Error"/>
+                <Button Text="Repeat" Clicked="Button_OnClicked"/>
+            </StackLayout>
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="NoInternet">
-            <Label Text="NoInternet"/>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="No Internet"/>
+                <Button Text="Repeat" Clicked="Button_OnClicked"/>
+            </StackLayout>
         </newsApp:StateCondition>
     </newsApp:StateContainer>
 

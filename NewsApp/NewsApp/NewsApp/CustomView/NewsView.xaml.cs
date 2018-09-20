@@ -1,36 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using NewsApp.ViewModels;
 using NewsAPI.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace NewsApp
 {
-    public delegate Task GetNews();
-
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsView : ContentView
     {
-        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(ArticlesResult),
-            typeof(NewsView), propertyChanged: NewsResultPropertyChanged);  
+        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Article>), typeof(NewsView), null);
 
-        public static readonly BindableProperty RefreshNewsProperty = BindableProperty.Create(nameof(RefreshNews), typeof(GetNews), typeof(NewsView));
+        public static readonly BindableProperty IsStateProperty = BindableProperty.Create(nameof(IsState), typeof(State), typeof(NewsView), State.Loading, BindingMode.TwoWay);
 
-        public GetNews RefreshNews
+        public List<Article> NewsResult
         {
-            get => (GetNews) GetValue(RefreshNewsProperty);
-            set => SetValue(RefreshNewsProperty, value);
+            get => (List<Article>) GetValue(NewsResultProperty);
+            set
+            {
+                SetValue(NewsResultProperty, value);
+                OnPropertyChanged();
+            }
         }
 
-        public ArticlesResult NewsResult
+        public State IsState
         {
-            get => (ArticlesResult)GetValue(NewsResultProperty);
-            set => SetValue(NewsResultProperty, value);
+            get => (State) GetValue(IsStateProperty);
+            set
+            {
+                SetValue(IsStateProperty, value);
+                OnPropertyChanged();
+            }
         }
+
+        /*private List<Article> _newsResult;
+        private State _isState;
+
+        public List<Article> NewsResult
+        {
+            get => _newsResult;
+            set
+            {
+                if (_newsResult != value)
+                {
+                    _newsResult = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public State IsState
+        {
+            get => _isState;
+            set
+            {
+                if (_isState != value)
+                {
+                    _isState = value;
+                    OnPropertyChanged();
+                }
+            }
+        }*/
+
+        public Func<Task> GetNews { get; set; }
 
         public ICommand RefreshCommand
         {
@@ -38,23 +76,16 @@ namespace NewsApp
             {
                 return new Command(async () =>
                 {
-                    if (RefreshNews != null)
-                    {
-                        await RefreshNews();
-                        NewsListView.ItemsSource = NewsResult.Articles;
-                    }
+                    await GetNews();
                     NewsListView.IsRefreshing = false;
                 });
             }
         }
 
-        public static void Init()
-        {
-        }
-
         public NewsView ()
 		{
 			InitializeComponent ();
+		    BindingContext = this;
 		}      
 
 	    private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -63,11 +94,10 @@ namespace NewsApp
 	        await Navigation.PushAsync(new BrowserPage(url));
 	    }
 
-        private static void NewsResultPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        private async void Button_OnClicked(object sender, EventArgs e)
         {
-            if (bindable is NewsView nv)
-                nv.NewsListView.ItemsSource = (newvalue as ArticlesResult)?.Articles;
-
+            IsState = State.Loading;
+            await GetNews();
         }
     }
 }
