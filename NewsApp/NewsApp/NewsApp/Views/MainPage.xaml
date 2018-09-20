@@ -11,10 +11,4 @@
         </OnPlatform>
     </TabbedPage.Padding>
 
-    <TabbedPage.Children>
-        <local:WorldNews />
-        <local:RussianNews />
-        <local:ScienceNews />
-    </TabbedPage.Children>
-
 </TabbedPage>
