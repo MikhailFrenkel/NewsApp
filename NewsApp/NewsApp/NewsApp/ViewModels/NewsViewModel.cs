@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using NewsAPI;
-using NewsAPI.Constants;
-using NewsAPI.Models;
+using BingSearchNewsAPI;
+using NewsApp.Models;
 using Plugin.Connectivity;
 
 namespace NewsApp.ViewModels
 {
     public class NewsViewModel : INotifyPropertyChanged
     {
-        private const string Key = "432f183736024ac4aa97b1975eb468ef";
-        private readonly NewsApiClient _newsApiClient;
-        private List<Article> _newsArticles;
+        private const string Key = "968875276d614dea8c0f82afbbb6c853";
+        private readonly BingSearchNewsClient _newsClient;
+        private List<Value> _newsArticles;
         private State _state;
         private readonly string _searchQuery;
 
@@ -33,7 +33,7 @@ namespace NewsApp.ViewModels
             }
         }
 
-        public List<Article> NewsArticles
+        public List<Value> NewsArticles
         {
             get => _newsArticles;
             set
@@ -50,7 +50,7 @@ namespace NewsApp.ViewModels
         {
             _searchQuery = searchQuery;
             _state = State.Loading;
-            _newsApiClient = new NewsApiClient(Key);
+            _newsClient = new BingSearchNewsClient(Key);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -62,36 +62,35 @@ namespace NewsApp.ViewModels
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                var result = await _newsApiClient.GetTopHeadlinesAsync(new TopHeadlinesRequest
+                var result = await _newsClient.GetNews(_searchQuery);
+                result.Value.Sort(CompareByDatePublished);
+                if (NewsArticles == null)
                 {
-                    Language = Languages.EN,
-                    Q = _searchQuery,
-                    PageSize = 10
-                });
-
-                if (result.Status == Statuses.Ok)
-                {
-                    if (NewsArticles == null)
-                    {
-                        NewsArticles = result.Articles;
-                    }
-                    else if (NewsArticles.SequenceEqual(result.Articles))
-                    {
-                        NewsArticles = result.Articles;
-                    }
-
-                    IsState = State.Normal;
+                    NewsArticles = result.Value;
                 }
-                else if (result.Status == Statuses.Error)
+                else if (NewsArticles.SequenceEqual(result.Value))
                 {
-                    IsState = State.Error;
+                    NewsArticles = result.Value;
                 }
+
+                IsState = State.Normal;
             }
             else
             {
                 if (NewsArticles == null)
                     IsState = State.NoInternet;
             }
+        }
+
+        private int CompareByDatePublished(Value x, Value y)
+        {
+            if (x.DatePublished > y.DatePublished)
+                return -1;
+
+            if (x.DatePublished < y.DatePublished)
+                return 1;
+
+            return 0;
         }
     }
 }

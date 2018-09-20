@@ -22,7 +22,7 @@ namespace BingSearchNewsAPI
 
         public async Task<BingSearchResponse> GetNews(string searchQuery)
         {
-            var uriQuery = uriBase + "?q=" + Uri.EscapeDataString(searchQuery);
+            var uriQuery = uriBase + "?q=" + searchQuery;
 
             WebRequest request = HttpWebRequest.Create(uriQuery);
             request.Headers["Ocp-Apim-Subscription-Key"] = _accessKey;

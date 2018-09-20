@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NewsApp.Views;
-using NewsAPI;
-using NewsAPI.Constants;
-using NewsAPI.Models;
 using Xamarin.Forms;
 
 namespace NewsApp

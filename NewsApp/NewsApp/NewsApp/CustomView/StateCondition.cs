@@ -10,7 +10,6 @@ namespace NewsApp
     {
         Normal,
         Loading,
-        Error,
         NoInternet
     }
 

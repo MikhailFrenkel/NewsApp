@@ -20,7 +20,6 @@ namespace NewsApp
 		    Url = url;
             webView.BindingContext = this;
 		    webView.SetBinding(WebView.SourceProperty, "Url");
-		    
         }
 
 	    protected override async void OnAppearing()

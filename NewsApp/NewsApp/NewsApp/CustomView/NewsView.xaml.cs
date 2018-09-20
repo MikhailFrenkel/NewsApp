@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using NewsApp.Models;
 using NewsApp.ViewModels;
-using NewsAPI.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,13 +15,13 @@ namespace NewsApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsView : ContentView
     {
-        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Article>), typeof(NewsView), null);
+        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Value>), typeof(NewsView), null);
 
         public static readonly BindableProperty IsStateProperty = BindableProperty.Create(nameof(IsState), typeof(State), typeof(NewsView), State.Loading, BindingMode.TwoWay);
 
-        public List<Article> NewsResult
+        public List<Value> NewsResult
         {
-            get => (List<Article>) GetValue(NewsResultProperty);
+            get => (List<Value>) GetValue(NewsResultProperty);
             set
             {
                 SetValue(NewsResultProperty, value);
@@ -38,35 +38,6 @@ namespace NewsApp
                 OnPropertyChanged();
             }
         }
-
-        /*private List<Article> _newsResult;
-        private State _isState;
-
-        public List<Article> NewsResult
-        {
-            get => _newsResult;
-            set
-            {
-                if (_newsResult != value)
-                {
-                    _newsResult = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public State IsState
-        {
-            get => _isState;
-            set
-            {
-                if (_isState != value)
-                {
-                    _isState = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
 
         public Func<Task> GetNews { get; set; }
 
@@ -90,7 +61,7 @@ namespace NewsApp
 
 	    private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        string url = (e.Item as Article)?.Url;
+	        string url = (e.Item as Value)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));
 	    }
 
