@@ -9,11 +9,21 @@ using Xamarin.Forms.Xaml;
 
 namespace NewsApp
 {
+    /// <summary>
+    /// Used for display internet page.
+    /// </summary>
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class BrowserPage : ContentPage
 	{
+        /// <summary>
+        /// Web-page url.
+        /// </summary>
 	    public string Url { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url">Web-page url.</param>
 	    public BrowserPage (string url)
 		{
 			InitializeComponent ();

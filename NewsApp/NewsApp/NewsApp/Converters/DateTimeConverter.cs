@@ -1,14 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Text;
 using Xamarin.Forms;
 
 namespace NewsApp.Converters
 {
+    /// <summary>
+    /// Shows how much time has passed.
+    /// </summary>
     public class DateTimeConverter : IValueConverter
     {
+        /// <summary>
+        /// Converts DateTime to TimeAgo.
+        /// </summary>
+        /// <param name="value">DateTime.</param>
+        /// <param name="targetType">Expected type.</param>
+        /// <param name="parameter">Addition parameter.</param>
+        /// <param name="culture">Information about culture.</param>
+        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
@@ -36,6 +45,14 @@ namespace NewsApp.Converters
             }
         }
 
+        /// <summary>
+        /// Converts from timeAgo to DateTime
+        /// </summary>
+        /// <param name="value">TimeAgo.</param>
+        /// <param name="targetType">DateTime.</param>
+        /// <param name="parameter">Addition parameter.</param>
+        /// <param name="culture">Information about  culture.</param>
+        /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DateTime.Now.ToString("dd.MM.yyyy");

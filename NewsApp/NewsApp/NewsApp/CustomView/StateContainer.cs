@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Plugin.Connectivity;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace NewsApp
 {
     [ContentProperty("Conditions")]
     public class StateContainer : ContentView
     {
+        /// <summary>
+        /// List of conditions.
+        /// </summary>
         public List<StateCondition> Conditions { get; set; } = new List<StateCondition>();
 
         public static readonly BindableProperty StateProperty = BindableProperty.Create(nameof(State), typeof(object), 
@@ -28,6 +28,9 @@ namespace NewsApp
                 await parent.ChooseStateProperty(newValue);
         }
 
+        /// <summary>
+        /// Application state.
+        /// </summary>
         public object State
         {
             get => GetValue(StateProperty);
@@ -39,8 +42,8 @@ namespace NewsApp
             if (Conditions != null && Conditions?.Count == 0) return;
             try
             {
-                foreach (var stateCondition in Conditions.Where(StateCondition => StateCondition.Is != null 
-                                                                && StateCondition.Is.ToString().Equals(newValue.ToString())))
+                foreach (var stateCondition in Conditions.Where(stateCondition => stateCondition.Is != null 
+                                                                && stateCondition.Is.ToString().Equals(newValue.ToString())))
                 {
                     if (Content != null)
                     {

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-using Xamarin.Forms.Internals;
+﻿using Xamarin.Forms;
 
 namespace NewsApp
 {
+    /// <summary>
+    /// Application state enum.
+    /// </summary>
     public enum State
     {
         Normal,
@@ -16,7 +15,13 @@ namespace NewsApp
     [ContentProperty("Content")]
     public class StateCondition : View
     {
+        /// <summary>
+        /// Current state.
+        /// </summary>
         public object Is { get; set; }
+        /// <summary>
+        /// View content.
+        /// </summary>
         public View Content { get; set; }
 
     }

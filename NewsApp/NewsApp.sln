@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsApp.iOS", "NewsApp\News
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsApp", "NewsApp\NewsApp\NewsApp.csproj", "{29FBBDBC-5AD6-4211-ACB6-C2788460E960}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingSearchNewsAPI", "BingSearchNewsAPI\BingSearchNewsAPI.csproj", "{B6B78221-BCF9-4375-B85E-0598ED491EDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchNewsAPI", "BingSearchNewsAPI\SearchNewsAPI.csproj", "{B6B78221-BCF9-4375-B85E-0598ED491EDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

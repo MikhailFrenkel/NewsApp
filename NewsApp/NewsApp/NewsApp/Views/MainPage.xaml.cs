@@ -8,6 +8,9 @@ using Xamarin.Forms;
 
 namespace NewsApp
 {
+    /// <summary>
+    /// Page that contains tab.
+    /// </summary>
     public partial class MainPage : TabbedPage
     {
         public MainPage()

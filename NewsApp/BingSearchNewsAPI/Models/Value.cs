@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace NewsApp.Models
+namespace SearchNewsAPI.Models
 {
     public class Value
     {

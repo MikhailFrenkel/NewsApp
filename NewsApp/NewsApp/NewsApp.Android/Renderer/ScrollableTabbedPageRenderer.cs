@@ -8,6 +8,9 @@ using Xamarin.Forms.Platform.Android.AppCompat;
 [assembly: ExportRenderer(typeof(TabbedPage), typeof(ScrollableTabbedPageRenderer))]
 namespace NewsApp.Droid
 {
+    /// <summary>
+    /// Custom tabbed page.
+    /// </summary>
     public class ScrollableTabbedPageRenderer : TabbedPageRenderer
     {
         public ScrollableTabbedPageRenderer(Context context) : base(context)

@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using BingSearchNewsAPI;
-using NewsApp.Models;
 using Plugin.Connectivity;
+using SearchNewsAPI;
+using SearchNewsAPI.Models;
 
 namespace NewsApp.ViewModels
 {
+    /// <summary>
+    /// Class that work with bing search news api client.
+    /// </summary>
     public class NewsViewModel : INotifyPropertyChanged
     {
-        private const string Key = "968875276d614dea8c0f82afbbb6c853";
         private readonly BingSearchNewsClient _newsClient;
         private List<Value> _newsArticles;
         private State _state;
@@ -20,6 +21,9 @@ namespace NewsApp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Application state.
+        /// </summary>
         public State IsState
         {
             get => _state;
@@ -33,6 +37,9 @@ namespace NewsApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// List of articles.
+        /// </summary>
         public List<Value> NewsArticles
         {
             get => _newsArticles;
@@ -46,11 +53,15 @@ namespace NewsApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Constructor that accept search string.
+        /// </summary>
+        /// <param name="searchQuery">Search string.</param>
         public NewsViewModel(string searchQuery)
         {
             _searchQuery = searchQuery;
             _state = State.Loading;
-            _newsClient = new BingSearchNewsClient(Key);
+            _newsClient = new BingSearchNewsClient(Constants.BingSearchNewsKey);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -58,11 +69,15 @@ namespace NewsApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Method for getting news
+        /// </summary>
+        /// <returns></returns>
         public async Task GetNews()
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                var result = await _newsClient.GetNews(_searchQuery);
+                var result = await _newsClient.GetNewsAsync(_searchQuery);
                 result.Value.Sort(CompareByDatePublished);
                 if (NewsArticles == null)
                 {

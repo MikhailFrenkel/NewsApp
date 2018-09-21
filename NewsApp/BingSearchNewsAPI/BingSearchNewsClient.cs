@@ -1,35 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using NewsApp.Models;
 using Newtonsoft.Json;
+using SearchNewsAPI.Interfaces;
+using SearchNewsAPI.Models;
+using static SearchNewsAPI.Constants;
 
-namespace BingSearchNewsAPI
+namespace SearchNewsAPI
 {
-    public class BingSearchNewsClient
+    /// <summary>
+    /// Client that uses bing search news services.
+    /// </summary>
+    public class BingSearchNewsClient : ISearchNewsClient<BingSearchResponse>
     {
         private readonly string _accessKey;
 
-        private const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/news/search";
-
+        /// <summary>
+        /// Constructor that accept subscription key.
+        /// </summary>
+        /// <param name="key">Subscription key.</param>
         public BingSearchNewsClient(string key)
         {
             _accessKey = key;
         }
 
-        public async Task<BingSearchResponse> GetNews(string searchQuery)
+        /// <summary>
+        /// Sends request on bing service and return list of articles.
+        /// </summary>
+        /// <param name="searchQuery">Search string.</param>
+        /// <returns>List of articles.</returns>
+        public async Task<BingSearchResponse> GetNewsAsync(string searchQuery)
         {
-            var uriQuery = uriBase + "?q=" + searchQuery;
+            var uriQuery = Uri.BingUriBase + Uri.QuerySymbol + searchQuery;
 
-            WebRequest request = HttpWebRequest.Create(uriQuery);
-            request.Headers["Ocp-Apim-Subscription-Key"] = _accessKey;
-            HttpWebResponse response = (HttpWebResponse)(await request.GetResponseAsync());
-            string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            BingSearchResponse bingSearchResponse = JsonConvert.DeserializeObject<BingSearchResponse>(json);
+            var request = WebRequest.Create(uriQuery);
+            request.Headers[HttpHeader.SubscriptionKey] = _accessKey;
 
+            var response = (HttpWebResponse)(await request.GetResponseAsync());
+            string json;
+            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+            {
+                json = await sr.ReadToEndAsync();
+                response.Dispose();
+            }
+
+            var bingSearchResponse = JsonConvert.DeserializeObject<BingSearchResponse>(json);
+            
             return bingSearchResponse;
         }
     }
