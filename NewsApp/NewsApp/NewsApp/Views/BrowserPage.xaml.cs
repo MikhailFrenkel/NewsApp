@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Plugin.Share;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,8 +19,8 @@ namespace NewsApp
 			InitializeComponent ();
 		    Url = url;
             webView.BindingContext = this;
-		    webView.SetBinding(WebView.SourceProperty, "Url");
-        }
+		    webView.SetBinding(WebView.SourceProperty, nameof(Url));
+		}
 
 	    protected override async void OnAppearing()
 	    {
@@ -37,5 +37,10 @@ namespace NewsApp
 	    {
 	        ProgressBarBrowser.IsVisible = false;
 	    }
+
+	    private void ToolbarItem_OnActivated(object sender, EventArgs e)
+	    {
+	        CrossShare.Current.ShareLink(Url);
+        }
 	}
 }

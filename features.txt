@@ -2,5 +2,6 @@
 +2. TabPage scrollable
 +3. ViewModel for Articles
 +4. StateContainer
-5. ContentView for display news
++5. ContentView for display news
 +6. BingSearchNewsApi
++7. Share news

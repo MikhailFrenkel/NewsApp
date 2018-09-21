@@ -4,6 +4,10 @@
              x:Class="NewsApp.BrowserPage"
              Title="Browser">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="share.png" Activated="ToolbarItem_OnActivated"/>
+    </ContentPage.ToolbarItems>
+
     <StackLayout>
         <ProgressBar x:Name="ProgressBarBrowser" Progress="0.2"
                      HorizontalOptions="FillAndExpand" IsVisible="True"
