@@ -35,7 +35,7 @@
                             <ViewCell>
                                 <ViewCell.View>
                                     <StackLayout Orientation="Horizontal" Margin="7,3,7,3" BackgroundColor="White">
-                                        <Image Source="{Binding Image.Thumbnail.ContentUrl}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
+                                        <Image Source="{Binding ImageUrl}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
                                         <StackLayout Padding="3">
                                             <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
                                                VerticalOptions="FillAndExpand"/>

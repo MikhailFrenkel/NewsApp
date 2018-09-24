@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BingSearchNewsAPI\SearchNewsAPI.csproj" />
+    <ProjectReference Include="..\..\NewsApp.DAL\NewsApp.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

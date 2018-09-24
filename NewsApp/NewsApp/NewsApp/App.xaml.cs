@@ -1,4 +1,4 @@
-﻿using System;
+﻿using NewsApp.DAL.Repositories;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,11 +7,32 @@ namespace NewsApp
 {
     public partial class App : Application
     {
+        private static ArticleRepository _database;
+        private MainPage _mainPage;
+
+        public MainPage NewsMainPage
+        {
+            get => _mainPage;
+        }
+
+        public static ArticleRepository Database
+        {
+            get
+            {
+                if (_database == null)
+                {
+                    _database = new ArticleRepository(Constants.DatabaseName);
+                }
+
+                return _database;
+            }
+        }
+
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new MainPage()) { Title = ""}; 
+            _mainPage = new MainPage();
+            MainPage = new NavigationPage(_mainPage) { Title = ""}; 
         }
 
         protected override void OnStart()
@@ -21,7 +42,7 @@ namespace NewsApp
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            //_mainPage.OnSleep();
         }
 
         protected override void OnResume()

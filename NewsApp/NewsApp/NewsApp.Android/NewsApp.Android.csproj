@@ -57,6 +57,7 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\SQLite_Android.cs" />
     <Compile Include="Renderer\CustomListViewRenderer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -93,6 +94,10 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NewsApp.DAL\NewsApp.DAL.csproj">
+      <Project>{285a5a16-19a4-4e7a-a65f-06055029bb57}</Project>
+      <Name>NewsApp.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NewsApp\NewsApp.csproj">
       <Project>{777FC9EC-E0FE-4B9F-8EF1-79ABE85B0591}</Project>
       <Name>NewsApp</Name>

@@ -5,3 +5,5 @@
 +5. ContentView for display news
 +6. BingSearchNewsApi
 +7. Share news
+8. News caching
+9. Placeholder for image

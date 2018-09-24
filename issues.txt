@@ -2,3 +2,5 @@
 	solution: set default values for bindable properties
 
 2. Share link
+3. Too many request (Bing search api)
+4. Caching

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using SearchNewsAPI.Models;
+using NewsApp.DAL.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,13 +11,13 @@ namespace NewsApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsView : ContentView
     {
-        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Value>), typeof(NewsView), null);
+        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Article>), typeof(NewsView), null);
 
         public static readonly BindableProperty IsStateProperty = BindableProperty.Create(nameof(IsState), typeof(State), typeof(NewsView), State.Loading, BindingMode.TwoWay);
 
-        public List<Value> NewsResult
+        public List<Article> NewsResult
         {
-            get => (List<Value>) GetValue(NewsResultProperty);
+            get => (List<Article>) GetValue(NewsResultProperty);
             set
             {
                 SetValue(NewsResultProperty, value);
@@ -57,7 +57,7 @@ namespace NewsApp
 
 	    private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        string url = (e.Item as Value)?.Url;
+	        string url = (e.Item as Article)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));
 	    }
 

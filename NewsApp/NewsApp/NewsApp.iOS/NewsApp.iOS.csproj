@@ -90,6 +90,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\SQLite_iOS.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -152,6 +153,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\NewsApp.DAL\NewsApp.DAL.csproj">
+      <Project>{285a5a16-19a4-4e7a-a65f-06055029bb57}</Project>
+      <Name>NewsApp.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NewsApp\NewsApp.csproj">
       <Project>{777FC9EC-E0FE-4B9F-8EF1-79ABE85B0591}</Project>
       <Name>NewsApp</Name>
