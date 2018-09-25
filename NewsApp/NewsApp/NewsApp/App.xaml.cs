@@ -42,7 +42,7 @@ namespace NewsApp
 
         protected override void OnSleep()
         {
-            //_mainPage.OnSleep();
+            _mainPage.OnSleep();
         }
 
         protected override void OnResume()

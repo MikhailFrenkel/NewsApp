@@ -3,4 +3,4 @@
 
 2. Share link
 3. Too many request (Bing search api)
-4. Caching
+4. Caching (не кэшируется дважды, application has stopped на андроиде)

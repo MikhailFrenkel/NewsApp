@@ -34,14 +34,7 @@ namespace NewsApp.DAL.Repositories
 
         public void SaveItem(Article item)
         {
-            if (item.Id != 0)
-            {
-                _db.Update(item);
-            }
-            else
-            {
-                _db.Insert(item);
-            }
+            _db.Insert(item);
         }
     }
 }
