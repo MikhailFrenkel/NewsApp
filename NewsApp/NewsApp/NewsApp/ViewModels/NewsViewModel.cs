@@ -133,7 +133,7 @@ namespace NewsApp.ViewModels
                 {
                     Name = item.Name,
                     DatePublished = item.DatePublished,
-                    ImageUrl = item.Image?.Thumbnail?.ContentUrl,
+                    ImageUrl = item.Image?.Thumbnail?.ContentUrl ?? "kover.jpg",
                     Description = item.Description,
                     Category = _searchQuery,
                     Url = item.Url
