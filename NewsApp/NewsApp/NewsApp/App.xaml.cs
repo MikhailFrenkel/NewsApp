@@ -1,4 +1,7 @@
-﻿using NewsApp.DAL.Repositories;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NewsApp.DAL.Repositories;
+using NewsApp.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,47 +10,73 @@ namespace NewsApp
 {
     public partial class App : Application
     {
-        private static ArticleRepository _database;
-        private MainPage _mainPage;
+        //TODO: page disposing?
+        private static TopicPageRepository _topicPageRepository;
 
-        public MainPage NewsMainPage
-        {
-            get => _mainPage;
-        }
+        public static List<NewsPage> NewsPages;
 
-        public static ArticleRepository Database
+        public static TopicPageRepository Database
         {
             get
             {
-                if (_database == null)
+                if (_topicPageRepository == null)
                 {
-                    _database = new ArticleRepository(Constants.DatabaseName);
+                    _topicPageRepository = new TopicPageRepository(Constants.DatabaseName);
                 }
 
-                return _database;
+                return _topicPageRepository;
             }
         }
 
         public App()
         {
             InitializeComponent();
-            _mainPage = new MainPage();
-            MainPage = new NavigationPage(_mainPage) { Title = ""}; 
+            InitializeNewsPages();
+            MainPage = new NavigationPage(new MasterPage(new MainPage() { Title = "News" }));
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+           
         }
 
         protected override void OnSleep()
         {
-            _mainPage.OnSleep();
+            Database.RemoveItems();
+
+            foreach (var page in NewsPages)
+            {
+                page.OnSleep();
+            }
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        private void InitializeNewsPages()
+        {
+            NewsPages = new List<NewsPage>();
+            var topics = Database.GetItems();
+            if (topics != null)
+            {
+                var topicPages = topics.ToList();
+                if (topicPages.Count != 0)
+                {
+                    foreach (var topic in topicPages)
+                    {
+                        NewsPages.Add(new NewsPage(topic.Title, topic.SearchQuery, topic.UserPage, topic.Articles));
+                    }
+
+                    return;
+                }
+            }
+
+            foreach (var topic in Constants.DefaultNews.Topics)
+            {
+                NewsPages.Add(new NewsPage(topic.Value, topic.Key));
+            }
         }
     }
 }

@@ -10,36 +10,18 @@ namespace NewsApp
     /// </summary>
     public partial class MainPage : TabbedPage
     {
-        private List<NewsPage> _newsPages;
         public MainPage()
         {
             InitializeComponent();
-            InitializeNewsPages();
 
-            foreach (var page in _newsPages)
+            if (App.NewsPages != null)
             {
-                Children.Add(page);
-            }
-
-            NavigationPage.SetHasNavigationBar(this, false);
-        }
-
-        public void OnSleep()
-        {
-            App.Database.RemoveItems();
-
-            foreach (var page in _newsPages)
-            {
-                page.NewsVM.OnSleep();
+                foreach (var page in App.NewsPages)
+                {
+                    Children.Add(page);
+                }
             }
         }
-
-        private void InitializeNewsPages()
-        {
-            _newsPages = new List<NewsPage>();
-            _newsPages.Add(new NewsPage("World News", "world"));
-            _newsPages.Add(new NewsPage("News in Russia", "russia"));
-            _newsPages.Add(new NewsPage("Science news", "science"));
-        }
+        
     }
 }

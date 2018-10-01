@@ -2,12 +2,12 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:NewsApp"
-             x:Class="NewsApp.MainPage">
+             x:Class="NewsApp.MainPage"
+            Title="News">
 
     <TabbedPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="0, 20, 0, 0" />
-            <On Platform="Android" Value="0, 0, 0, 0" />
         </OnPlatform>
     </TabbedPage.Padding>
 

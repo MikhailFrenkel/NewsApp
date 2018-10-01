@@ -2,6 +2,7 @@
 using NewsApp.DAL.Interface;
 using NewsApp.iOS.Helpers;
 using System.IO;
+using SQLite;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SQLite_iOS))]
 namespace NewsApp.iOS.Helpers

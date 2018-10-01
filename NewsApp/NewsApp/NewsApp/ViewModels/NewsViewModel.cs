@@ -58,10 +58,19 @@ namespace NewsApp.ViewModels
         /// Constructor that accept search string.
         /// </summary>
         /// <param name="searchQuery">Search string.</param>
-        public NewsViewModel(string searchQuery)
+        /// <param name="articles">List of articles.</param>
+        public NewsViewModel(string searchQuery, IEnumerable<Article> articles = null)
         {
-            _searchQuery = searchQuery;
             _state = State.Loading;
+            if (articles != null)
+            {
+                if (articles.Count() != 0)
+                {
+                    NewsArticles = articles as List<Article>;
+                    _state = State.Normal;
+                }
+            }
+            _searchQuery = searchQuery;
             _newsClient = new BingSearchNewsClient(Constants.BingSearchNewsKey);
         }
 
@@ -76,31 +85,14 @@ namespace NewsApp.ViewModels
         /// <returns></returns>
         public async Task GetNews()
         {
-            if (NewsArticles == null)
-            {
-                var res = App.Database.GetItems(_searchQuery);
-                if (res.Count() != 0)
-                {
-                    NewsArticles = (List<Article>) res;
-                    IsState = State.Normal;
-                    return;
-                }
-            }
-
+            //TODO: проверка на равенство
             if (CrossConnectivity.Current.IsConnected)
             {
                 var result = await _newsClient.GetNewsAsync(_searchQuery);
                 result.Value.Sort(CompareByDatePublished);
                 var resultValue = result.Value;
                 List<Article> articles = FromValueToArticle(ref resultValue);
-                if (NewsArticles == null)
-                {
-                    NewsArticles = articles;
-                }
-                else if (NewsArticles.SequenceEqual(articles))
-                {
-                    NewsArticles = articles;
-                }
+                NewsArticles = articles;
 
                 IsState = State.Normal;
             }
@@ -115,12 +107,19 @@ namespace NewsApp.ViewModels
         /// Saves articles to database.
         /// </summary>
         /// <returns>Task.</returns>
-        public void OnSleep()
+        public void OnSleep(string title, bool userPage)
         {
             //TODO: не успевает сохранить. OnExit?
-            foreach (var article in NewsArticles)
+            if (NewsArticles != null)
             {
-                App.Database.SaveItem(article);
+                TopicPage topic = new TopicPage()
+                {
+                    Title = title,
+                    SearchQuery = _searchQuery,
+                    UserPage = userPage, 
+                    Articles = NewsArticles
+                };
+                App.Database.SaveItem(topic);
             }
         }
 
@@ -135,7 +134,6 @@ namespace NewsApp.ViewModels
                     DatePublished = item.DatePublished,
                     ImageUrl = item.Image?.Thumbnail?.ContentUrl ?? "kover.jpg",
                     Description = item.Description,
-                    Category = _searchQuery,
                     Url = item.Url
                 });
             }

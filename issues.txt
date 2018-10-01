@@ -1,6 +1,11 @@
 1. TypeInitializationException (https://docs.microsoft.com/en-us/dotnet/api/system.typeinitializationexception?redirectedfrom=MSDN&view=netframework-4.7.2)
 	solution: set default values for bindable properties
 
-2. Share link
-3. Too many request (Bing search api)
-4. Caching (не кэшируется дважды, application has stopped на андроиде)
+2. Share link 
+	solution: Plugin.Share
+
+3. System.NotSupportedException: Don't know about System.Collections.Generic.IEnumerable`1[NewsApp.DAL.Models.Article] (SQLite)
+	solution: https://forums.xamarin.com/discussion/48545/xamarin-forms-with-sqlite-one-to-many-relationship
+
+4. System.DllNotFoundException: /system/lib64/libsqlite.so
+	solution: update SQLite Net Extentions

@@ -1,6 +1,7 @@
 ﻿using NewsApp.DAL.Interface;
 using NewsApp.Droid.Helpers;
 using System.IO;
+using SQLite;
 using Environment = System.Environment;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SQLite_Android))]

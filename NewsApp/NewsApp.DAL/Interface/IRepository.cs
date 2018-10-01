@@ -5,7 +5,7 @@ namespace NewsApp.DAL.Interface
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetItems(string category);
+        IEnumerable<T> GetItems();
         void RemoveItems();
         void SaveItem(T item);
     }

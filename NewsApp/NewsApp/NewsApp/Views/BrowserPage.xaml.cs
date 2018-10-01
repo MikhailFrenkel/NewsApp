@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Plugin.Share;
+using Plugin.Share.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -50,7 +51,10 @@ namespace NewsApp
 
 	    private void ToolbarItem_OnActivated(object sender, EventArgs e)
 	    {
-	        CrossShare.Current.ShareLink(Url);
-        }
+	        CrossShare.Current.Share(new ShareMessage()
+	        {
+	            Url = Url
+	        });
+	    }
 	}
 }
