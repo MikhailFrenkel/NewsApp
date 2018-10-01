@@ -21,13 +21,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MasterDetailPage.xaml.cs">
+      <DependentUpon>MasterDetailPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Views\BrowserPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="CustomView\NewsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MasterPage.xaml">
+    <EmbeddedResource Update="Views\MasterDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewsPage.xaml">

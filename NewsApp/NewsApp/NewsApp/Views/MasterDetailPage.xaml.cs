@@ -28,6 +28,19 @@ namespace NewsApp.Views
 	    private async void TopicsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
 	        string topic = e.Item as string;
+
+	        foreach (var page in App.NewsPages)
+	        {
+	            if (page.Title == topic)
+	            {
+	                await Navigation.PushAsync(new TopicPage(topic, page)
+	                {
+	                    OnClickedAction = ChangePage
+	                });
+	                return;
+	            }
+	        }
+
 	        await Navigation.PushAsync(new TopicPage(topic)
 	        {
 	            OnClickedAction = ChangePage
@@ -36,17 +49,6 @@ namespace NewsApp.Views
 
 	    private void ChangePage(string topic)
 	    {
-	        /*var topics = (List<string>)TopicsListView.ItemsSource;
-	        if ((topics).Contains(topic))
-	        {
-	            topics.Remove(topic);
-	        }
-	        else
-	        {
-	            topics.Add(topic);
-	        }
-            
-	        TopicsListView.ItemsSource = topics;*/
 	        _mainPage = new MainPage();
             _newsNavigationPage = new NavigationPage(_mainPage);
 	        Detail = _newsNavigationPage;

@@ -28,12 +28,21 @@ namespace NewsApp.Views
 	        }
 	    }
 
-	    public TopicPage (string topic)
+	    public TopicPage (string topic, NewsPage page = null)
 		{
 			InitializeComponent ();
 
 		    _topic = topic;
-            _page = new NewsPage(topic, topic, true);
+		    if (page == null)
+		    {
+		        _page = new NewsPage(topic, topic, true);
+            }
+		    else
+		    {
+		        _page = page;
+		        _add = false;
+		    }
+		    
 		    Title = topic;
 		    SetBindings(topic);
 		    SetItems();
@@ -78,7 +87,7 @@ namespace NewsApp.Views
 	            Add = !Add;
 	        };
 
-            ToolbarItems.Add(_addItem);
+	        ToolbarItems.Add(_add ? _addItem : _deleteItem);
 	    }
 
 	    private void AddOrDeleteToolbarItem()
