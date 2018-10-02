@@ -1,6 +1,5 @@
 ﻿using Android.Content;
 using Android.Support.Design.Widget;
-using NewsApp;
 using NewsApp.Droid;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android.AppCompat;

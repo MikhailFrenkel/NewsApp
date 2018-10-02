@@ -6,6 +6,8 @@ namespace NewsApp
     {
         public const string BingSearchNewsKey = "968875276d614dea8c0f82afbbb6c853";
         public const string DatabaseName = "Articles.db";
+        public const string SearhBarPlaceholderText = "Search topics and articles";
+
         public static List<string> Topics = new List<string>()
         {
             "Africa",

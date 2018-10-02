@@ -1,18 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NewsApp.BrowserPage"
+             x:Class="NewsApp.Views.BrowserPage"
              Title="Browser">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="share.png" Activated="ToolbarItem_OnActivated"/>
-    </ContentPage.ToolbarItems>
 
     <StackLayout>
         <ProgressBar x:Name="ProgressBarBrowser" Progress="0.2"
                      HorizontalOptions="FillAndExpand" IsVisible="True"
                      ProgressColor="Gray"/>
-        <WebView x:Name="webView" 
+        <WebView x:Name="WebView" 
                  VerticalOptions="FillAndExpand" 
                  Navigating="WebOnNavigating"
                  Navigated="WebOnNavigated" />

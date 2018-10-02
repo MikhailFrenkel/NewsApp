@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NewsApp.DAL.Models;
+using NewsApp.ViewModels;
+using NewsApp.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace NewsApp
+namespace NewsApp.CustomView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsView : ContentView
@@ -53,9 +55,16 @@ namespace NewsApp
 		{
 			InitializeComponent ();
 		    BindingContext = this;
-		}      
+		}
 
-	    private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        public void SetBinding(NewsViewModel newsVM)
+        {
+            SetBinding(NewsResultProperty, new Binding() { Source = newsVM, Path = nameof(newsVM.NewsArticles) });
+            SetBinding(IsStateProperty, new Binding() { Source = newsVM, Path = nameof(newsVM.IsState) });
+            GetNews = newsVM.GetNews;
+        }
+
+        private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
 	        string url = (e.Item as Article)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));

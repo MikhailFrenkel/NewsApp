@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace NewsApp
+namespace NewsApp.Views
 {
     /// <summary>
     /// Used for display internet page.
@@ -19,7 +15,7 @@ namespace NewsApp
         /// <summary>
         /// Web-page url.
         /// </summary>
-	    public string Url { get; private set; }
+	    public string Url { get; }
 
         /// <summary>
         /// 
@@ -28,9 +24,17 @@ namespace NewsApp
 	    public BrowserPage (string url)
 		{
 			InitializeComponent ();
+
 		    Url = url;
-            webView.BindingContext = this;
-		    webView.SetBinding(WebView.SourceProperty, nameof(Url));
+            
+            var share = new ToolbarItem()
+		    {
+		        Icon = Constants.Images.Share
+		    };
+		    share.Clicked += ToolbarItem_OnActivated;
+		    ToolbarItems.Add(share);
+
+		    WebView.Source = Url;
 		}
 
 	    protected override async void OnAppearing()

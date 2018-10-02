@@ -13,7 +13,7 @@ namespace NewsApp.Views
 	public partial class NewsPage : ContentPage
     {
         private readonly bool _userNews;
-	    private NewsViewModel _newsVM;
+	    private readonly NewsViewModel _newsVM;
 
         /// <summary>
         /// Constructor that contains page title and search string.
@@ -28,11 +28,17 @@ namespace NewsApp.Views
 
 		    _userNews = userNews;
 		    Title = title;
-            if (articles != null)
-                _newsVM = new NewsViewModel(searchQuery, articles);
-            else
-                _newsVM = new NewsViewModel(searchQuery);
-            SetBindings();
+		    if (articles != null)
+		    {
+		        _newsVM = new NewsViewModel(searchQuery, articles);
+		    }
+		    else
+		    {
+		        _newsVM = new NewsViewModel(searchQuery);
+		    }
+
+		    NewsView.SetBinding(_newsVM);
+
 		    if (_userNews)
 		    {
                 var item = new ToolbarItem()
@@ -42,6 +48,25 @@ namespace NewsApp.Views
                 ToolbarItems.Add(item);
 		    }
 		}
+
+        public NewsPage(NewsViewModel nvm, bool userNews = false)
+        {
+            InitializeComponent();
+
+            _newsVM = nvm;
+            NewsView.SetBinding(_newsVM);
+            _userNews = userNews;
+            Title = nvm.Topic;
+
+            if (_userNews)
+            {
+                var item = new ToolbarItem()
+                {
+                    Icon = Constants.Images.Edit
+                };
+                ToolbarItems.Add(item);
+            }
+        }
 
         /// <summary>
         /// Saves articles to database.
@@ -60,13 +85,5 @@ namespace NewsApp.Views
 	        if (_newsVM.NewsArticles == null)
 	            await _newsVM.GetNews();
 	    }
-
-	    private void SetBindings()
-	    {
-	        NewsView.SetBinding(NewsView.NewsResultProperty, new Binding() { Source = _newsVM, Path = nameof(_newsVM.NewsArticles) });
-	        NewsView.SetBinding(NewsView.IsStateProperty, new Binding() { Source = _newsVM, Path = nameof(_newsVM.IsState) });
-	        NewsView.GetNews = _newsVM.GetNews;
-        }
-
 	}
 }

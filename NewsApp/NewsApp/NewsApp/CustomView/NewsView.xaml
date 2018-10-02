@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:newsApp="clr-namespace:NewsApp;assembly=NewsApp"
              xmlns:converters="clr-namespace:NewsApp.Converters;assembly=NewsApp"
-             x:Class="NewsApp.NewsView">
+             x:Class="NewsApp.CustomView.NewsView">
 
 
     <ContentView.Resources>

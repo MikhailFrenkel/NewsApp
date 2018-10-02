@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:newsApp="clr-namespace:NewsApp;assembly=NewsApp"
-             x:Class="NewsApp.Views.MasterPage">
+                  x:Class="NewsApp.Views.MasterPage">
 
     <MasterDetailPage.Master>
         <ContentPage Title="My News">

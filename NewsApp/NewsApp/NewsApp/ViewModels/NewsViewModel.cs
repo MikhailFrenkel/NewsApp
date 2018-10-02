@@ -17,10 +17,15 @@ namespace NewsApp.ViewModels
     {
         private readonly BingSearchNewsClient _newsClient;
         private List<Article> _newsArticles;
-        private State _state;
+        private State _state = State.Loading;
         private readonly string _searchQuery;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Topic
+        {
+            get => _searchQuery;
+        }
 
         /// <summary>
         /// Application state.
@@ -61,7 +66,6 @@ namespace NewsApp.ViewModels
         /// <param name="articles">List of articles.</param>
         public NewsViewModel(string searchQuery, IEnumerable<Article> articles = null)
         {
-            _state = State.Loading;
             if (articles != null)
             {
                 if (articles.Count() != 0)

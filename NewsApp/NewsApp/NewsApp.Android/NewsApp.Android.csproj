@@ -49,9 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="UrhoSharp.Forms">
-      <Version>1.8.93</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Compat">
       <Version>27.0.2.1</Version>
     </PackageReference>
@@ -66,6 +63,7 @@
     <Compile Include="Helpers\SQLite_Android.cs" />
     <Compile Include="Renderer\CustomListViewRenderer.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderer\SearchBarWithoutIcon.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\ScrollableTabbedPageRenderer.cs" />
@@ -123,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

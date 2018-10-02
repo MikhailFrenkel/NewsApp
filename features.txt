@@ -7,5 +7,7 @@
 +7. Share news
 +8. News caching
 +9. Placeholder for image
-10. Add topic
-11. Save user's topics
++10. Add topic
++11. Save user's topics
++12. Search bar
+13. Drag and drop

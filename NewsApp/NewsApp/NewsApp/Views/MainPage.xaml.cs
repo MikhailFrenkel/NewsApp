@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NewsApp.Views;
+﻿using System;
 using Xamarin.Forms;
 
-namespace NewsApp
+namespace NewsApp.Views
 {
     /// <summary>
     /// Page that contains tab.
     /// </summary>
     public partial class MainPage : TabbedPage
     {
+        public Action SearchButtonClicked;
+
         public MainPage()
         {
             InitializeComponent();
@@ -22,6 +22,11 @@ namespace NewsApp
                 }
             }
         }
-        
+
+        private void MenuItem_OnClicked(object sender, EventArgs e)
+        {
+            SearchButtonClicked?.Invoke();
+            //await Navigation.PushAsync(new SearchPage());
+        }
     }
 }

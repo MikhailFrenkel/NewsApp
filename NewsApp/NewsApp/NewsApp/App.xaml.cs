@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using NewsApp.DAL.Repositories;
 using NewsApp.Views;
@@ -12,8 +13,8 @@ namespace NewsApp
     {
         //TODO: page disposing?
         private static TopicPageRepository _topicPageRepository;
-
-        public static List<NewsPage> NewsPages;
+        private MasterPage _masterPage;
+        public static ObservableCollection<NewsPage> NewsPages;
 
         public static TopicPageRepository Database
         {
@@ -31,8 +32,13 @@ namespace NewsApp
         public App()
         {
             InitializeComponent();
+
             InitializeNewsPages();
-            MainPage = new NavigationPage(new MasterPage(new MainPage() { Title = "News" }));
+            
+            _masterPage = new MasterPage();
+            MainPage = new NavigationPage(_masterPage);
+
+            NewsPages.CollectionChanged += (sender, args) => { _masterPage.ChangeDetailPage(); };
         }
 
         protected override void OnStart()
@@ -57,7 +63,8 @@ namespace NewsApp
 
         private void InitializeNewsPages()
         {
-            NewsPages = new List<NewsPage>();
+            NewsPages = new ObservableCollection<NewsPage>();
+            
             var topics = Database.GetItems();
             if (topics != null)
             {

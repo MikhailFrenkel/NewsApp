@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,11 +9,12 @@ namespace NewsApp.Views
 	{
 	    private NavigationPage _newsNavigationPage;
 	    private MainPage _mainPage;
-	    public MasterPage (MainPage page)
+	    public MasterPage ()
 		{
 		    InitializeComponent ();
 		    TopicsListView.ItemsSource = Constants.Topics;
-		    _mainPage = page;
+		    _mainPage = new MainPage();
+		    _mainPage.SearchButtonClicked = SearchButtonClicked;
 		    _newsNavigationPage = new NavigationPage(_mainPage);
 		    Detail = _newsNavigationPage;
 
@@ -33,25 +33,25 @@ namespace NewsApp.Views
 	        {
 	            if (page.Title == topic)
 	            {
-	                await Navigation.PushAsync(new TopicPage(topic, page)
-	                {
-	                    OnClickedAction = ChangePage
-	                });
+	                await Navigation.PushAsync(new TopicPage(topic, page));
 	                return;
 	            }
 	        }
 
-	        await Navigation.PushAsync(new TopicPage(topic)
-	        {
-	            OnClickedAction = ChangePage
-            });
+	        await Navigation.PushAsync(new TopicPage(topic));
 	    }
 
-	    private void ChangePage(string topic)
+	    public void ChangeDetailPage()
 	    {
-	        _mainPage = new MainPage();
+            _mainPage = new MainPage();
+	        _mainPage.SearchButtonClicked = SearchButtonClicked;
             _newsNavigationPage = new NavigationPage(_mainPage);
 	        Detail = _newsNavigationPage;
+	    }
+
+	    private async void SearchButtonClicked()
+	    {
+	        await Navigation.PushAsync(new SearchPage());
 	    }
 	}
 }

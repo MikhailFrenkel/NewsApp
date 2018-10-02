@@ -1,4 +1,5 @@
 ﻿using System;
+using NewsApp.CustomView;
 using NewsApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,15 +9,13 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TopicPage : ContentPage
 	{
-	    public Action<string> OnClickedAction;
-	    public NewsViewModel NewsVM;
-
-	    private NewsPage _page;
+	    private NewsViewModel _newsVM;
+	    private readonly SearchBarWithoutIcon _newsSearchBar;
+        private NewsPage _page;
 	    private ToolbarItem _addItem;
 	    private ToolbarItem _deleteItem;
 
 	    private bool _add = true;
-	    private string _topic;
 
 	    private bool Add
 	    {
@@ -32,38 +31,68 @@ namespace NewsApp.Views
 		{
 			InitializeComponent ();
 
-		    _topic = topic;
+		    Title = topic;
+
+		    _newsVM = new NewsViewModel(topic);
+            
+            NewsView.SetBinding(_newsVM);
+
 		    if (page == null)
 		    {
-		        _page = new NewsPage(topic, topic, true);
-            }
+		        _page = new NewsPage(_newsVM, true);
+		    }
 		    else
 		    {
 		        _page = page;
 		        _add = false;
 		    }
-		    
-		    Title = topic;
-		    SetBindings(topic);
-		    SetItems();
+
+            SetItems();
 		}
+
+	    public TopicPage()
+	    {
+	        InitializeComponent();
+
+	        NewsView.IsState = State.Normal;
+	        _newsSearchBar = new SearchBarWithoutIcon()
+	        {
+	            Placeholder = Constants.SearhBarPlaceholderText
+	        };
+	        _newsSearchBar.SearchButtonPressed += SearchBar_OnSearchButtonPressed;
+
+	        var searchBarContentView = new ContentView()
+	        {
+	            Content = _newsSearchBar
+	        };
+	        NavigationPage.SetTitleView(this, searchBarContentView);
+	        SetItems();
+        }
 
 	    protected override async void OnAppearing()
 	    {
 	        base.OnAppearing();
-	        if (NewsVM.NewsArticles == null)
-	            await NewsVM.GetNews();
+	        if (_newsVM != null)
+	        {
+	            if (_newsVM.NewsArticles == null)
+	                await _newsVM.GetNews();
+            }
 	    }
 
-	    private void SetBindings(string searchQuery)
+	    private async void SearchBar_OnSearchButtonPressed(object sender, EventArgs e)
 	    {
-	        NewsVM = new NewsViewModel(searchQuery);
-	        NewsView.SetBinding(NewsView.NewsResultProperty, new Binding() { Source = NewsVM, Path = nameof(NewsVM.NewsArticles) });
-	        NewsView.SetBinding(NewsView.IsStateProperty, new Binding() { Source = NewsVM, Path = nameof(NewsVM.IsState) });
-	        NewsView.GetNews = NewsVM.GetNews;
+	        _newsVM = new NewsViewModel(_newsSearchBar.Text)
+	        {
+	            IsState = State.Normal
+	        };
+	        _page = new NewsPage(_newsVM, true);
+	        NewsView.SetBinding(_newsVM);
+
+	        _newsVM.IsState = State.Loading;
+	        await _newsVM.GetNews();
 	    }
 
-	    private void SetItems()
+        private void SetItems()
 	    {
             _addItem = new ToolbarItem()
             {
@@ -72,7 +101,6 @@ namespace NewsApp.Views
 	        _addItem.Clicked += (sender, args) =>
 	        {
 	            App.NewsPages.Add(_page);
-	            OnClickedAction?.Invoke(_topic);
 	            Add = !Add;
 	        };
 
@@ -83,7 +111,6 @@ namespace NewsApp.Views
 	        _deleteItem.Clicked += (sender, args) =>
 	        {
 	            App.NewsPages.Remove(_page);
-	            OnClickedAction?.Invoke(_topic);
 	            Add = !Add;
 	        };
 
