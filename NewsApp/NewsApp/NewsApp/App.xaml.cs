@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using NewsApp.DAL.Repositories;
 using NewsApp.Views;
@@ -13,8 +12,8 @@ namespace NewsApp
     {
         //TODO: page disposing?
         private static TopicPageRepository _topicPageRepository;
-        private MasterPage _masterPage;
         public static ObservableCollection<NewsPage> NewsPages;
+        public static NavigationPage Navigation;
 
         public static TopicPageRepository Database
         {
@@ -31,14 +30,17 @@ namespace NewsApp
 
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Constants.SyncFusionLicenseKey);
+
             InitializeComponent();
 
             InitializeNewsPages();
             
-            _masterPage = new MasterPage();
-            MainPage = new NavigationPage(_masterPage);
-
-            NewsPages.CollectionChanged += (sender, args) => { _masterPage.ChangeDetailPage(); };
+            var masterPage = new MasterPage();
+            Navigation = new NavigationPage(masterPage);
+            MainPage = Navigation;
+     
+            NewsPages.CollectionChanged += (sender, args) => { masterPage.ChangeDetailPage(); };
         }
 
         protected override void OnStart()
@@ -69,7 +71,7 @@ namespace NewsApp
             if (topics != null)
             {
                 var topicPages = topics.ToList();
-                if (topicPages.Count != 0)
+                if (topicPages.Count >= 3)
                 {
                     foreach (var topic in topicPages)
                     {

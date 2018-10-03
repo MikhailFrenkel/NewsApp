@@ -12,8 +12,13 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsPage : ContentPage
     {
-        private readonly bool _userNews;
+        private bool _userNews;
 	    private readonly NewsViewModel _newsVM;
+
+        public bool IsUser
+        {
+            get => _userNews;
+        }
 
         /// <summary>
         /// Constructor that contains page title and search string.
@@ -26,7 +31,7 @@ namespace NewsApp.Views
 		{
 			InitializeComponent ();
 
-		    _userNews = userNews;
+		    SetUserNews(userNews);
 		    Title = title;
 		    if (articles != null)
 		    {
@@ -38,15 +43,6 @@ namespace NewsApp.Views
 		    }
 
 		    NewsView.SetBinding(_newsVM);
-
-		    if (_userNews)
-		    {
-                var item = new ToolbarItem()
-                {
-                    Icon = Constants.Images.Edit
-                };
-                ToolbarItems.Add(item);
-		    }
 		}
 
         public NewsPage(NewsViewModel nvm, bool userNews = false)
@@ -55,17 +51,8 @@ namespace NewsApp.Views
 
             _newsVM = nvm;
             NewsView.SetBinding(_newsVM);
-            _userNews = userNews;
             Title = nvm.Topic;
-
-            if (_userNews)
-            {
-                var item = new ToolbarItem()
-                {
-                    Icon = Constants.Images.Edit
-                };
-                ToolbarItems.Add(item);
-            }
+            SetUserNews(userNews);
         }
 
         /// <summary>
@@ -85,5 +72,19 @@ namespace NewsApp.Views
 	        if (_newsVM.NewsArticles == null)
 	            await _newsVM.GetNews();
 	    }
-	}
+
+        private void SetUserNews(bool userNews)
+        {
+            _userNews = userNews;
+            if (_userNews)
+            {
+                var item = new ToolbarItem()
+                {
+                    Icon = Constants.Images.Edit
+                };
+                item.Clicked += async (sender, args) => { await App.Navigation.PushAsync(new EditNewsPage()); };
+                ToolbarItems.Add(item);
+            }
+        }
+    }
 }

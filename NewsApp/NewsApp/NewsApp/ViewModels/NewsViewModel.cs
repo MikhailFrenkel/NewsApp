@@ -113,18 +113,14 @@ namespace NewsApp.ViewModels
         /// <returns>Task.</returns>
         public void OnSleep(string title, bool userPage)
         {
-            //TODO: не успевает сохранить. OnExit?
-            if (NewsArticles != null)
+            TopicPage topic = new TopicPage()
             {
-                TopicPage topic = new TopicPage()
-                {
-                    Title = title,
-                    SearchQuery = _searchQuery,
-                    UserPage = userPage, 
-                    Articles = NewsArticles
-                };
-                App.Database.SaveItem(topic);
-            }
+                Title = title,
+                SearchQuery = _searchQuery,
+                UserPage = userPage, 
+                Articles = NewsArticles
+            };
+            App.Database.SaveItem(topic);
         }
 
         private List<Article> FromValueToArticle(ref List<Value> values)

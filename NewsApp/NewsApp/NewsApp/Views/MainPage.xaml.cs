@@ -8,8 +8,6 @@ namespace NewsApp.Views
     /// </summary>
     public partial class MainPage : TabbedPage
     {
-        public Action SearchButtonClicked;
-
         public MainPage()
         {
             InitializeComponent();
@@ -23,10 +21,9 @@ namespace NewsApp.Views
             }
         }
 
-        private void MenuItem_OnClicked(object sender, EventArgs e)
+        private async void MenuItem_OnClicked(object sender, EventArgs e)
         {
-            SearchButtonClicked?.Invoke();
-            //await Navigation.PushAsync(new SearchPage());
+            await App.Navigation.PushAsync(new SearchPage());
         }
     }
 }

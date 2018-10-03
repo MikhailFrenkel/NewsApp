@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:newsApp="clr-namespace:NewsApp;assembly=NewsApp"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             x:Class="NewsApp.Views.EditNewsPage"
+             Title="Edit My News">
+
+    <newsApp:StateContainer State="{Binding IsState}">
+        <newsApp:StateCondition Is="Normal">
+           <Grid RowSpacing="0" BackgroundColor="#e5e5e5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="64"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="Header" BackgroundColor="White" Padding="2" Margin="0,0,0,1">
+                    <Label x:Name="HeaderLabel"
+                           Text="To reorder topics, hold down and move"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="Black"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           IsVisible="True"/>
+                    <StackLayout x:Name="HeaderTrashStackLayout" Orientation="Horizontal" IsVisible="False"
+                                 HorizontalOptions="Center" VerticalOptions="Center">
+                        <Image Source="trash.png" HeightRequest="30" WidthRequest="30"/>
+                        <Label x:Name="DeleteLabel" Text="Delete Topic" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                    </StackLayout>
+                </Grid>
+
+                <syncfusion:SfListView Grid.Row="1"
+                                       x:Name="NewsTitleListView" 
+                                       ItemsSource="{Binding NewsTitle}"
+                                       SelectionMode="None"
+                                       ItemSize="48"
+                                       DragStartMode="OnDragIndicator, OnHold"
+                                       VerticalOptions="Fill">
+
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,1,0,0">
+                                <Frame HasShadow="True" Padding="2" Margin="0,0,0,1" CornerRadius="0">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding}" VerticalOptions="Center" Margin="32,0,0,0"
+                                               HorizontalOptions="FillAndExpand" TextColor="Black" FontSize="16"/>
+                                        <syncfusion:DragIndicatorView Grid.Column="1" ListView="{x:Reference NewsTitleListView}">
+                                            <Image Source="arrows.png" HeightRequest="24" WidthRequest="24"
+                                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </syncfusion:DragIndicatorView>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+
+                    <syncfusion:SfListView.DragItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,1,0,0" Opacity="0.25">
+                                <Frame HasShadow="True" Padding="2" Margin="0,0,0,1" CornerRadius="0">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding}" VerticalOptions="Center" Margin="32,0,0,0"
+                                               HorizontalOptions="FillAndExpand" TextColor="Black" FontSize="16"/>
+                                        <syncfusion:DragIndicatorView Grid.Column="1" ListView="{x:Reference NewsTitleListView}">
+                                            <Image Source="arrows.png" HeightRequest="24" WidthRequest="24"
+                                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </syncfusion:DragIndicatorView>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:SfListView.DragItemTemplate>
+                </syncfusion:SfListView>
+            </Grid>
+
+        </newsApp:StateCondition>
+
+        <newsApp:StateCondition Is="NoItem">
+            <Grid BackgroundColor="#e5e5e5"
+                         VerticalOptions="Fill"
+                         HorizontalOptions="Fill">
+                <Label Text="Your added topics will be displayed here"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       TextColor="Black"/>
+            </Grid>
+                    
+        </newsApp:StateCondition>
+    </newsApp:StateContainer>
+
+</ContentPage>

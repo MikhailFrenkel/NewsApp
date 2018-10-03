@@ -14,7 +14,6 @@ namespace NewsApp.Views
 		    InitializeComponent ();
 		    TopicsListView.ItemsSource = Constants.Topics;
 		    _mainPage = new MainPage();
-		    _mainPage.SearchButtonClicked = SearchButtonClicked;
 		    _newsNavigationPage = new NavigationPage(_mainPage);
 		    Detail = _newsNavigationPage;
 
@@ -44,14 +43,8 @@ namespace NewsApp.Views
 	    public void ChangeDetailPage()
 	    {
             _mainPage = new MainPage();
-	        _mainPage.SearchButtonClicked = SearchButtonClicked;
             _newsNavigationPage = new NavigationPage(_mainPage);
 	        Detail = _newsNavigationPage;
-	    }
-
-	    private async void SearchButtonClicked()
-	    {
-	        await Navigation.PushAsync(new SearchPage());
 	    }
 	}
 }

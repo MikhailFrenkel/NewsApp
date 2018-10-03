@@ -9,7 +9,8 @@ namespace NewsApp
     {
         Normal,
         Loading,
-        NoInternet
+        NoInternet,
+        NoItem
     }
 
     [ContentProperty("Content")]
