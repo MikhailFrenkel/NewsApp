@@ -10,13 +10,25 @@ using Xamarin.Forms.Xaml;
 
 namespace NewsApp.CustomView
 {
+    /// <summary>
+    /// View for displaying news.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsView : ContentView
     {
+        /// <summary>
+        /// List of news.
+        /// </summary>
         public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Article>), typeof(NewsView), null);
 
+        /// <summary>
+        /// Page state.
+        /// </summary>
         public static readonly BindableProperty IsStateProperty = BindableProperty.Create(nameof(IsState), typeof(State), typeof(NewsView), State.Loading, BindingMode.TwoWay);
 
+        /// <summary>
+        /// List of news.
+        /// </summary>
         public List<Article> NewsResult
         {
             get => (List<Article>) GetValue(NewsResultProperty);
@@ -27,6 +39,9 @@ namespace NewsApp.CustomView
             }
         }
 
+        /// <summary>
+        /// Page state.
+        /// </summary>
         public State IsState
         {
             get => (State) GetValue(IsStateProperty);
@@ -37,8 +52,14 @@ namespace NewsApp.CustomView
             }
         }
 
+        /// <summary>
+        /// Func for uploading news.
+        /// </summary>
         public Func<Task> GetNews { get; set; }
 
+        /// <summary>
+        /// Command for refreshing list.
+        /// </summary>
         public ICommand RefreshCommand
         {
             get
@@ -57,6 +78,10 @@ namespace NewsApp.CustomView
 		    BindingContext = this;
 		}
 
+        /// <summary>
+        /// Sets binding with view.
+        /// </summary>
+        /// <param name="newsVM">View model for news.</param>
         public void SetBinding(NewsViewModel newsVM)
         {
             SetBinding(NewsResultProperty, new Binding() { Source = newsVM, Path = nameof(newsVM.NewsArticles) });

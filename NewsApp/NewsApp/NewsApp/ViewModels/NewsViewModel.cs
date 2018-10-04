@@ -18,17 +18,16 @@ namespace NewsApp.ViewModels
         private readonly BingSearchNewsClient _newsClient;
         private List<Article> _newsArticles;
         private State _state = State.Loading;
-        private readonly string _searchQuery;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Topic
-        {
-            get => _searchQuery;
-        }
+        /// <summary>
+        /// News topic.
+        /// </summary>
+        public string Topic { get; }
 
         /// <summary>
-        /// Application state.
+        /// Page state.
         /// </summary>
         public State IsState
         {
@@ -74,7 +73,7 @@ namespace NewsApp.ViewModels
                     _state = State.Normal;
                 }
             }
-            _searchQuery = searchQuery;
+            Topic = searchQuery;
             _newsClient = new BingSearchNewsClient(Constants.BingSearchNewsKey);
         }
 
@@ -92,7 +91,7 @@ namespace NewsApp.ViewModels
             //TODO: проверка на равенство
             if (CrossConnectivity.Current.IsConnected)
             {
-                var result = await _newsClient.GetNewsAsync(_searchQuery);
+                var result = await _newsClient.GetNewsAsync(Topic);
                 result.Value.Sort(CompareByDatePublished);
                 var resultValue = result.Value;
                 List<Article> articles = FromValueToArticle(ref resultValue);
@@ -116,7 +115,7 @@ namespace NewsApp.ViewModels
             TopicPage topic = new TopicPage()
             {
                 Title = title,
-                SearchQuery = _searchQuery,
+                SearchQuery = Topic,
                 UserPage = userPage, 
                 Articles = NewsArticles
             };

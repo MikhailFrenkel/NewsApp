@@ -13,6 +13,9 @@ namespace NewsApp.ViewModels
         private State _state = State.NoItem;
         private ObservableCollection<string> _newsTitle;
 
+        /// <summary>
+        /// Page state.
+        /// </summary>
         public State IsState
         {
             get => _state;
@@ -26,6 +29,9 @@ namespace NewsApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// List of topics.
+        /// </summary>
         public ObservableCollection<string> NewsTitle
         {
             get => _newsTitle;

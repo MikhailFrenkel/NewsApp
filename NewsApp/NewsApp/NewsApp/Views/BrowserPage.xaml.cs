@@ -11,7 +11,8 @@ namespace NewsApp.Views
     /// </summary>
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class BrowserPage : ContentPage
-	{
+    {
+        private ToolbarItem _share;
         /// <summary>
         /// Web-page url.
         /// </summary>
@@ -27,20 +28,29 @@ namespace NewsApp.Views
 
 		    Url = url;
             
-            var share = new ToolbarItem()
+            _share = new ToolbarItem()
 		    {
 		        Icon = Constants.Images.Share
 		    };
-		    share.Clicked += ToolbarItem_OnActivated;
-		    ToolbarItems.Add(share);
+		    ToolbarItems.Add(_share);
 
 		    WebView.Source = Url;
 		}
 
+        /// <summary>
+        /// Shows activity indicator.
+        /// </summary>
 	    protected override async void OnAppearing()
 	    {
 	        base.OnAppearing();
+	        _share.Clicked += ToolbarItem_OnActivated;
 	        await ProgressBarBrowser.ProgressTo(0.9, 1800, Easing.SpringIn);
+	    }
+
+	    protected override void OnDisappearing()
+	    {
+	        _share.Clicked -= ToolbarItem_OnActivated;
+	        base.OnDisappearing();
 	    }
 
 	    private void WebOnNavigating(object sender, WebNavigatingEventArgs e)

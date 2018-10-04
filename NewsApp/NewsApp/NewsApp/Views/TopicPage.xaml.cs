@@ -1,6 +1,4 @@
-﻿using System;
-using NewsApp.CustomView;
-using NewsApp.ViewModels;
+﻿using NewsApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,12 +7,10 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TopicPage : ContentPage
 	{
-	    private NewsViewModel _newsVM;
-	    private readonly SearchBarWithoutIcon _newsSearchBar;
-        private NewsPage _page;
+	    private readonly NewsViewModel _newsVM;
+        private readonly NewsPage _page;
 	    private ToolbarItem _addItem;
 	    private ToolbarItem _deleteItem;
-
 	    private bool _add = true;
 
 	    private bool Add
@@ -27,6 +23,11 @@ namespace NewsApp.Views
 	        }
 	    }
 
+        /// <summary>
+        /// Initialize topic page.
+        /// </summary>
+        /// <param name="topic">Topic of your news.</param>
+        /// <param name="page">Page that holds this topic.</param>
 	    public TopicPage (string topic, NewsPage page = null)
 		{
 			InitializeComponent ();
@@ -50,25 +51,9 @@ namespace NewsApp.Views
             SetItems();
 		}
 
-	    public TopicPage()
-	    {
-	        InitializeComponent();
-
-	        NewsView.IsState = State.Normal;
-	        _newsSearchBar = new SearchBarWithoutIcon()
-	        {
-	            Placeholder = Constants.SearhBarPlaceholderText
-	        };
-	        _newsSearchBar.SearchButtonPressed += SearchBar_OnSearchButtonPressed;
-
-	        var searchBarContentView = new ContentView()
-	        {
-	            Content = _newsSearchBar
-	        };
-	        NavigationPage.SetTitleView(this, searchBarContentView);
-	        SetItems();
-        }
-
+        /// <summary>
+        /// Uploads news.
+        /// </summary>
 	    protected override async void OnAppearing()
 	    {
 	        base.OnAppearing();
@@ -77,19 +62,6 @@ namespace NewsApp.Views
 	            if (_newsVM.NewsArticles == null)
 	                await _newsVM.GetNews();
             }
-	    }
-
-	    private async void SearchBar_OnSearchButtonPressed(object sender, EventArgs e)
-	    {
-	        _newsVM = new NewsViewModel(_newsSearchBar.Text)
-	        {
-	            IsState = State.Normal
-	        };
-	        _page = new NewsPage(_newsVM, true);
-	        NewsView.SetBinding(_newsVM);
-
-	        _newsVM.IsState = State.Loading;
-	        await _newsVM.GetNews();
 	    }
 
         private void SetItems()

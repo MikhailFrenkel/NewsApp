@@ -6,6 +6,9 @@ using Xamarin.Forms.Xaml;
 
 namespace NewsApp.Views
 {
+    /// <summary>
+    /// Page for finding news by topic.
+    /// </summary>
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SearchPage : ContentPage
 	{
@@ -26,6 +29,9 @@ namespace NewsApp.Views
 	        }
 	    }
 
+        /// <summary>
+        /// Initialize page that contain search bar.
+        /// </summary>
         public SearchPage ()
 		{
 			InitializeComponent ();
@@ -45,6 +51,12 @@ namespace NewsApp.Views
 
             SetItems();
 		}
+
+	    protected override void OnDisappearing()
+	    {
+	        base.OnDisappearing();
+	        _newsSearchBar.SearchButtonPressed -= SearchBar_OnSearchButtonPressed;
+	    }
 
 	    private async void SearchBar_OnSearchButtonPressed(object sender, EventArgs e)
 	    {
@@ -92,7 +104,6 @@ namespace NewsApp.Views
 
 	    private void AddOrDeleteToolbarItem()
 	    {
-
 	        if (_add)
 	        {
 	            ToolbarItems[0] = _addItem;

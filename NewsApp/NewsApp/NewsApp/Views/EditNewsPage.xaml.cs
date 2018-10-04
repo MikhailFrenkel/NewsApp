@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using NewsApp.ViewModels;
 using Syncfusion.DataSource.Extensions;
@@ -10,18 +8,33 @@ using Xamarin.Forms.Xaml;
 
 namespace NewsApp.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Page where user can edit own pages.
+    /// </summary>
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditNewsPage : ContentPage
 	{
-	    private EditNewsViewModel _editVM;
+	    private readonly EditNewsViewModel _editVM;
 
 	    public EditNewsPage ()
 		{
 			InitializeComponent ();
-		    NewsTitleListView.ItemDragging += ListView_ItemDragging;
+		    
             _editVM = new EditNewsViewModel();
 		    BindingContext = _editVM;
 		}
+
+	    protected override void OnAppearing()
+	    {
+	        base.OnAppearing();
+	        NewsTitleListView.ItemDragging += ListView_ItemDragging;
+        }
+
+	    protected override void OnDisappearing()
+	    {
+	        NewsTitleListView.ItemDragging -= ListView_ItemDragging;
+            base.OnDisappearing();
+	    }
 
 	    private async void ListView_ItemDragging(object sender, ItemDraggingEventArgs e)
 	    {

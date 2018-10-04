@@ -7,23 +7,19 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MasterPage : MasterDetailPage
 	{
-	    private NavigationPage _newsNavigationPage;
-	    private MainPage _mainPage;
+        /// <summary>
+        /// Initialize MasterDetailPage.
+        /// </summary>
 	    public MasterPage ()
 		{
 		    InitializeComponent ();
 		    TopicsListView.ItemsSource = Constants.Topics;
-		    _mainPage = new MainPage();
-		    _newsNavigationPage = new NavigationPage(_mainPage);
-		    Detail = _newsNavigationPage;
+		    Detail = new NavigationPage(new DetailPage());
 
-		    NavigationPage.SetHasNavigationBar(this, false);}
+		    NavigationPage.SetHasNavigationBar(this, false);
+		}
 
-	    private void Button_OnClicked(object sender, EventArgs e)
-	    {
-	        TopicsListView.IsVisible = !TopicsListView.IsVisible;
-	    }
-
+        //TODO: new TopicPage?
 	    private async void TopicsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
 	        string topic = e.Item as string;
@@ -38,13 +34,6 @@ namespace NewsApp.Views
 	        }
 
 	        await Navigation.PushAsync(new TopicPage(topic));
-	    }
-
-	    public void ChangeDetailPage()
-	    {
-            _mainPage = new MainPage();
-            _newsNavigationPage = new NavigationPage(_mainPage);
-	        Detail = _newsNavigationPage;
 	    }
 	}
 }

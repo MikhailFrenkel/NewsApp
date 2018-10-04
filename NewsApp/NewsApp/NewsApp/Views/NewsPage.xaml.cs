@@ -12,16 +12,15 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsPage : ContentPage
     {
-        private bool _userNews;
-	    private readonly NewsViewModel _newsVM;
-
-        public bool IsUser
-        {
-            get => _userNews;
-        }
+        private readonly NewsViewModel _newsVM;
 
         /// <summary>
-        /// Constructor that contains page title and search string.
+        /// Returns true if this is user page.
+        /// </summary>
+        public bool IsUser { get; private set; }
+
+        /// <summary>
+        /// Initialize news page.
         /// </summary>
         /// <param name="title">Page title.</param>
         /// <param name="searchQuery">Used for finding news.</param>
@@ -45,6 +44,11 @@ namespace NewsApp.Views
 		    NewsView.SetBinding(_newsVM);
 		}
 
+        /// <summary>
+        /// Initialize news page.
+        /// </summary>
+        /// <param name="nvm">View model for news page.</param>
+        /// <param name="userNews">True if this is user page.</param>
         public NewsPage(NewsViewModel nvm, bool userNews = false)
         {
             InitializeComponent();
@@ -60,7 +64,7 @@ namespace NewsApp.Views
         /// </summary>
         public void OnSleep()
         {
-            _newsVM.OnSleep(Title, _userNews);
+            _newsVM.OnSleep(Title, IsUser);
         }
 
         /// <summary>
@@ -73,16 +77,18 @@ namespace NewsApp.Views
 	            await _newsVM.GetNews();
 	    }
 
+        //TODO: new EditPage?
+        //TODO: item.Clicked += () => {} ?
         private void SetUserNews(bool userNews)
         {
-            _userNews = userNews;
-            if (_userNews)
+            IsUser = userNews;
+            if (IsUser)
             {
                 var item = new ToolbarItem()
                 {
                     Icon = Constants.Images.Edit
                 };
-                item.Clicked += async (sender, args) => { await App.Navigation.PushAsync(new EditNewsPage()); };
+                item.Clicked += async (sender, args) => { await Navigation.PushAsync(new EditNewsPage()); };
                 ToolbarItems.Add(item);
             }
         }

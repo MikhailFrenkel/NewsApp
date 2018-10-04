@@ -6,13 +6,11 @@
     <MasterDetailPage.Master>
         <ContentPage Title="My News">
             <StackLayout>
-                <Button Text="Topics" Clicked="Button_OnClicked"/>
                 <ListView x:Name="TopicsListView"
                           SelectionMode="None"
                           ItemTapped="TopicsListView_OnItemTapped">
-                    
+
                 </ListView>
-                <Button Text="fdss" Clicked="Button_OnClicked"/>
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>

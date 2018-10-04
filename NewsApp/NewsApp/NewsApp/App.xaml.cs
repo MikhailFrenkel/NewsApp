@@ -12,9 +12,15 @@ namespace NewsApp
     {
         //TODO: page disposing?
         private static TopicPageRepository _topicPageRepository;
-        public static ObservableCollection<NewsPage> NewsPages;
-        public static NavigationPage Navigation;
 
+        /// <summary>
+        /// Field that contain all news pages.
+        /// </summary>
+        public static ObservableCollection<NewsPage> NewsPages;
+
+        /// <summary>
+        /// Give you access to database.
+        /// </summary>
         public static TopicPageRepository Database
         {
             get
@@ -36,18 +42,12 @@ namespace NewsApp
 
             InitializeNewsPages();
             
-            var masterPage = new MasterPage();
-            Navigation = new NavigationPage(masterPage);
-            MainPage = Navigation;
-     
-            NewsPages.CollectionChanged += (sender, args) => { masterPage.ChangeDetailPage(); };
+            MainPage = new NavigationPage(new MasterPage());
         }
 
-        protected override void OnStart()
-        {
-           
-        }
-
+        /// <summary>
+        /// Saves news pages in database.
+        /// </summary>
         protected override void OnSleep()
         {
             Database.RemoveItems();
@@ -56,11 +56,6 @@ namespace NewsApp
             {
                 page.OnSleep();
             }
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
         }
 
         private void InitializeNewsPages()
