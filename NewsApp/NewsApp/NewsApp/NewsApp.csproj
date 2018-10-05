@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.9.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.9.0" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="16.3.0.21" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />

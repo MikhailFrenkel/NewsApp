@@ -1,5 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using NewsApp.DAL.Repositories;
 using NewsApp.Views;
 using Xamarin.Forms;
@@ -37,6 +40,8 @@ namespace NewsApp
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Constants.SyncFusionLicenseKey);
+
+            AppCenter.Start("android=6f03a3dd-2147-4af6-82e5-6ed081445fdf;", typeof(Analytics), typeof(Crashes));
 
             InitializeComponent();
 
