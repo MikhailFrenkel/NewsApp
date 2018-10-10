@@ -3,14 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.Views.BrowserPage"
              Title="Browser">
-
-    <StackLayout>
-        <ProgressBar x:Name="ProgressBarBrowser" Progress="0.2"
-                     HorizontalOptions="FillAndExpand" IsVisible="True"
-                     ProgressColor="Gray"/>
+        
+    <AbsoluteLayout>
         <WebView x:Name="WebView" 
-                 VerticalOptions="FillAndExpand" 
-                 Navigating="WebOnNavigating"
-                 Navigated="WebOnNavigated" />
-    </StackLayout>
+                 Navigated="WebOnNavigated" 
+                 AbsoluteLayout.LayoutBounds="1,1,1,1"
+                 AbsoluteLayout.LayoutFlags="All"/>
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsRunning="True"
+                           Color="DarkBlue"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+        <Image Source="share_button.png"
+               Opacity="0.98"
+               AbsoluteLayout.LayoutBounds=" 0.98, 1, .2, .2"
+               AbsoluteLayout.LayoutFlags="All">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
+            </Image.GestureRecognizers>
+        </Image>
+    </AbsoluteLayout>
+                
 </ContentPage>

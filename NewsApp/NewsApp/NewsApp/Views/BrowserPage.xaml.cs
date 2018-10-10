@@ -12,7 +12,6 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class BrowserPage : ContentPage
     {
-        private ToolbarItem _share;
         /// <summary>
         /// Web-page url.
         /// </summary>
@@ -27,48 +26,26 @@ namespace NewsApp.Views
 			InitializeComponent ();
 
 		    Url = url;
-            
-            _share = new ToolbarItem()
-		    {
-		        Icon = Constants.Images.Share
-		    };
-		    ToolbarItems.Add(_share);
 
 		    WebView.Source = Url;
 		}
 
-        /// <summary>
-        /// Shows activity indicator.
-        /// </summary>
-	    protected override async void OnAppearing()
+        protected override void OnAppearing()
+        {
+            LoadingIndicator.FadeTo(0.2, 2200, Easing.SpringIn);
+        }
+
+        private void WebOnNavigated(object sender, WebNavigatedEventArgs e)
 	    {
-	        base.OnAppearing();
-	        _share.Clicked += ToolbarItem_OnActivated;
-	        await ProgressBarBrowser.ProgressTo(0.9, 1800, Easing.SpringIn);
+	        LoadingIndicator.IsRunning = false;
 	    }
 
-	    protected override void OnDisappearing()
-	    {
-	        _share.Clicked -= ToolbarItem_OnActivated;
-	        base.OnDisappearing();
-	    }
-
-	    private void WebOnNavigating(object sender, WebNavigatingEventArgs e)
-	    {
-	        ProgressBarBrowser.IsVisible = true;
-	    }
-
-	    private void WebOnNavigated(object sender, WebNavigatedEventArgs e)
-	    {
-	        ProgressBarBrowser.IsVisible = false;
-	    }
-
-	    private void ToolbarItem_OnActivated(object sender, EventArgs e)
-	    {
-	        CrossShare.Current.Share(new ShareMessage()
-	        {
-	            Url = Url
-	        });
-	    }
-	}
+        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            CrossShare.Current.Share(new ShareMessage()
+            {
+                Url = Url
+            });
+        }
+    }
 }
