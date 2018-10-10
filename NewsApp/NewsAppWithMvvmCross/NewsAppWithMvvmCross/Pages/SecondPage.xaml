@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
+             xmlns:viewModels="clr-namespace:NewsAppWithMvvmCross.ViewModels;assembly=NewsAppWithMvvmCross"
+             xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+             x:Class="NewsAppWithMvvmCross.Pages.SecondPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <views:MvxListView mvx:Bi.nd="ItemsSource Topics;ItemClick ItemTappedCommand, CommandParameter='{Binding .}'" 
+                      SelectionMode="None"/>
+        </StackLayout>
+    </ContentPage.Content>
+</views:MvxContentPage>
