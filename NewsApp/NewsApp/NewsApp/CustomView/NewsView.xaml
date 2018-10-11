@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:newsApp="clr-namespace:NewsApp;assembly=NewsApp"
              xmlns:converters="clr-namespace:NewsApp.Converters;assembly=NewsApp"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:refresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
              x:Class="NewsApp.CustomView.NewsView">
 
 
@@ -18,36 +20,35 @@
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="Normal">
-            <StackLayout BackgroundColor="#e5e5e5">
-                <ListView  x:Name="NewsListView"
-                       ItemsSource="{Binding NewsResult}"
-                       RowHeight="70"
-                       SelectionMode="None"
-                       ItemTapped="NewsListView_OnItemTapped"
-                       SeparatorVisibility="None"
-                       HasUnevenRows="True"
-                       CachingStrategy="RecycleElement"
-                       IsPullToRefreshEnabled="True"
-                       RefreshCommand="{Binding RefreshCommand}">
-
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal" Margin="7,3,7,3" BackgroundColor="White">
-                                        <Image Source="{Binding ImageUrl}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
-                                        <StackLayout Padding="3">
-                                            <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
-                                               VerticalOptions="FillAndExpand"/>
-                                            <Label Text="{Binding DatePublished, Converter={StaticResource dateConverter}}" FontSize="14" VerticalOptions="End" />
+            <refresh:SfPullToRefresh x:Name="PullToRefresh"
+                                     RefreshContentHeight="50"
+                                     RefreshContentWidth="50">
+                <refresh:SfPullToRefresh.PullableContent>
+                    <syncfusion:SfListView x:Name="NewsListView"
+                                           ItemsSource="{Binding NewsResult}"
+                                           AutoFitMode="Height"
+                                           SelectionMode="None"
+                                           ItemTapped="NewsListView_OnItemTapped"
+                                           BackgroundColor="#e5e5e5">
+                        <syncfusion:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <StackLayout Orientation="Horizontal" Margin="7,3,7,3" BackgroundColor="White">
+                                            <Image Source="{Binding ImageUrl}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
+                                            <StackLayout Padding="3">
+                                                <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
+                                                       VerticalOptions="FillAndExpand"/>
+                                                <Label Text="{Binding DatePublished, Converter={StaticResource dateConverter}}" FontSize="14" VerticalOptions="End" />
+                                            </StackLayout>
                                         </StackLayout>
-                                    </StackLayout>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </syncfusion:SfListView.ItemTemplate>
+                    </syncfusion:SfListView>
+                </refresh:SfPullToRefresh.PullableContent>
+            </refresh:SfPullToRefresh>
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="NoInternet">

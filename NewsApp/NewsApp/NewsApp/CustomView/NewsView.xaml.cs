@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using NewsApp.DAL.Models;
 using NewsApp.ViewModels;
 using NewsApp.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ItemTappedEventArgs = Syncfusion.ListView.XForms.ItemTappedEventArgs;
 
 namespace NewsApp.CustomView
 {
@@ -19,7 +19,7 @@ namespace NewsApp.CustomView
         /// <summary>
         /// List of news.
         /// </summary>
-        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Article>), typeof(NewsView), null);
+        public static readonly BindableProperty NewsResultProperty = BindableProperty.Create(nameof(NewsResult), typeof(List<Article>), typeof(NewsView), null, BindingMode.TwoWay);
 
         /// <summary>
         /// Page state.
@@ -57,24 +57,14 @@ namespace NewsApp.CustomView
         /// </summary>
         public Func<Task> GetNews { get; set; }
 
-        /// <summary>
-        /// Command for refreshing list.
-        /// </summary>
-        public ICommand RefreshCommand
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    await GetNews();
-                    NewsListView.IsRefreshing = false;
-                });
-            }
-        }
-
         public NewsView ()
 		{
 			InitializeComponent ();
+		    PullToRefresh.Refreshing += async (sender, args) =>
+		    {
+		        await GetNews();
+		        PullToRefresh.IsRefreshing = false;
+		    };
 		    BindingContext = this;
 		}
 
@@ -89,9 +79,9 @@ namespace NewsApp.CustomView
             GetNews = newsVM.GetNews;
         }
 
-        private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs itemTappedEventArgs)
 	    {
-	        string url = (e.Item as Article)?.Url;
+	        string url = (itemTappedEventArgs.ItemData as Article)?.Url;
 	        await Navigation.PushAsync(new BrowserPage(url));
 	    }
 
