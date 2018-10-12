@@ -13,11 +13,12 @@ namespace NewsApp.Views
 	public partial class SearchPage : ContentPage
 	{
 	    private readonly SearchBarWithoutIcon _newsSearchBar;
-	    private NewsViewModel _newsVM;
+	    private NewsViewModel _newsVm;
 	    private ToolbarItem _addItem;
 	    private ToolbarItem _deleteItem;
 	    private NewsPage _page;
         private bool _add = true;
+	    private State _isState = State.NoItem;
 
 	    private bool Add
 	    {
@@ -29,7 +30,20 @@ namespace NewsApp.Views
 	        }
 	    }
 
-        /// <summary>
+	    public State IsState
+	    {
+	        get => _isState;
+	        set
+	        {
+	            if (_isState != value)
+	            {
+	                _isState = value;
+                    OnPropertyChanged();
+	            }
+	        }
+	    }
+
+	    /// <summary>
         /// Initialize page that contain search bar.
         /// </summary>
         public SearchPage ()
@@ -41,7 +55,6 @@ namespace NewsApp.Views
             {
                 Placeholder = Constants.SearhBarPlaceholderText
             };
-		    _newsSearchBar.SearchButtonPressed += SearchBar_OnSearchButtonPressed;
 
 		    var searchBarContentView = new ContentView()
 		    {
@@ -50,7 +63,15 @@ namespace NewsApp.Views
             NavigationPage.SetTitleView(this, searchBarContentView);
 
             SetItems();
+
+		    BindingContext = this;
 		}
+
+	    protected override void OnAppearing()
+	    {
+	        base.OnAppearing();
+	        _newsSearchBar.SearchButtonPressed += SearchBar_OnSearchButtonPressed;
+        }
 
 	    protected override void OnDisappearing()
 	    {
@@ -60,15 +81,17 @@ namespace NewsApp.Views
 
 	    private async void SearchBar_OnSearchButtonPressed(object sender, EventArgs e)
 	    {
-	        _newsVM = new NewsViewModel(_newsSearchBar.Text)
-	        {
-                IsState = State.Normal
-	        };
-            _page = new NewsPage(_newsVM, true);
-            NewsView.SetBinding(_newsVM);
+	        IsState = State.Normal;
 
-	        _newsVM.IsState = State.Loading;
-	        await _newsVM.GetNews();            
+	        if (!Add)
+	            Add = !Add;
+
+	        _newsVm = new NewsViewModel(_newsSearchBar.Text);
+            _page = new NewsPage(_newsVm, true);
+            NewsView.SetBinding(_newsVm);
+
+	        _newsVm.IsState = State.Loading;
+	        await _newsVm.GetNews();            
 	    }
 
 	    private void SetItems()
