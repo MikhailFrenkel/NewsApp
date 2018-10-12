@@ -22,14 +22,17 @@
         <newsApp:StateCondition Is="Normal">
             <refresh:SfPullToRefresh x:Name="PullToRefresh"
                                      RefreshContentHeight="50"
-                                     RefreshContentWidth="50">
+                                     RefreshContentWidth="50"
+                                     PullingThreshold="100"
+                                     RefreshContentThreshold="20">
                 <refresh:SfPullToRefresh.PullableContent>
                     <syncfusion:SfListView x:Name="NewsListView"
                                            ItemsSource="{Binding NewsResult}"
                                            AutoFitMode="Height"
                                            SelectionMode="None"
                                            ItemTapped="NewsListView_OnItemTapped"
-                                           BackgroundColor="#e5e5e5">
+                                           BackgroundColor="#e5e5e5"
+                                           FooterSize="40">
                         <syncfusion:SfListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -46,6 +49,11 @@
                                 </ViewCell>
                             </DataTemplate>
                         </syncfusion:SfListView.ItemTemplate>
+                        <syncfusion:SfListView.FooterTemplate>
+                            <DataTemplate>
+                                <ActivityIndicator IsRunning="True" />
+                            </DataTemplate>
+                        </syncfusion:SfListView.FooterTemplate>
                     </syncfusion:SfListView>
                 </refresh:SfPullToRefresh.PullableContent>
             </refresh:SfPullToRefresh>

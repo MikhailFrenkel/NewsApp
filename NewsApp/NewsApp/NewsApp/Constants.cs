@@ -9,6 +9,12 @@ namespace NewsApp
         public const string DatabaseName = "Articles.db";
         public const string SearhBarPlaceholderText = "Search topics and articles";
 
+        public static class CountNews
+        {
+            public const int CountPages = 10;
+            public const int CountArticlesOnPage = 10;
+        }
+
         public static List<string> Topics = new List<string>()
         {
             "Africa",

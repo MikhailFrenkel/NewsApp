@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,8 +17,9 @@ namespace NewsApp.ViewModels
     public class NewsViewModel : INotifyPropertyChanged
     {
         private readonly BingSearchNewsClient _newsClient;
-        private List<Article> _newsArticles;
+        private ObservableCollection<Article> _newsArticles;
         private State _state = State.Loading;
+        private int _offset = Constants.CountNews.CountArticlesOnPage;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -45,7 +47,7 @@ namespace NewsApp.ViewModels
         /// <summary>
         /// List of articles.
         /// </summary>
-        public List<Article> NewsArticles
+        public ObservableCollection<Article> NewsArticles
         {
             get => _newsArticles;
             set
@@ -65,14 +67,20 @@ namespace NewsApp.ViewModels
         /// <param name="articles">List of articles.</param>
         public NewsViewModel(string searchQuery, IEnumerable<Article> articles = null)
         {
-            if (articles != null)
+            if (!CrossConnectivity.Current.IsConnected)
             {
-                if (articles.Count() != 0)
+                if (articles != null)
                 {
-                    NewsArticles = articles as List<Article>;
-                    _state = State.Normal;
+                    var enumerable = articles.ToList();
+                    if (enumerable.Count() != 0)
+                    {
+                        ObservableCollection<Article> list = new ObservableCollection<Article>(enumerable);
+                        NewsArticles = list;
+                        _state = State.Normal;
+                    }
                 }
             }
+            
             Topic = searchQuery;
             _newsClient = new BingSearchNewsClient(Constants.BingSearchNewsKey);
         }
@@ -94,15 +102,43 @@ namespace NewsApp.ViewModels
                 var result = await _newsClient.GetNewsAsync(Topic);
                 result.Value.Sort(CompareByDatePublished);
                 var resultValue = result.Value;
-                List<Article> articles = FromValueToArticle(ref resultValue);
+                ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
                 NewsArticles = articles;
 
+                _offset = Constants.CountNews.CountArticlesOnPage;
                 IsState = State.Normal;
             }
             else
             {
                 if (NewsArticles == null)
                     IsState = State.NoInternet;
+            }
+        }
+
+        /// <summary>
+        /// Adding news to end of list.
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddNews()
+        {
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                if (_offset < Constants.CountNews.CountArticlesOnPage * Constants.CountNews.CountPages)
+                {
+                    var result = await _newsClient.GetNewsAsync(Topic, _offset);
+                    result.Value.Sort(CompareByDatePublished);
+                    var resultValue = result.Value;
+                    ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
+                    
+                    foreach (var article in articles)
+                    {
+                        NewsArticles.Add(article);
+                    }
+
+                    _offset += Constants.CountNews.CountArticlesOnPage;
+
+                    IsState = State.Normal;
+                }
             }
         }
 
@@ -117,14 +153,14 @@ namespace NewsApp.ViewModels
                 Title = title,
                 SearchQuery = Topic,
                 UserPage = userPage, 
-                Articles = NewsArticles
+                Articles = NewsArticles?.Take(10).ToList()
             };
             App.Database.SaveItem(topic);
         }
 
-        private List<Article> FromValueToArticle(ref List<Value> values)
+        private ObservableCollection<Article> FromValueToArticle(ref List<Value> values)
         {
-            var result = new List<Article>();
+            var result = new ObservableCollection<Article>();
             foreach (var item in values)
             {
                 result.Add(new Article

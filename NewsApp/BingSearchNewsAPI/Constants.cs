@@ -21,6 +21,10 @@
             public const string BingUriBase = "https://api.cognitive.microsoft.com/bing/v7.0/news/search";
 
             public const string QuerySymbol = "?q=";
+
+            public const string Offset = "&offset=";
+
+            public const string Count = "&count=";
         }
     }
 }

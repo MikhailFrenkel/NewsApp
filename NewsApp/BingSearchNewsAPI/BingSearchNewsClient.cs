@@ -25,14 +25,34 @@ namespace SearchNewsAPI
         }
 
         /// <summary>
-        /// Sends request on bing service and return list of articles.
+        /// Sends request to bing service and return list of articles.
         /// </summary>
         /// <param name="searchQuery">Search string.</param>
         /// <returns>List of articles.</returns>
         public async Task<BingSearchResponse> GetNewsAsync(string searchQuery)
         {
-            var uriQuery = Uri.BingUriBase + Uri.QuerySymbol + searchQuery;
+            var uriQuery = Uri.BingUriBase + Uri.QuerySymbol + searchQuery + "&offset=0";
 
+            return await RequestToService(uriQuery);
+        }
+
+
+        /// <summary>
+        /// Sends request to bing service and return list of articles.
+        /// </summary>
+        /// <param name="searchQuery">Search string.</param>
+        /// <param name="offset">Number of offset articles.</param>
+        /// <param name="count">Count of articles.</param>
+        /// <returns>List of articles.</returns>
+        public async Task<BingSearchResponse> GetNewsAsync(string searchQuery, int offset, int count = 10)
+        {
+            var uriQuery = Uri.BingUriBase + Uri.QuerySymbol + searchQuery + Uri.Offset + offset;
+
+            return await RequestToService(uriQuery);
+        }
+
+        private async Task<BingSearchResponse> RequestToService(string uriQuery)
+        {
             var request = WebRequest.Create(uriQuery);
             request.Headers[HttpHeader.SubscriptionKey] = _accessKey;
 
@@ -45,7 +65,7 @@ namespace SearchNewsAPI
             }
 
             var bingSearchResponse = JsonConvert.DeserializeObject<BingSearchResponse>(json);
-            
+
             return bingSearchResponse;
         }
     }
