@@ -10,13 +10,126 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <converters:DateTimeConverter x:Key="dateConverter" />
+            <converters:DateTimeConverter x:Key="DateConverter" />
+            <Style x:Key="BoxViewImage" TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="LightGray"/>
+                <Setter Property="WidthRequest" Value="130"/>
+                <Setter Property="HeightRequest" Value="70"/>
+            </Style>
+            <Style x:Key="BoxViewComment" TargetType="BoxView">
+                <Setter Property="Color" Value="#e5e5e5" />
+                <Setter Property="CornerRadius" Value="20"/>
+            </Style>
+            <Rectangle x:Key="FirstComment"
+                       X="0.1"
+                       Y="0.25"
+                       Width="0.9"
+                       Height="0.15"/>
+            <Rectangle x:Key="SecondComment"
+                       X="0.1"
+                       Y="0.7"
+                       Width="0.7"
+                       Height="0.15"/>
         </ResourceDictionary>
     </ContentView.Resources>
 
     <newsApp:StateContainer State="{Binding IsState}">
         <newsApp:StateCondition Is="Loading">
-            <ActivityIndicator IsRunning="True" />
+            <AbsoluteLayout BackgroundColor="#e5e5e5">
+                <Grid AbsoluteLayout.LayoutBounds="1,1,1,1"
+                      AbsoluteLayout.LayoutFlags="All">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackLayout Grid.Row="0"
+                                 BackgroundColor="White"
+                                 Margin="7,3,7,2">
+                        <AbsoluteLayout HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand">
+                            <BoxView Color="LightGray" AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="0, 0, 1, 0.7"/>
+                            <BoxView Color="#e5e5e5" AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="0.2, 0.8, 0.9, 0.05"
+                                     CornerRadius="20"/>
+                            <BoxView Color="#e5e5e5" AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="0.1, 0.92, 0.7, 0.05"
+                                     CornerRadius="20"/>
+                        </AbsoluteLayout>
+                    </StackLayout>
+                     
+                    <StackLayout Grid.Row="1"
+                                 BackgroundColor="White"
+                                 Margin="7,2"
+                                 Orientation="Horizontal">
+                        <BoxView Style="{StaticResource BoxViewImage}"/>
+                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                        VerticalOptions="FillAndExpand">
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                        </AbsoluteLayout>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="2"
+                                 BackgroundColor="White"
+                                 Margin="7,2"
+                                 Orientation="Horizontal">
+                        <BoxView Style="{StaticResource BoxViewImage}"/>
+                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                        VerticalOptions="FillAndExpand">
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                        </AbsoluteLayout>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="3"
+                                 BackgroundColor="White"
+                                 Margin="7,2"
+                                 Orientation="Horizontal">
+                        <BoxView Style="{StaticResource BoxViewImage}"/>
+                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                        VerticalOptions="FillAndExpand">
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                        </AbsoluteLayout>
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="4"
+                                 BackgroundColor="White"
+                                 Margin="7,2"
+                                 Orientation="Horizontal">
+                        <BoxView Style="{StaticResource BoxViewImage}"/>
+                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                        VerticalOptions="FillAndExpand">
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                            <BoxView Style="{StaticResource BoxViewComment}"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                        </AbsoluteLayout>
+                    </StackLayout>
+                </Grid>
+                <ActivityIndicator IsRunning="True"
+                                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.2, 0.2"
+                                   AbsoluteLayout.LayoutFlags="All"/>
+            </AbsoluteLayout>
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="Normal">
@@ -37,12 +150,12 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <ViewCell.View>
-                                        <StackLayout Orientation="Horizontal" Margin="7,3,7,3" BackgroundColor="White">
+                                        <StackLayout Orientation="Horizontal" Margin="7,3" BackgroundColor="White">
                                             <Image Source="{Binding ImageUrl}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
                                             <StackLayout Padding="3">
                                                 <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
                                                        VerticalOptions="FillAndExpand"/>
-                                                <Label Text="{Binding DatePublished, Converter={StaticResource dateConverter}}" FontSize="14" VerticalOptions="End" />
+                                                <Label Text="{Binding DatePublished, Converter={StaticResource DateConverter}}" FontSize="14" VerticalOptions="End" />
                                             </StackLayout>
                                         </StackLayout>
                                     </ViewCell.View>
