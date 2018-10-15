@@ -72,7 +72,7 @@ namespace NewsApp.ViewModels
                 if (articles != null)
                 {
                     var enumerable = articles.ToList();
-                    if (enumerable.Count() != 0)
+                    if (enumerable.Count != 0)
                     {
                         ObservableCollection<Article> list = new ObservableCollection<Article>(enumerable);
                         NewsArticles = list;
@@ -100,13 +100,20 @@ namespace NewsApp.ViewModels
             if (CrossConnectivity.Current.IsConnected)
             {
                 var result = await _newsClient.GetNewsAsync(Topic);
-                result.Value.Sort(CompareByDatePublished);
-                var resultValue = result.Value;
-                ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
-                NewsArticles = articles;
+                if (result != null)
+                {
+                    result.Value.Sort(CompareByDatePublished);
+                    var resultValue = result.Value;
+                    ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
+                    NewsArticles = articles;
 
-                _offset = Constants.CountNews.CountArticlesOnPage;
-                IsState = State.Normal;
+                    _offset = Constants.CountNews.CountArticlesOnPage;
+                    IsState = State.Normal;
+                }
+                else
+                {
+                    IsState = State.NoInternet;
+                }
             }
             else
             {

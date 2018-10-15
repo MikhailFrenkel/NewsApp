@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -31,7 +32,7 @@ namespace SearchNewsAPI
         /// <returns>List of articles.</returns>
         public async Task<BingSearchResponse> GetNewsAsync(string searchQuery)
         {
-            var uriQuery = Uri.BingUriBase + Uri.QuerySymbol + searchQuery + "&offset=0";
+            var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery + "&offset=0";
 
             return await RequestToService(uriQuery);
         }
@@ -46,27 +47,36 @@ namespace SearchNewsAPI
         /// <returns>List of articles.</returns>
         public async Task<BingSearchResponse> GetNewsAsync(string searchQuery, int offset, int count = 10)
         {
-            var uriQuery = Uri.BingUriBase + Uri.QuerySymbol + searchQuery + Uri.Offset + offset;
+            var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery + Constants.Uri.Offset + offset;
 
             return await RequestToService(uriQuery);
         }
 
         private async Task<BingSearchResponse> RequestToService(string uriQuery)
         {
-            var request = WebRequest.Create(uriQuery);
-            request.Headers[HttpHeader.SubscriptionKey] = _accessKey;
-
-            var response = (HttpWebResponse)(await request.GetResponseAsync());
-            string json;
-            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+            //TODO: обработка исключений?
+            try
             {
-                json = await sr.ReadToEndAsync();
-                response.Dispose();
+                var request = WebRequest.Create(uriQuery);
+                request.Headers[HttpHeader.SubscriptionKey] = _accessKey;
+
+                var response = (HttpWebResponse)(await request.GetResponseAsync());
+                string json;
+                using (StreamReader sr = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException()))
+                {
+                    json = await sr.ReadToEndAsync();
+                    response.Dispose();
+                }
+
+                var bingSearchResponse = JsonConvert.DeserializeObject<BingSearchResponse>(json);
+
+                return bingSearchResponse;
             }
-
-            var bingSearchResponse = JsonConvert.DeserializeObject<BingSearchResponse>(json);
-
-            return bingSearchResponse;
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
     }
 }

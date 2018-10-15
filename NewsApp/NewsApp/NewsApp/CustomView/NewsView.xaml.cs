@@ -108,7 +108,6 @@ namespace NewsApp.CustomView
             PullToRefresh.Refreshing += async (sender, args) =>
             {
                 await GetNews();
-                NewsListView.FooterTemplate = _footer;
                 PullToRefresh.IsRefreshing = false;
             };
 
@@ -134,6 +133,7 @@ namespace NewsApp.CustomView
                     if (lastIndex == totalItems - 1)
                     {
                         _loadingNews = true;
+                        NewsListView.FooterTemplate = _footer;
                         await AddNews();
                         if (NewsResult.Count > CountNews)
                         {
@@ -143,6 +143,10 @@ namespace NewsApp.CustomView
 
                     _loadingNews = false;
                 }
+            }
+            else
+            {
+                NewsListView.FooterTemplate = null;
             }
         }
     }
