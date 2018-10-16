@@ -102,7 +102,6 @@ namespace NewsApp.ViewModels
                 var result = await _newsClient.GetNewsAsync(Topic);
                 if (result != null)
                 {
-                    result.Value.Sort(CompareByDatePublished);
                     var resultValue = result.Value;
                     ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
                     NewsArticles = articles;
@@ -133,7 +132,6 @@ namespace NewsApp.ViewModels
                 if (_offset < Constants.CountNews.CountArticlesOnPage * Constants.CountNews.CountPages)
                 {
                     var result = await _newsClient.GetNewsAsync(Topic, _offset);
-                    result.Value.Sort(CompareByDatePublished);
                     var resultValue = result.Value;
                     ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
                     
@@ -168,30 +166,27 @@ namespace NewsApp.ViewModels
         private ObservableCollection<Article> FromValueToArticle(ref List<Value> values)
         {
             var result = new ObservableCollection<Article>();
+            var first = values.FirstOrDefault(x => x.Image?.ContentUrl != null);
+
+            if (first != null)
+            {
+                values.Remove(first);
+                values.Insert(0, first);
+            }
+
             foreach (var item in values)
             {
                 result.Add(new Article
                 {
                     Name = item.Name,
                     DatePublished = item.DatePublished,
-                    ImageUrl = item.Image?.ContentUrl ?? "kover.jpg",
+                    ImageUrl = item.Image?.ContentUrl,
                     Description = item.Description,
                     Url = item.Url
                 });
             }
 
             return result;
-        }
-
-        private int CompareByDatePublished(Value x, Value y)
-        {
-            if (x.DatePublished > y.DatePublished)
-                return -1;
-
-            if (x.DatePublished < y.DatePublished)
-                return 1;
-
-            return 0;
         }
     }
 }

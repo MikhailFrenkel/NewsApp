@@ -34,7 +34,7 @@ namespace SearchNewsAPI
         public async Task<BingSearchResponse> GetNewsAsync(string searchQuery)
         {
             var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery
-                           + Constants.Uri.Offset + 0 + Constants.Uri.OriginalImageTrue; ;
+                           + Constants.Uri.Offset + 0 + Constants.Uri.OriginalImageTrue; 
 
             return await RequestToService(uriQuery);
         }

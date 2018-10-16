@@ -14,11 +14,13 @@ namespace NewsApp.Helpers
     {
         private readonly DataTemplate _firstArticleDataTemplate;
         private readonly DataTemplate _articleDataTemplate;
+        private readonly DataTemplate _articleWithoutDataTemplate;
 
         public CustomDataTemplateSelector()
         {
             _firstArticleDataTemplate = new DataTemplate(typeof(FirstArticleViewCell));
             _articleDataTemplate = new DataTemplate(typeof(ArticleViewCell));
+            _articleWithoutDataTemplate = new DataTemplate(typeof(ArticleWithoutImageViewCell));
         }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
@@ -30,7 +32,7 @@ namespace NewsApp.Helpers
                 return _firstArticleDataTemplate;
             }
 
-            return _articleDataTemplate;
+            return (item as Article)?.ImageUrl != null ? _articleDataTemplate : _articleWithoutDataTemplate;
         }
     }
 }

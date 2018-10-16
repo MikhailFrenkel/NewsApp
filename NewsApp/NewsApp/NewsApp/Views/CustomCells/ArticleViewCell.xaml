@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.Views.CustomCells.ArticleViewCell">
 
-    <StackLayout Orientation="Horizontal" Margin="7,3,0,3" BackgroundColor="LightGray" Spacing="0">
+    <StackLayout Orientation="Horizontal" Margin="7,3" BackgroundColor="LightGray" Spacing="0">
         <Image Source="{Binding ImageUrl}" Aspect="AspectFill" WidthRequest="130" HeightRequest="70" />
 
         <StackLayout Padding="5" BackgroundColor="White">
