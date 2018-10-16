@@ -5,16 +5,17 @@
              xmlns:converters="clr-namespace:NewsApp.Converters;assembly=NewsApp"
              xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:refresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
+             xmlns:helpers="clr-namespace:NewsApp.Helpers;assembly=NewsApp"
              x:Class="NewsApp.CustomView.NewsView">
 
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <converters:DateTimeConverter x:Key="DateConverter" />
+            <helpers:CustomDataTemplateSelector x:Key="DataTemplateSelector"/>
             <Style x:Key="BoxViewImage" TargetType="BoxView">
-                <Setter Property="BackgroundColor" Value="LightGray"/>
-                <Setter Property="WidthRequest" Value="130"/>
-                <Setter Property="HeightRequest" Value="70"/>
+            <Setter Property="BackgroundColor" Value="LightGray"/>
+            <Setter Property="WidthRequest" Value="130"/>
+            <Setter Property="HeightRequest" Value="70"/>
             </Style>
             <Style x:Key="BoxViewComment" TargetType="BoxView">
                 <Setter Property="Color" Value="#e5e5e5" />
@@ -39,8 +40,7 @@
                 <Grid AbsoluteLayout.LayoutBounds="1,1,1,1"
                       AbsoluteLayout.LayoutFlags="All">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="4*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -109,22 +109,6 @@
                                      AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
                         </AbsoluteLayout>
                     </StackLayout>
-
-                    <StackLayout Grid.Row="4"
-                                 BackgroundColor="White"
-                                 Margin="7,2"
-                                 Orientation="Horizontal">
-                        <BoxView Style="{StaticResource BoxViewImage}"/>
-                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
-                                        VerticalOptions="FillAndExpand">
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
-                        </AbsoluteLayout>
-                    </StackLayout>
                 </Grid>
                 <ActivityIndicator IsRunning="True"
                                    AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.2, 0.2"
@@ -141,27 +125,13 @@
                 <refresh:SfPullToRefresh.PullableContent>
                     <syncfusion:SfListView x:Name="NewsListView"
                                            ItemsSource="{Binding NewsResult}"
+                                           ItemTemplate="{StaticResource DataTemplateSelector}"
                                            AutoFitMode="Height"
                                            SelectionMode="None"
-                                           ItemTapped="NewsListView_OnItemTapped"
+                                           ItemTapped="NewsListView_OnItemTapped"                                           
                                            BackgroundColor="#e5e5e5"
                                            FooterSize="40">
-                        <syncfusion:SfListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <ViewCell.View>
-                                        <StackLayout Orientation="Horizontal" Margin="7,3" BackgroundColor="White">
-                                            <Image Source="{Binding ImageUrl}" HeightRequest="70" WidthRequest="130" Aspect="AspectFill" />
-                                            <StackLayout Padding="3">
-                                                <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
-                                                       VerticalOptions="FillAndExpand"/>
-                                                <Label Text="{Binding DatePublished, Converter={StaticResource DateConverter}}" FontSize="14" VerticalOptions="End" />
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </ViewCell.View>
-                                </ViewCell>
-                            </DataTemplate>
-                        </syncfusion:SfListView.ItemTemplate>
+
                         <syncfusion:SfListView.FooterTemplate>
                             <DataTemplate>
                                 <ActivityIndicator IsRunning="True" />

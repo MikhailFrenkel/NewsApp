@@ -105,7 +105,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\image_placeholder.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NewsApp.DAL\NewsApp.DAL.csproj">
       <Project>{285a5a16-19a4-4e7a-a65f-06055029bb57}</Project>

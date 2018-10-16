@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using SearchNewsAPI.Interfaces;
 using SearchNewsAPI.Models;
 using static SearchNewsAPI.Constants;
+using Uri = System.Uri;
 
 namespace SearchNewsAPI
 {
@@ -32,7 +33,8 @@ namespace SearchNewsAPI
         /// <returns>List of articles.</returns>
         public async Task<BingSearchResponse> GetNewsAsync(string searchQuery)
         {
-            var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery + "&offset=0";
+            var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery
+                           + Constants.Uri.Offset + 0 + Constants.Uri.OriginalImageTrue; ;
 
             return await RequestToService(uriQuery);
         }
@@ -47,7 +49,8 @@ namespace SearchNewsAPI
         /// <returns>List of articles.</returns>
         public async Task<BingSearchResponse> GetNewsAsync(string searchQuery, int offset, int count = 10)
         {
-            var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery + Constants.Uri.Offset + offset;
+            var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery 
+                           + Constants.Uri.Offset + offset + Constants.Uri.OriginalImageTrue;
 
             return await RequestToService(uriQuery);
         }

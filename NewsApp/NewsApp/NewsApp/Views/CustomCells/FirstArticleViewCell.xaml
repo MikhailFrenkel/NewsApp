@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsApp.Views.CustomCells.FirstArticleViewCell">
+
+    <StackLayout Margin="7,3" BackgroundColor="White">
+        <Image Source="{Binding ImageUrl}"
+               HeightRequest="170"
+               HorizontalOptions="FillAndExpand"
+               Aspect="AspectFill"/>
+        <StackLayout Padding="10">
+            <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
+                   VerticalOptions="FillAndExpand"/>
+            <Label Text="{Binding DatePublished, Converter={StaticResource DateConverter}}" FontSize="14" />
+        </StackLayout>
+    </StackLayout>
+</ViewCell>

@@ -25,6 +25,8 @@
             public const string Offset = "&offset=";
 
             public const string Count = "&count=";
+
+            public const string OriginalImageTrue = "&originalImg=true";
         }
     }
 }
