@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using NewsApp.DAL.Models;
+using NewsApp.ViewModels;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
+using Syncfusion.ListView.XForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,26 +13,19 @@ namespace NewsApp.Views
     /// <summary>
     /// Used for display internet page.
     /// </summary>
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BrowserPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class BrowserPage : ContentPage
     {
-        /// <summary>
-        /// Web-page url.
-        /// </summary>
-	    public string Url { get; }
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="url">Web-page url.</param>
-	    public BrowserPage (string url)
-		{
-			InitializeComponent ();
-
-		    Url = url;
-
-		    WebView.Source = Url;
-		}
+        public BrowserPage(string url)
+        {
+            InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+            BindingContext = new BrowserViewModel(url);
+        }
 
         protected override void OnAppearing()
         {
@@ -36,16 +33,8 @@ namespace NewsApp.Views
         }
 
         private void WebOnNavigated(object sender, WebNavigatedEventArgs e)
-	    {
-	        LoadingIndicator.IsRunning = false;
-	    }
-
-        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
-            CrossShare.Current.Share(new ShareMessage()
-            {
-                Url = Url
-            });
+            LoadingIndicator.IsRunning = false;
         }
     }
 }

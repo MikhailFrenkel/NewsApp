@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using NewsApp.DAL.Models;
 using NewsApp.ViewModels;
@@ -94,7 +96,25 @@ namespace NewsApp.CustomView
         private async void NewsListView_OnItemTapped(object sender, ItemTappedEventArgs itemTappedEventArgs)
 	    {
 	        string url = (itemTappedEventArgs.ItemData as Article)?.Url;
-	        await Navigation.PushAsync(new BrowserPage(url));
+
+            var urls = new List<string>();
+
+	        for (int i = NewsResult.Count - 1; i > 0; i--)
+	        {
+	            if (NewsResult[i].Url != url)
+	            {
+                    urls.Add(NewsResult[i].Url);
+	            }
+	            else
+	            {
+	                urls.Add(url);
+	                break;
+	            }
+	        }
+
+	        urls.Reverse();
+
+	        await Navigation.PushAsync(new BrowserPages(urls));
 	    }
 
         private async void Button_OnClicked(object sender, EventArgs e)
