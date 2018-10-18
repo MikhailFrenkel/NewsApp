@@ -96,18 +96,26 @@ namespace NewsApp.ViewModels
         /// <returns></returns>
         public async Task GetNews()
         {
+            //TODO: проверять, есть ли такая новость в списке
             //TODO: проверка на равенство
             if (CrossConnectivity.Current.IsConnected)
             {
                 var result = await _newsClient.GetNewsAsync(Topic);
                 if (result != null)
                 {
-                    var resultValue = result.Value;
-                    ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
-                    NewsArticles = articles;
+                    if (result.Value.Count != 0)
+                    {
+                        var resultValue = result.Value;
+                        ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
+                        NewsArticles = articles;
 
-                    _offset = Constants.CountNews.CountArticlesOnPage;
-                    IsState = State.Normal;
+                        _offset = Constants.CountNews.CountArticlesOnPage;
+                        IsState = State.Normal;
+                    }
+                    else
+                    {
+                        IsState = State.NoItem;
+                    }
                 }
                 else
                 {

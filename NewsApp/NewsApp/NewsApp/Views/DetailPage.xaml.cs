@@ -9,6 +9,7 @@ namespace NewsApp.Views
     /// </summary>
     public partial class DetailPage : TabbedPage
     {
+        private Page _currentPage;
         /// <summary>
         /// Main application page.
         /// </summary>
@@ -36,13 +37,24 @@ namespace NewsApp.Views
             {
                 if (!Children.SequenceEqual(App.NewsPages))
                 {
-                    Children.Clear();
+                    //TODO: Children clear?
+                    Children.Clear(); 
                     foreach (var page in App.NewsPages)
                     {
                         Children.Add(page);
+                        if (page == _currentPage)
+                        {
+                            CurrentPage = _currentPage;
+                        }
                     }
                 }
             }
+        }
+
+        protected override void OnDisappearing()
+        {
+            _currentPage = CurrentPage;
+            base.OnDisappearing();
         }
 
         //TODO: new SearchPage?

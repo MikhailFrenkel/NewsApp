@@ -1,39 +1,37 @@
-﻿using System;
+﻿using NewsApp.Models;
+using NewsApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ItemTappedEventArgs = Syncfusion.ListView.XForms.ItemTappedEventArgs;
 
 namespace NewsApp.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MasterPage : MasterDetailPage
+	public partial class MasterPage : ContentPage
 	{
-        /// <summary>
-        /// Initialize MasterDetailPage.
-        /// </summary>
-	    public MasterPage ()
+	    private readonly MasterViewModel _masterVm;
+		public MasterPage ()
 		{
-		    InitializeComponent ();
-		    TopicsListView.ItemsSource = Constants.Topics;
-		    Detail = new NavigationPage(new DetailPage());
-
-		    NavigationPage.SetHasNavigationBar(this, false);
+			InitializeComponent ();
+		    _masterVm = new MasterViewModel();
+            BindingContext = _masterVm;
 		}
 
-        //TODO: new TopicPage?
-	    private async void TopicsListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+	    private async void SfListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        string topic = e.Item as string;
-
-	        foreach (var page in App.NewsPages)
+	        if (e.ItemData is Topic topic)
 	        {
-	            if (page.Title == topic)
+	            foreach (var page in App.NewsPages)
 	            {
-	                await Navigation.PushAsync(new TopicPage(topic, page));
-	                return;
+	                if (page.Title == topic.Name)
+	                {
+	                    await Navigation.PushAsync(new TopicPage(topic.Name, page));
+	                    return;
+	                }
 	            }
-	        }
 
-	        await Navigation.PushAsync(new TopicPage(topic));
-	    }
+	            await Navigation.PushAsync(new TopicPage(topic.Name));
+            }
+        }
 	}
 }

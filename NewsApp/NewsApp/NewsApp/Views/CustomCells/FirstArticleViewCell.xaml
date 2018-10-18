@@ -3,15 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.Views.CustomCells.FirstArticleViewCell">
 
-    <StackLayout Margin="7,3" BackgroundColor="LightGray" Spacing="0">
-        <Image Source="{Binding ImageUrl}"
-               HeightRequest="170"
-               HorizontalOptions="FillAndExpand"
-               Aspect="AspectFill"/>
-        <StackLayout Padding="10" BackgroundColor="White">
-            <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="Black"
-                   VerticalOptions="FillAndExpand"/>
-            <Label Text="{Binding DatePublished, Converter={StaticResource DateConverter}}" FontSize="14" />
+    <Frame Padding="1" Margin="3" CornerRadius="5">
+        <StackLayout BackgroundColor="{StaticResource NewsTitleHolder}" Spacing="0">
+            <Frame Padding="0" CornerRadius="5" BackgroundColor="{StaticResource ImagePlaceholder}" HasShadow="False">
+                <Image Source="{Binding ImageUrl}"
+                       HeightRequest="170"
+                       HorizontalOptions="FillAndExpand"
+                       Aspect="AspectFill"/>
+            </Frame>
+            
+            <StackLayout Padding="10">
+                <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource NewsText}"
+                       VerticalOptions="FillAndExpand"/>
+                <Label Text="{Binding DatePublished, Converter={StaticResource DateConverter}}" FontSize="14" />
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
+    </Frame>
+    
 </ViewCell>

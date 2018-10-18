@@ -1,18 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  x:Class="NewsApp.Views.MasterPage">
+             xmlns:xForms="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:dataSource="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
+             x:Class="NewsApp.Views.MasterPage"
+             Title="Topics">
 
-    <MasterDetailPage.Master>
-        <ContentPage Title="My News">
-            <StackLayout>
-                <ListView x:Name="TopicsListView"
-                          SelectionMode="None"
-                          ItemTapped="TopicsListView_OnItemTapped">
+    <xForms:SfListView ItemsSource="{Binding Topics}" 
+                       AllowGroupExpandCollapse="True"
+                       ItemTapped="SfListView_OnItemTapped"
+                       SelectionMode="None"
+                       BackgroundColor="{StaticResource GroupBackground}"
+                       ItemSpacing="0,0,0,1"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalOptions="FillAndExpand"
+                       AutoFitMode="Height">
+            <xForms:SfListView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout BackgroundColor="{StaticResource GroupTopicBackground}" Padding="10" >
+                    <Label Text="{Binding Name}" TextColor="{StaticResource GroupTopicText}"
+                               FontSize="18"
+                               VerticalTextAlignment="Center"/>
+                </StackLayout>
+            </DataTemplate>
+            </xForms:SfListView.ItemTemplate>
 
-                </ListView>
-            </StackLayout>
-        </ContentPage>
-    </MasterDetailPage.Master>
+            <xForms:SfListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout BackgroundColor="{StaticResource GroupHeader}" Padding="10">
+                                <Label Text="{Binding Key}"
+                                       TextColor="{StaticResource GroupHeaderText}"
+                                       FontSize="22"
+                                       VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </xForms:SfListView.GroupHeaderTemplate>
 
-</MasterDetailPage>
+            <xForms:SfListView.DataSource>
+                <dataSource:DataSource>
+                    <dataSource:DataSource.GroupDescriptors>
+                        <dataSource:GroupDescriptor PropertyName="GroupName" />
+                    </dataSource:DataSource.GroupDescriptors>
+                </dataSource:DataSource>
+            </xForms:SfListView.DataSource>
+        </xForms:SfListView>
+
+   
+</ContentPage>

@@ -13,14 +13,15 @@
         <ResourceDictionary>
             <helpers:CustomDataTemplateSelector x:Key="DataTemplateSelector"/>
             <Style x:Key="BoxViewImage" TargetType="BoxView">
-            <Setter Property="BackgroundColor" Value="LightGray"/>
-            <Setter Property="WidthRequest" Value="130"/>
-            <Setter Property="HeightRequest" Value="70"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource ImagePlaceholder}"/>
+                <Setter Property="WidthRequest" Value="130"/>
+                <Setter Property="HeightRequest" Value="70"/>
             </Style>
             <Style x:Key="BoxViewComment" TargetType="BoxView">
-                <Setter Property="Color" Value="#e5e5e5" />
+                <Setter Property="Color" Value="{StaticResource NewsTitle}" />
                 <Setter Property="CornerRadius" Value="20"/>
             </Style>
+
             <Rectangle x:Key="FirstComment"
                        X="0.1"
                        Y="0.25"
@@ -36,7 +37,7 @@
 
     <newsApp:StateContainer State="{Binding IsState}">
         <newsApp:StateCondition Is="Loading">
-            <AbsoluteLayout BackgroundColor="#e5e5e5">
+            <AbsoluteLayout BackgroundColor="{StaticResource NewsBackgroundColor}">
                 <Grid AbsoluteLayout.LayoutBounds="1,1,1,1"
                       AbsoluteLayout.LayoutFlags="All">
                     <Grid.RowDefinitions>
@@ -46,82 +47,99 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <StackLayout Grid.Row="0"
-                                 BackgroundColor="White"
-                                 Margin="7,3,7,2">
+                    <Frame Grid.Row="0" BackgroundColor="{StaticResource NewsTitleHolder}" 
+                           Margin="3" Padding="1" CornerRadius="5">
                         <AbsoluteLayout HorizontalOptions="FillAndExpand"
                                         VerticalOptions="FillAndExpand">
-                            <BoxView Color="LightGray" AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="0, 0, 1, 0.7"/>
-                            <BoxView Color="#e5e5e5" AbsoluteLayout.LayoutFlags="All"
+                            <Frame Padding="0" HasShadow="False" CornerRadius="5" 
+                                   AbsoluteLayout.LayoutFlags="All"
+                                   AbsoluteLayout.LayoutBounds="0, 0, 1, 0.7" >
+                                <BoxView Color="{StaticResource ImagePlaceholder}"
+                                         VerticalOptions="FillAndExpand"
+                                         HorizontalOptions="FillAndExpand" />
+                            </Frame>
+                            
+                            <BoxView Color="{StaticResource NewsTitle}" AbsoluteLayout.LayoutFlags="All"
                                      AbsoluteLayout.LayoutBounds="0.2, 0.8, 0.9, 0.05"
                                      CornerRadius="20"/>
-                            <BoxView Color="#e5e5e5" AbsoluteLayout.LayoutFlags="All"
+                            <BoxView Color="{StaticResource NewsTitle}" AbsoluteLayout.LayoutFlags="All"
                                      AbsoluteLayout.LayoutBounds="0.1, 0.92, 0.7, 0.05"
                                      CornerRadius="20"/>
                         </AbsoluteLayout>
-                    </StackLayout>
-                     
-                    <StackLayout Grid.Row="1"
-                                 BackgroundColor="White"
-                                 Margin="7,2"
-                                 Orientation="Horizontal">
-                        <BoxView Style="{StaticResource BoxViewImage}"/>
-                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
-                                        VerticalOptions="FillAndExpand">
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
-                        </AbsoluteLayout>
-                    </StackLayout>
+                    </Frame>
 
-                    <StackLayout Grid.Row="2"
-                                 BackgroundColor="White"
-                                 Margin="7,2"
-                                 Orientation="Horizontal">
-                        <BoxView Style="{StaticResource BoxViewImage}"/>
-                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
-                                        VerticalOptions="FillAndExpand">
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
-                        </AbsoluteLayout>
-                    </StackLayout>
+                    <Frame Grid.Row="1" BackgroundColor="{StaticResource NewsTitleHolder}" 
+                           Padding="1" CornerRadius="5" Margin="7,2">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame Padding="0" HasShadow="False" CornerRadius="5">
+                                <BoxView Style="{StaticResource BoxViewImage}"/>
+                            </Frame>
+                            
+                            <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="FillAndExpand">
+                                <BoxView Style="{StaticResource BoxViewComment}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                                <BoxView Style="{StaticResource BoxViewComment}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                            </AbsoluteLayout>
+                        </StackLayout>
+                    </Frame>
 
-                    <StackLayout Grid.Row="3"
-                                 BackgroundColor="White"
-                                 Margin="7,2"
-                                 Orientation="Horizontal">
-                        <BoxView Style="{StaticResource BoxViewImage}"/>
-                        <AbsoluteLayout HorizontalOptions="FillAndExpand" 
-                                        VerticalOptions="FillAndExpand">
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
-                            <BoxView Style="{StaticResource BoxViewComment}"
-                                     AbsoluteLayout.LayoutFlags="All"
-                                     AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
-                        </AbsoluteLayout>
-                    </StackLayout>
+                    <Frame Grid.Row="2" BackgroundColor="{StaticResource NewsTitleHolder}" 
+                           Padding="1" CornerRadius="5" Margin="7,2">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame Padding="0" HasShadow="False" CornerRadius="5">
+                                <BoxView Style="{StaticResource BoxViewImage}"/>
+                            </Frame>
+
+                            <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="FillAndExpand">
+                                <BoxView Style="{StaticResource BoxViewComment}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                                <BoxView Style="{StaticResource BoxViewComment}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                            </AbsoluteLayout>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="3" BackgroundColor="{StaticResource NewsTitleHolder}" 
+                           Padding="1" CornerRadius="5" Margin="7,2">
+                        <StackLayout Orientation="Horizontal">
+                            <Frame Padding="0" HasShadow="False" CornerRadius="5">
+                                <BoxView Style="{StaticResource BoxViewImage}"/>
+                            </Frame>
+
+                            <AbsoluteLayout HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="FillAndExpand">
+                                <BoxView Style="{StaticResource BoxViewComment}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="{StaticResource FirstComment}" />
+                                <BoxView Style="{StaticResource BoxViewComment}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="{StaticResource SecondComment}" />
+                            </AbsoluteLayout>
+                        </StackLayout>
+                    </Frame>
                 </Grid>
                 <ActivityIndicator IsRunning="True"
                                    AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.2, 0.2"
-                                   AbsoluteLayout.LayoutFlags="All"/>
+                                   AbsoluteLayout.LayoutFlags="All"
+                                   Color="{StaticResource ActivityIndicator}"/>
             </AbsoluteLayout>
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="Normal">
             <refresh:SfPullToRefresh x:Name="PullToRefresh"
-                                     RefreshContentHeight="50"
-                                     RefreshContentWidth="50"
+                                     RefreshContentHeight="40"
+                                     RefreshContentWidth="40"
                                      PullingThreshold="100"
-                                     RefreshContentThreshold="20">
+                                     RefreshContentThreshold="20"
+                                     ProgressBackgroundColor="{StaticResource NewsBackgroundColor}"
+                                     ProgressStrokeColor="{StaticResource ActivityIndicator}">
                 <refresh:SfPullToRefresh.PullableContent>
                     <syncfusion:SfListView x:Name="NewsListView"
                                            ItemsSource="{Binding NewsResult}"
@@ -129,12 +147,13 @@
                                            AutoFitMode="Height"
                                            SelectionMode="None"
                                            ItemTapped="NewsListView_OnItemTapped"                                           
-                                           BackgroundColor="#e5e5e5"
+                                           BackgroundColor="{StaticResource NewsBackgroundColor}"
                                            FooterSize="40">
 
                         <syncfusion:SfListView.FooterTemplate>
                             <DataTemplate>
-                                <ActivityIndicator IsRunning="True" />
+                                <ActivityIndicator IsRunning="True"
+                                                   Color="{StaticResource ActivityIndicator}"/>
                             </DataTemplate>
                         </syncfusion:SfListView.FooterTemplate>
                     </syncfusion:SfListView>
@@ -146,6 +165,17 @@
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                 <Label Text="No Internet"/>
                 <Button Text="Repeat" Clicked="Button_OnClicked"/>
+            </StackLayout>
+        </newsApp:StateCondition>
+
+        <newsApp:StateCondition Is="NoItem">
+            <StackLayout BackgroundColor="{StaticResource NewsBackgroundColor}"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand">
+                <Label Text="No News" FontSize="16"
+                       HorizontalOptions="CenterAndExpand" 
+                       VerticalOptions="CenterAndExpand"
+                       TextColor="{StaticResource NewsText}"/>
             </StackLayout>
         </newsApp:StateCondition>
     </newsApp:StateContainer>

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NewsApp.Views.BrowserPage"
              Title="Browser">
-        
+
     <AbsoluteLayout>
         <WebView x:Name="WebView" 
                  Navigated="WebOnNavigated" 
@@ -11,12 +11,12 @@
                  AbsoluteLayout.LayoutFlags="All"/>
         <ActivityIndicator x:Name="LoadingIndicator"
                            IsRunning="True"
-                           Color="DarkBlue"
+                           Color="{StaticResource ActivityIndicator}"
                            AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
                            AbsoluteLayout.LayoutFlags="All"/>
         <Image Source="share_button.png"
                Opacity="0.98"
-               AbsoluteLayout.LayoutBounds=" 0.98, 1, .2, .2"
+               AbsoluteLayout.LayoutBounds=" 0.98, 1, .17, .17"
                AbsoluteLayout.LayoutFlags="All">
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>

@@ -8,25 +8,25 @@
 
     <newsApp:StateContainer State="{Binding IsState}">
         <newsApp:StateCondition Is="Normal">
-           <Grid RowSpacing="0" BackgroundColor="#e5e5e5">
+           <Grid RowSpacing="0" BackgroundColor="{StaticResource NewsBackgroundColor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="64"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Grid x:Name="Header" BackgroundColor="White" Padding="2" Margin="0,0,0,1">
+                <Grid x:Name="Header" BackgroundColor="{StaticResource EditNewsHeader}" Padding="2" Margin="0,0,0,1">
                     <Label x:Name="HeaderLabel"
                            Text="To reorder topics, hold down and move"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           TextColor="Black"
+                           TextColor="{StaticResource NewsText}"
                            FontSize="18"
                            FontAttributes="Bold"
                            IsVisible="True"/>
                     <StackLayout x:Name="HeaderTrashStackLayout" Orientation="Horizontal" IsVisible="False"
                                  HorizontalOptions="Center" VerticalOptions="Center">
-                        <Image Source="trash.png" HeightRequest="30" WidthRequest="30"/>
-                        <Label x:Name="DeleteLabel" Text="Delete Topic" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                        <Image x:Name="Trash" Source="trash.png" HeightRequest="30" WidthRequest="30"/>
+                        <Label x:Name="DeleteLabel" Text="Delete Topic" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource NewsText}"/>
                     </StackLayout>
                 </Grid>
 
@@ -41,14 +41,15 @@
                     <syncfusion:SfListView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,1,0,0">
-                                <Frame HasShadow="True" Padding="2" Margin="0,0,0,1" CornerRadius="0">
+                                <Frame HasShadow="True" Padding="2" Margin="3" CornerRadius="5"
+                                       BackgroundColor="{StaticResource ImagePlaceholder}">
                                     <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Text="{Binding}" VerticalOptions="Center" Margin="32,0,0,0"
-                                               HorizontalOptions="FillAndExpand" TextColor="Black" FontSize="16"/>
+                                               HorizontalOptions="FillAndExpand" TextColor="{StaticResource NewsText}" FontSize="16"/>
                                         <syncfusion:DragIndicatorView Grid.Column="1" ListView="{x:Reference NewsTitleListView}">
                                             <Image Source="arrows.png" HeightRequest="24" WidthRequest="24"
                                                    HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -62,14 +63,15 @@
                     <syncfusion:SfListView.DragItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,1,0,0" Opacity="0.25">
-                                <Frame HasShadow="True" Padding="2" Margin="0,0,0,1" CornerRadius="0">
+                                <Frame HasShadow="True" Padding="2" Margin="3" CornerRadius="5"
+                                       BackgroundColor="{StaticResource ImagePlaceholder}">
                                     <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Text="{Binding}" VerticalOptions="Center" Margin="32,0,0,0"
-                                               HorizontalOptions="FillAndExpand" TextColor="Black" FontSize="16"/>
+                                               HorizontalOptions="FillAndExpand" TextColor="{StaticResource NewsText}" FontSize="16"/>
                                         <syncfusion:DragIndicatorView Grid.Column="1" ListView="{x:Reference NewsTitleListView}">
                                             <Image Source="arrows.png" HeightRequest="24" WidthRequest="24"
                                                    HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -85,13 +87,13 @@
         </newsApp:StateCondition>
 
         <newsApp:StateCondition Is="NoItem">
-            <Grid BackgroundColor="#e5e5e5"
+            <Grid BackgroundColor="{StaticResource NewsBackgroundColor}"
                          VerticalOptions="Fill"
                          HorizontalOptions="Fill">
                 <Label Text="Your added topics will be displayed here"
                        VerticalOptions="Center"
                        HorizontalOptions="Center"
-                       TextColor="Black"/>
+                       TextColor="{StaticResource NewsText}"/>
             </Grid>
                     
         </newsApp:StateCondition>

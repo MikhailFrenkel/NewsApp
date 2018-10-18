@@ -18,7 +18,6 @@ namespace NewsApp.Views
 	    private ToolbarItem _deleteItem;
 	    private NewsPage _page;
         private bool _add = true;
-	    private State _isState = State.NoItem;
 
 	    private bool Add
 	    {
@@ -30,30 +29,19 @@ namespace NewsApp.Views
 	        }
 	    }
 
-	    public State IsState
-	    {
-	        get => _isState;
-	        set
-	        {
-	            if (_isState != value)
-	            {
-	                _isState = value;
-                    OnPropertyChanged();
-	            }
-	        }
-	    }
-
 	    /// <summary>
         /// Initialize page that contain search bar.
         /// </summary>
         public SearchPage ()
 		{
 			InitializeComponent ();
-
-		    NewsView.IsState = State.Normal;
+            
             _newsSearchBar = new SearchBarWithoutIcon()
             {
-                Placeholder = Constants.SearhBarPlaceholderText
+                Placeholder = Constants.SearchBarPlaceholderText,
+                BackgroundColor = (Color)Application.Current.Resources["SearchBar"],
+                TextColor = Color.White,
+                CancelButtonColor = Color.White
             };
 
 		    var searchBarContentView = new ContentView()
@@ -71,6 +59,7 @@ namespace NewsApp.Views
 	    {
 	        base.OnAppearing();
 	        _newsSearchBar.SearchButtonPressed += SearchBar_OnSearchButtonPressed;
+	        NewsView.IsState = State.NoItem;
         }
 
 	    protected override void OnDisappearing()
@@ -81,8 +70,6 @@ namespace NewsApp.Views
 
 	    private async void SearchBar_OnSearchButtonPressed(object sender, EventArgs e)
 	    {
-	        IsState = State.Normal;
-
 	        if (!Add)
 	            Add = !Add;
 
@@ -90,8 +77,7 @@ namespace NewsApp.Views
             _page = new NewsPage(_newsVm, true);
             NewsView.SetBinding(_newsVm);
 
-	        _newsVm.IsState = State.Loading;
-	        await _newsVm.GetNews();            
+	        await _newsVm.GetNews();
 	    }
 
 	    private void SetItems()

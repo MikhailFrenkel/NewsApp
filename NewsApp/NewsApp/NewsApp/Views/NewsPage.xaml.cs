@@ -12,7 +12,7 @@ namespace NewsApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsPage : ContentPage
     {
-        private readonly NewsViewModel _newsVM;
+        private readonly NewsViewModel _newsVm;
 
         /// <summary>
         /// Returns true if this is user page.
@@ -34,14 +34,14 @@ namespace NewsApp.Views
 		    Title = title;
 		    if (articles != null)
 		    {
-		        _newsVM = new NewsViewModel(searchQuery, articles);
+		        _newsVm = new NewsViewModel(searchQuery, articles);
 		    }
 		    else
 		    {
-		        _newsVM = new NewsViewModel(searchQuery);
+		        _newsVm = new NewsViewModel(searchQuery);
 		    }
 
-		    NewsView.SetBinding(_newsVM);
+		    NewsView.SetBinding(_newsVm);
 		}
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace NewsApp.Views
         {
             InitializeComponent();
 
-            _newsVM = nvm;
-            NewsView.SetBinding(_newsVM);
+            _newsVm = nvm;
+            NewsView.SetBinding(_newsVm);
             Title = nvm.Topic;
             SetUserNews(userNews);
         }
@@ -64,7 +64,7 @@ namespace NewsApp.Views
         /// </summary>
         public void OnSleep()
         {
-            _newsVM.OnSleep(Title, IsUser);
+            _newsVm.OnSleep(Title, IsUser);
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace NewsApp.Views
 	    protected override async void OnAppearing()
 	    {
 	        base.OnAppearing();
-	        if (_newsVM.NewsArticles == null)
-	            await _newsVM.GetNews();
+	        if (_newsVm.NewsArticles == null)
+	            await _newsVm.GetNews();
 	    }
 
         //TODO: new EditPage?

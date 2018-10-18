@@ -52,11 +52,13 @@ namespace NewsApp.Views
 	            if (Header.Bounds.Contains(position))
 	            {
 	                DeleteLabel.TextColor = Color.Red;
+	                Trash.Source = Constants.Images.TrashBinRed;
 	            }
 	            else
 	            {
 	                DeleteLabel.TextColor = Color.Black;
-	            }
+	                Trash.Source = Constants.Images.TrashBin;
+                }
 	        }
 
 	        if (e.Action == DragAction.Drop)

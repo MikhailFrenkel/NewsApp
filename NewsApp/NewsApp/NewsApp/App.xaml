@@ -6,5 +6,20 @@
 
     <Application.Resources>
         <converters:DateTimeConverter x:Key="DateConverter" />
+        <Color x:Key="ImagePlaceholder">#DBDFEC</Color>
+        <Color x:Key="NewsBackgroundColor">#EDEFF5</Color>
+        <Color x:Key="ActivityIndicator">#2E3C71</Color>
+        <Color x:Key="NewsTitle">#CACFE3</Color>
+        <Color x:Key="NewsTitleHolder">White</Color>
+        <Color x:Key="NewsText">Black</Color>
+        <Color x:Key="EditNewsHeader">#DBDFEC</Color>
+        <Color x:Key="SearchBar">#33447F</Color>
+        <Color x:Key="GroupHeader">#1C2646</Color>
+        <Color x:Key="GroupBackground">#1C2646</Color>
+        <Color x:Key="GroupTopicText">White</Color>
+        <Color x:Key="GroupHeaderText">White</Color>
+        <Color x:Key="GroupTopicBackground">#212C51</Color>
+        <Color x:Key="GroupSelectionBackground">#7D88AD</Color>
     </Application.Resources>
+
 </Application>

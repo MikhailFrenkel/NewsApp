@@ -46,8 +46,8 @@ namespace NewsApp
             InitializeComponent();
 
             InitializeNewsPages();
-            
-            MainPage = new NavigationPage(new MasterPage());
+
+            MainPage = new NavigationPage(new MainPage());
         }
 
         /// <summary>

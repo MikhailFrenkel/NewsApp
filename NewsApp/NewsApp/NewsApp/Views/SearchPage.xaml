@@ -5,17 +5,6 @@
              xmlns:customView="clr-namespace:NewsApp.CustomView;assembly=NewsApp"
              x:Class="NewsApp.Views.SearchPage">
 
-    <newsapp:StateContainer State="{Binding IsState}">
-        <newsapp:StateCondition Is="NoItem">
-            <StackLayout BackgroundColor="#e5e5e5"
-                         HorizontalOptions="FillAndExpand"
-                         VerticalOptions="FillAndExpand">
-            </StackLayout>
-        </newsapp:StateCondition>
-
-        <newsapp:StateCondition Is="Normal">
-            <customView:NewsView x:Name="NewsView"/>
-        </newsapp:StateCondition>
-    </newsapp:StateContainer>
+    <customView:NewsView x:Name="NewsView"/>
 
 </ContentPage>
