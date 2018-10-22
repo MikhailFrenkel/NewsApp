@@ -74,9 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SQLite_Android.cs" />
-    <Compile Include="Renderer\CustomListViewRenderer.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Renderer\HiddenTabsTabbedPageRenderer.cs" />
     <Compile Include="Renderer\SearchBarWithoutIcon.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

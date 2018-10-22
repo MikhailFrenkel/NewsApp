@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using NewsApp.DAL.Models;
-using NewsApp.ViewModels;
-using Plugin.Share;
-using Plugin.Share.Abstractions;
-using Syncfusion.ListView.XForms;
+﻿using NewsApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

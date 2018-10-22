@@ -97,10 +97,11 @@ namespace NewsApp.ViewModels
         public async Task GetNews()
         {
             //TODO: проверять, есть ли такая новость в списке
-            //TODO: проверка на равенство
+            //TODO: проверка на равенство            
             if (CrossConnectivity.Current.IsConnected)
             {
                 var result = await _newsClient.GetNewsAsync(Topic);
+                //TODO: result == null => проблемы при обращении к сервису
                 if (result != null)
                 {
                     if (result.Value.Count != 0)
@@ -119,7 +120,7 @@ namespace NewsApp.ViewModels
                 }
                 else
                 {
-                    IsState = State.NoInternet;
+                    IsState = State.NoItem;
                 }
             }
             else
@@ -140,17 +141,23 @@ namespace NewsApp.ViewModels
                 if (_offset < Constants.CountNews.CountArticlesOnPage * Constants.CountNews.CountPages)
                 {
                     var result = await _newsClient.GetNewsAsync(Topic, _offset);
-                    var resultValue = result.Value;
-                    ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
-                    
-                    foreach (var article in articles)
+                    if (result != null)
                     {
-                        NewsArticles.Add(article);
+                        if (result.Value.Count != 0)
+                        {
+                            var resultValue = result.Value;
+                            ObservableCollection<Article> articles = FromValueToArticle(ref resultValue);
+
+                            foreach (var article in articles)
+                            {
+                                NewsArticles.Add(article);
+                            }
+
+                            _offset += Constants.CountNews.CountArticlesOnPage;
+
+                            IsState = State.Normal;
+                        }
                     }
-
-                    _offset += Constants.CountNews.CountArticlesOnPage;
-
-                    IsState = State.Normal;
                 }
             }
         }

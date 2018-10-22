@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using NewsApp.DAL.Models;
 using NewsApp.Views.CustomCells;
 using Syncfusion.DataSource.Extensions;

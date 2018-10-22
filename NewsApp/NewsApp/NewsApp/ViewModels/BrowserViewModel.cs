@@ -15,21 +15,7 @@ namespace NewsApp.ViewModels
 {
     public class BrowserViewModel : INotifyPropertyChanged
     {
-        //private ObservableCollection<Article> _articles;
         private string _url;
-
-       /* public ObservableCollection<Article> Articles
-        {
-            get => _articles;
-            set
-            {
-                if (_articles != value)
-                {
-                    _articles = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
 
         public string Url
         {

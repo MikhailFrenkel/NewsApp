@@ -63,7 +63,7 @@ namespace SearchNewsAPI
                 var request = WebRequest.Create(uriQuery);
                 request.Headers[HttpHeader.SubscriptionKey] = _accessKey;
 
-                var response = (HttpWebResponse)(await request.GetResponseAsync());
+                var response = (HttpWebResponse)(await request.GetResponseAsync());                
                 string json;
                 using (StreamReader sr = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException()))
                 {
@@ -75,7 +75,7 @@ namespace SearchNewsAPI
 
                 return bingSearchResponse;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }

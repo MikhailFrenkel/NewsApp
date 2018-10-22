@@ -1,48 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xForms="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
-             xmlns:helpers="clr-namespace:NewsApp.Helpers;assembly=NewsApp"
              x:Class="NewsApp.Views.BrowserPage">
 
-    <ContentPage.Resources>
-        <helpers:BrowserDataTemplateSelector x:Key="DataTemplateSelector"/>
-    </ContentPage.Resources>
+    <AbsoluteLayout VerticalOptions="FillAndExpand">
+        <WebView x:Name="WebView" 
+                 Navigated="WebOnNavigated" 
+                 AbsoluteLayout.LayoutBounds="1,1,1,1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 Source="{Binding Url}"/>
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsRunning="True"
+                           Color="{StaticResource ActivityIndicator}"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+        <Image Source="share_button.png"
+               Opacity="0.98"
+               AbsoluteLayout.LayoutBounds=" 0.98, 1, .17, .17"
+               AbsoluteLayout.LayoutFlags="All">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShareCommand}"/>
+            </Image.GestureRecognizers>
+        </Image>
+    </AbsoluteLayout>
 
-    <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>-->
-        <AbsoluteLayout VerticalOptions="FillAndExpand">
-            <WebView x:Name="WebView" 
-                     Navigated="WebOnNavigated" 
-                     AbsoluteLayout.LayoutBounds="1,1,1,1"
-                     AbsoluteLayout.LayoutFlags="All"
-                     Source="{Binding Url}"/>
-            <ActivityIndicator x:Name="LoadingIndicator"
-                               IsRunning="True"
-                               Color="{StaticResource ActivityIndicator}"
-                               AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
-                               AbsoluteLayout.LayoutFlags="All"/>
-            <Image Source="share_button.png"
-                   Opacity="0.98"
-                   AbsoluteLayout.LayoutBounds=" 0.98, 1, .17, .17"
-                   AbsoluteLayout.LayoutFlags="All">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ShareCommand}"/>
-                </Image.GestureRecognizers>
-            </Image>
-        </AbsoluteLayout>
-
-        <!--<StackLayout Grid.Row="1" BackgroundColor="{StaticResource NewsBackgroundColor}">
-            <xForms:SfListView ItemsSource="{Binding Articles}"
-                               Orientation="Horizontal"
-                               AutoFitMode="Height"
-                               ItemTemplate="{StaticResource DataTemplateSelector}">
-            </xForms:SfListView>
-        </StackLayout>-->
-    </Grid>
-    
-                
 </ContentPage>
