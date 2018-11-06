@@ -6,23 +6,34 @@
              x:Class="NewsApp.Views.MasterPage"
              Title="Topics">
 
-    <xForms:SfListView ItemsSource="{Binding Topics}" 
-                       AllowGroupExpandCollapse="True"
-                       ItemTapped="SfListView_OnItemTapped"
-                       SelectionMode="None"
-                       BackgroundColor="{StaticResource GroupBackground}"
-                       ItemSpacing="0,0,0,1"
-                       VerticalOptions="FillAndExpand"
-                       HorizontalOptions="FillAndExpand"
-                       AutoFitMode="Height">
+    <Grid BackgroundColor="{StaticResource GroupBackground}" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Text="{Binding UserEmail}" TextColor="{StaticResource GroupHeaderText}"
+               FontSize="22" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+
+        <xForms:SfListView x:Name="TopicsListView" Grid.Row="1"
+                           ItemsSource="{Binding Topics}" 
+                           AllowGroupExpandCollapse="True"
+                           ItemTapped="SfListView_OnItemTapped"
+                           SelectionMode="None"
+                           BackgroundColor="{StaticResource GroupBackground}"
+                           ItemSpacing="0,0,0,1"
+                           VerticalOptions="FillAndExpand"
+                           HorizontalOptions="FillAndExpand"
+                           AutoFitMode="Height">
             <xForms:SfListView.ItemTemplate>
-            <DataTemplate>
-                <StackLayout BackgroundColor="{StaticResource GroupTopicBackground}" Padding="10" >
-                    <Label Text="{Binding Name}" TextColor="{StaticResource GroupTopicText}"
+                <DataTemplate>
+                    <StackLayout BackgroundColor="{StaticResource GroupTopicBackground}" Padding="10" >
+                        <Label Text="{Binding Name}" TextColor="{StaticResource GroupTopicText}"
                                FontSize="18"
                                VerticalTextAlignment="Center"/>
-                </StackLayout>
-            </DataTemplate>
+                    </StackLayout>
+                </DataTemplate>
             </xForms:SfListView.ItemTemplate>
 
             <xForms:SfListView.GroupHeaderTemplate>
@@ -49,5 +60,14 @@
             </xForms:SfListView.DataSource>
         </xForms:SfListView>
 
+        <Button Grid.Row="2" 
+                Text="{Binding LogInOutText}" 
+                Command="{Binding LogInOutCommand}"
+                TextColor="{StaticResource GroupTopicText}" 
+                BackgroundColor="{StaticResource GroupHeader}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" 
+                FontSize="22"/>
+    </Grid>
    
 </ContentPage>

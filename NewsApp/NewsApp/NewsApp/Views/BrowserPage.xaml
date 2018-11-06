@@ -17,7 +17,8 @@
         <Image Source="share_button.png"
                Opacity="0.98"
                AbsoluteLayout.LayoutBounds=" 0.98, 1, .17, .17"
-               AbsoluteLayout.LayoutFlags="All">
+               AbsoluteLayout.LayoutFlags="All"
+               >
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ShareCommand}"/>
             </Image.GestureRecognizers>

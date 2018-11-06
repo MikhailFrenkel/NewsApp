@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.NewsApp" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
-	<application android:label="NewsApp.Slider"></application>
+	<application android:label="NewsApp.Slider">
+		<activity android:name="microsoft.identity.client.BrowserTabActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="msal4171b9dc-8da7-4af2-8a43-b4f8fe10380b" android:host="auth" />
+			</intent-filter>
+		</activity>
+	</application>
 </manifest>

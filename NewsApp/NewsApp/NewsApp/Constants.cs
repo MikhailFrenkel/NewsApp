@@ -60,5 +60,18 @@ namespace NewsApp
                 { "science", "Science news" }
             };
         }
+
+        public static class B2C
+        {
+            public const string ApplicationId = "4171b9dc-8da7-4af2-8a43-b4f8fe10380b";
+            public const string Authority = "https://login.microsoftonline.com/tfp/samnews.onmicrosoft.com/B2C_1_susi";
+            public const string Edit = "https://login.microsoftonline.com/tfp/samnews.onmicrosoft.com/B2C_1_edit";
+            public const string Reset = "https://login.microsoftonline.com/tfp/samnews.onmicrosoft.com/B2C_1_reset";
+            public static readonly string RedirectUrl = $"msal{ApplicationId}://auth";
+            public const string SusiPolicy = "B2C_1_susi";
+            public const string EditPolicy = "B2C_1_edit";
+            public const string ResetPolicy = "B2C_1_reset";
+            public static readonly string[] Scopes = { "email" };
+        }
     }
 }

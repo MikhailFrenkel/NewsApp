@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.Identity.Client;
 using NewsApp.DAL.Repositories;
 using NewsApp.Views;
 using Xamarin.Forms;
@@ -37,6 +38,10 @@ namespace NewsApp
             }
         }
 
+        public static PublicClientApplication PCA { get; private set; }
+
+        public static UIParent UiParent { get; set; }
+
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Constants.SyncFusionLicenseKey);
@@ -44,6 +49,11 @@ namespace NewsApp
             AppCenter.Start("android=6f03a3dd-2147-4af6-82e5-6ed081445fdf;", typeof(Analytics), typeof(Crashes));
 
             InitializeComponent();
+
+            PCA = new PublicClientApplication(Constants.B2C.ApplicationId, Constants.B2C.Authority)
+            {
+                RedirectUri = Constants.B2C.RedirectUrl
+            };
 
             InitializeNewsPages();
 
@@ -66,7 +76,6 @@ namespace NewsApp
         private void InitializeNewsPages()
         {
             NewsPages = new ObservableCollection<NewsPage>();
-            
             var topics = Database.GetItems();
             if (topics != null)
             {

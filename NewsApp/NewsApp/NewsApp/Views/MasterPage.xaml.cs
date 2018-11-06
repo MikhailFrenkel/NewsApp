@@ -1,6 +1,10 @@
-﻿using NewsApp.Models;
+﻿using System.Threading.Tasks;
+using NewsApp.Models;
 using NewsApp.ViewModels;
+using Syncfusion.DataSource.Extensions;
+using Syncfusion.ListView.XForms;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using ItemTappedEventArgs = Syncfusion.ListView.XForms.ItemTappedEventArgs;
 
@@ -13,9 +17,9 @@ namespace NewsApp.Views
 		public MasterPage ()
 		{
 			InitializeComponent ();
-		    _masterVm = new MasterViewModel();
+		    _masterVm = new MasterViewModel(ShowMessage);
             BindingContext = _masterVm;
-		}
+        }
 
 	    private async void SfListView_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
@@ -33,5 +37,10 @@ namespace NewsApp.Views
 	            await Navigation.PushAsync(new TopicPage(topic.Name));
             }
         }
+
+	    private async Task ShowMessage(string title, string message, string cancel)
+	    {
+	        await DisplayAlert(title, message, cancel);
+	    }
 	}
 }

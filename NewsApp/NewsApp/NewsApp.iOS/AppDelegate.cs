@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Microsoft.Identity.Client;
 using Syncfusion.SfPullToRefresh.XForms.iOS;
 using UIKit;
 
@@ -23,7 +24,15 @@ namespace NewsApp.iOS
             SfPullToRefreshRenderer.Init();
             LoadApplication(new App());
 
+            App.UiParent = new UIParent();
+
             return base.FinishedLaunching(app, options);
+        }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(url);
+            return true;
         }
     }
 }
