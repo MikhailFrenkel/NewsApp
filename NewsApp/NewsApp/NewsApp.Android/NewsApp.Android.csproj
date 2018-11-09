@@ -76,6 +76,7 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Localize.cs" />
     <Compile Include="Helpers\SQLite_Android.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderer\SearchBarWithoutIcon.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using NewsApp.CustomView;
+using NewsApp.Resources;
 using NewsApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,7 +39,7 @@ namespace NewsApp.Views
             
             _newsSearchBar = new SearchBarWithoutIcon()
             {
-                Placeholder = Constants.SearchBarPlaceholderText,
+                Placeholder = Resource.SearchPagePlaceholderText,
                 BackgroundColor = (Color)Application.Current.Resources["SearchBar"],
                 TextColor = Color.White,
                 CancelButtonColor = Color.White

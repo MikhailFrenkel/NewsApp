@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xForms="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:dataSource="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
+             xmlns:helpers="clr-namespace:NewsApp.Helpers;assembly=NewsApp"
              x:Class="NewsApp.Views.MasterPage"
-             Title="Topics">
+             Title="{helpers:Translate MasterPageTitle}">
 
     <Grid BackgroundColor="{StaticResource GroupBackground}" RowSpacing="0">
         <Grid.RowDefinitions>

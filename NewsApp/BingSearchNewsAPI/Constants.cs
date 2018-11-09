@@ -27,6 +27,8 @@
             public const string Count = "&count=";
 
             public const string OriginalImageTrue = "&originalImg=true";
+
+            public const string ResponseLanguage = "&mkt=";
         }
     }
 }

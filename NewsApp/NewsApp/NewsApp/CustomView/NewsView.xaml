@@ -163,8 +163,8 @@
 
         <newsApp:StateCondition Is="NoInternet">
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                <Label Text="No Internet"/>
-                <Button Text="Repeat" Clicked="Button_OnClicked"/>
+                <Label Text="{helpers:Translate NoInternet}"/>
+                <Button Text="{helpers:Translate NewsRepeatButton}" Clicked="Button_OnClicked"/>
             </StackLayout>
         </newsApp:StateCondition>
 
@@ -172,7 +172,7 @@
             <StackLayout BackgroundColor="{StaticResource NewsBackgroundColor}"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="FillAndExpand">
-                <Label Text="No News" FontSize="16"
+                <Label Text="{helpers:Translate NewsNoItem}" FontSize="16"
                        HorizontalOptions="CenterAndExpand" 
                        VerticalOptions="CenterAndExpand"
                        TextColor="{StaticResource NewsText}"/>

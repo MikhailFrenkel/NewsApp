@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using NewsApp.Models;
+using NewsApp.Resources;
 
 namespace NewsApp
 {
@@ -7,7 +9,7 @@ namespace NewsApp
         public const string SyncFusionLicenseKey = "MzA2OTlAMzEzNjJlMzMyZTMwZkdNV3M1VHBER3cyMGRCNE4vbWkxeWxSQzdKSXF2ODRKZkIvd3EvSTRpOD0=";
         public const string BingSearchNewsKey = "968875276d614dea8c0f82afbbb6c853";
         public const string DatabaseName = "Articles.db";
-        public const string SearchBarPlaceholderText = "Search topics and articles";
+        public const string AppCenterLicenseKey = "android=6f03a3dd-2147-4af6-82e5-6ed081445fdf;";
 
         public static class CountNews
         {
@@ -15,29 +17,19 @@ namespace NewsApp
             public const int CountArticlesOnPage = 10;
         }
 
-        /*public static List<string> Topics = new List<string>()
+        public static List<Topic> Topics = new List<Topic>()
         {
-            "Africa",
-            "Asia",
-            "Australia",
-            "Europe",
-            "North America",
-            "South America"
-        };*/
-
-        public static Dictionary<string, string> Topics = new Dictionary<string, string>()
-        {
-            { "Continent", "Africa"},
-            { "Continent", "Asia"},
-            { "Continent", "Australia"},
-            { "Continent", "Europe"},
-            { "Continent", "North America"},
-            { "Continent", "South America"},
-            { "More topics", "Entertainment" },
-            { "More topics", "Sport" },
-            { "More topics", "Tech" },
-            { "More topics", "Business" },
-            { "More topics", "Football" }
+            new Topic{ GroupName = Resource.TopicsGroupHeaderContinent, Name = Resource.TopicsContinentAfrica },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderContinent, Name = Resource.TopicsContinentAsia },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderContinent, Name = Resource.TopicsContinentAustralia },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderContinent, Name = Resource.TopicsContinentEurope },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderContinent, Name = Resource.TopicsContinentNorthAmerica },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderContinent, Name = Resource.TopicsContinentSouthAmerica },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderMoreTopics, Name = Resource.MoreTopicsEntertainment },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderMoreTopics, Name = Resource.MoreTopicsSport },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderMoreTopics, Name = Resource.MoreTopicsTech },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderMoreTopics, Name = Resource.MoreTopicsBusiness },
+            new Topic{ GroupName = Resource.TopicsGroupHeaderMoreTopics, Name = Resource.MoreTopicsFootball }
         };
 
         public static class Images
@@ -55,9 +47,9 @@ namespace NewsApp
         {
             public static Dictionary<string, string> Topics = new Dictionary<string, string>()
             {
-                { "world", "World News"},
-                { "russia", "News in Russia"},
-                { "science", "Science news" }
+                { Resource.DefaultTopicWorldNewsSearchString, Resource.DefaultTopicWorldNewsText},
+                { Resource.DefaultTopicRussiaNewsSearchString, Resource.DefaultTopicRussiaNewsText},
+                { Resource.DefaultTopicScienceSearchString, Resource.DefaultTopicScienceText }
             };
         }
 

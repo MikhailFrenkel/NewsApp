@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Identity.Client;
 using NewsApp.Models;
+using NewsApp.Resources;
 using Newtonsoft.Json.Linq;
 using Plugin.Connectivity;
 using Xamarin.Forms;
@@ -84,7 +85,7 @@ namespace NewsApp.ViewModels
                 try
                 {
                     IEnumerable<IAccount> accounts = await App.PCA.GetAccountsAsync();
-                    if (_logInOut == "Login")
+                    if (_logInOut == Resource.MasterPageLoginText)
                     {
                         AuthenticationResult ar = await App.PCA.AcquireTokenAsync(Constants.B2C.Scopes, App.UiParent);
                         UpdateUserInfo(ar);
@@ -110,17 +111,17 @@ namespace NewsApp.ViewModels
             {
                 if (_output != null)
                 {
-                    await _output("Internet", "No internet connection", "OK");
+                    await _output(Resource.MasterPageNoInternetTitle, Resource.NoInternetText, Resource.MasterPageNoInternetCancel);
                 }
             }
         });
 
         public MasterViewModel(ShowMessageDelegate output)
         {
-            InitializeTopics();
+            _topics = new ObservableCollection<Topic>(Constants.Topics);
             _output = output;
-            _logInOut = "Login";
-            _userEmail = "Hello, user:)";
+            _logInOut = Resource.MasterPageLoginText;
+            _userEmail = Resource.MasterPageNoUserEmailText;
             _userEmailVisible = false;
         }
 
@@ -129,24 +130,6 @@ namespace NewsApp.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void InitializeTopics()
-        {
-            _topics = new ObservableCollection<Topic>()
-            {
-                new Topic{ GroupName = "Continent", Name = "Africa"},
-                new Topic{ GroupName = "Continent", Name = "Asia"},
-                new Topic{ GroupName = "Continent", Name = "Australia"},
-                new Topic{ GroupName = "Continent", Name = "Europe"},
-                new Topic{ GroupName = "Continent", Name = "North America"},
-                new Topic{ GroupName = "Continent", Name = "South America"},
-                new Topic{ GroupName = "More topics", Name = "Entertainment" },
-                new Topic{ GroupName = "More topics", Name = "Sport" },
-                new Topic{ GroupName = "More topics", Name = "Tech" },
-                new Topic{ GroupName = "More topics", Name = "Business" },
-                new Topic{ GroupName = "More topics", Name = "Football" }
-            };
         }
 
         private string Base64UrlDecode(string s)
@@ -161,7 +144,7 @@ namespace NewsApp.ViewModels
         private void UpdateUserInfo(AuthenticationResult ar)
         {
             JObject user = ParseIdToken(ar.IdToken);
-            UserEmail = "Hello, " + user["emails"]?[0];
+            UserEmail = Resource.MasterPageUserEmailText + user["emails"]?[0];
         }
 
         private JObject ParseIdToken(string idToken)
@@ -189,17 +172,17 @@ namespace NewsApp.ViewModels
             {
                 if (_output != null)
                 {
-                    await _output("Internet", "No internet connection", "OK");
+                    await _output(Resource.MasterPageNoInternetTitle, Resource.NoInternetText, Resource.MasterPageNoInternetCancel);
                 }
             }
         }
 
         private void UpdateSignInState(bool isSignedIn)
         {
-            LogInOutText = isSignedIn ? "Logout" : "Login";
+            LogInOutText = isSignedIn ? Resource.MasterPageLogoutText : Resource.MasterPageLoginText;
             UserEmailVisible = isSignedIn;
             if (!isSignedIn)
-                UserEmail = "Hello, user:)";
+                UserEmail = Resource.MasterPageNoUserEmailText;
         }
     }
 }

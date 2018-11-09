@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace SearchNewsAPI
     /// <summary>
     /// Client that uses bing search news services.
     /// </summary>
-    public class BingSearchNewsClient : ISearchNewsClient<BingSearchResponse>
+    public class BingSearchNewsClient
     {
         private readonly string _accessKey;
 
@@ -30,11 +31,13 @@ namespace SearchNewsAPI
         /// Sends request to bing service and return list of articles.
         /// </summary>
         /// <param name="searchQuery">Search string.</param>
+        /// <param name="cultureInfo">Information about culture.</param>
         /// <returns>List of articles.</returns>
-        public async Task<BingSearchResponse> GetNewsAsync(string searchQuery)
+        public async Task<BingSearchResponse> GetNewsAsync(string searchQuery, CultureInfo cultureInfo)
         {
             var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery
-                           + Constants.Uri.Offset + 0 + Constants.Uri.OriginalImageTrue; 
+                           + Constants.Uri.Offset + 0 + Constants.Uri.OriginalImageTrue 
+                           + Constants.Uri.ResponseLanguage + cultureInfo; 
 
             return await RequestToService(uriQuery);
         }
@@ -45,12 +48,14 @@ namespace SearchNewsAPI
         /// </summary>
         /// <param name="searchQuery">Search string.</param>
         /// <param name="offset">Number of offset articles.</param>
+        /// <param name="cultureInfo">Information about culture.</param>
         /// <param name="count">Count of articles.</param>
         /// <returns>List of articles.</returns>
-        public async Task<BingSearchResponse> GetNewsAsync(string searchQuery, int offset, int count = 10)
+        public async Task<BingSearchResponse> GetNewsAsync(string searchQuery, int offset, CultureInfo cultureInfo, int count = 10)
         {
             var uriQuery = Constants.Uri.BingUriBase + Constants.Uri.QuerySymbol + searchQuery 
-                           + Constants.Uri.Offset + offset + Constants.Uri.OriginalImageTrue;
+                           + Constants.Uri.Offset + offset + Constants.Uri.OriginalImageTrue 
+                           + Constants.Uri.ResponseLanguage + cultureInfo;
 
             return await RequestToService(uriQuery);
         }

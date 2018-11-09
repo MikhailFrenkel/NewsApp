@@ -5,9 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NewsApp.DAL.Models;
+using NewsApp.Interfaces;
 using Plugin.Connectivity;
 using SearchNewsAPI;
 using SearchNewsAPI.Models;
+using Xamarin.Forms;
 
 namespace NewsApp.ViewModels
 {
@@ -100,7 +102,7 @@ namespace NewsApp.ViewModels
             //TODO: проверка на равенство            
             if (CrossConnectivity.Current.IsConnected)
             {
-                var result = await _newsClient.GetNewsAsync(Topic);
+                var result = await _newsClient.GetNewsAsync(Topic, DependencyService.Get<ILocalize>().GetCurrentCultureInfo());
                 //TODO: result == null => проблемы при обращении к сервису
                 if (result != null)
                 {
@@ -140,7 +142,7 @@ namespace NewsApp.ViewModels
             {
                 if (_offset < Constants.CountNews.CountArticlesOnPage * Constants.CountNews.CountPages)
                 {
-                    var result = await _newsClient.GetNewsAsync(Topic, _offset);
+                    var result = await _newsClient.GetNewsAsync(Topic, _offset, DependencyService.Get<ILocalize>().GetCurrentCultureInfo());
                     if (result != null)
                     {
                         if (result.Value.Count != 0)

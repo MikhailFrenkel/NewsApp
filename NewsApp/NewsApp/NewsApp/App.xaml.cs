@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
 using NewsApp.DAL.Repositories;
+using NewsApp.Resources;
 using NewsApp.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -46,7 +48,7 @@ namespace NewsApp
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Constants.SyncFusionLicenseKey);
 
-            AppCenter.Start("android=6f03a3dd-2147-4af6-82e5-6ed081445fdf;", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start(Constants.AppCenterLicenseKey, typeof(Analytics), typeof(Crashes));
 
             InitializeComponent();
 
@@ -82,9 +84,26 @@ namespace NewsApp
                 var topicPages = topics.ToList();
                 if (topicPages.Count >= 3)
                 {
-                    foreach (var topic in topicPages)
+                    for (int i = 0; i < topicPages.Count; i++)
                     {
-                        NewsPages.Add(new NewsPage(topic.Title, topic.SearchQuery, topic.UserPage, topic.Articles));
+                        switch (i)
+                        {
+                            case 0:
+                                NewsPages.Add(new NewsPage(Resource.DefaultTopicWorldNewsText, Resource.DefaultTopicWorldNewsSearchString, 
+                                                            topicPages[i].UserPage, topicPages[i].Articles));
+                                break;
+                            case 1:
+                                NewsPages.Add(new NewsPage(Resource.DefaultTopicRussiaNewsText, Resource.DefaultTopicRussiaNewsSearchString,
+                                    topicPages[i].UserPage, topicPages[i].Articles));
+                                break;
+                            case 2:
+                                NewsPages.Add(new NewsPage(Resource.DefaultTopicScienceText, Resource.DefaultTopicScienceSearchString,
+                                    topicPages[i].UserPage, topicPages[i].Articles));
+                                break;
+                            default:
+                                NewsPages.Add(new NewsPage(topicPages[i].Title, topicPages[i].SearchQuery, topicPages[i].UserPage, topicPages[i].Articles));
+                                break;
+                        }
                     }
 
                     return;

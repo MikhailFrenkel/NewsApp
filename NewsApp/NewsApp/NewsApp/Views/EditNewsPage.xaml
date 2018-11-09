@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:newsApp="clr-namespace:NewsApp;assembly=NewsApp"
              xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:helpers="clr-namespace:NewsApp.Helpers;assembly=NewsApp"
              x:Class="NewsApp.Views.EditNewsPage"
-             Title="Edit My News">
+             Title="{helpers:Translate EditNewsPageTitle}">
 
     <newsApp:StateContainer State="{Binding IsState}">
         <newsApp:StateCondition Is="Normal">
@@ -16,9 +17,9 @@
 
                 <Grid x:Name="Header" BackgroundColor="{StaticResource EditNewsHeader}" Padding="2" Margin="0,0,0,1">
                     <Label x:Name="HeaderLabel"
-                           Text="To reorder topics, hold down and move"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
+                           Text="{helpers:Translate EditNewsPageReorderText}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
                            TextColor="{StaticResource NewsText}"
                            FontSize="18"
                            FontAttributes="Bold"
@@ -26,7 +27,7 @@
                     <StackLayout x:Name="HeaderTrashStackLayout" Orientation="Horizontal" IsVisible="False"
                                  HorizontalOptions="Center" VerticalOptions="Center">
                         <Image x:Name="Trash" Source="trash.png" HeightRequest="30" WidthRequest="30"/>
-                        <Label x:Name="DeleteLabel" Text="Delete Topic" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource NewsText}"/>
+                        <Label x:Name="DeleteLabel" Text="{helpers:Translate EditNewsPageDeleteTopic}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource NewsText}"/>
                     </StackLayout>
                 </Grid>
 
@@ -90,7 +91,7 @@
             <Grid BackgroundColor="{StaticResource NewsBackgroundColor}"
                          VerticalOptions="Fill"
                          HorizontalOptions="Fill">
-                <Label Text="Your added topics will be displayed here"
+                <Label Text="{helpers:Translate EditNewsPageNoItemText}"
                        VerticalOptions="Center"
                        HorizontalOptions="Center"
                        TextColor="{StaticResource NewsText}"/>
