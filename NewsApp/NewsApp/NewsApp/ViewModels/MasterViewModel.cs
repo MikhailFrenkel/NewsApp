@@ -84,10 +84,20 @@ namespace NewsApp.ViewModels
             {
                 try
                 {
-                    IEnumerable<IAccount> accounts = await App.PCA.GetAccountsAsync();
+                    IEnumerable<IAccount> accounts = await App.PublicClientApplication.GetAccountsAsync();
                     if (_logInOut == Resource.MasterPageLoginText)
                     {
-                        AuthenticationResult ar = await App.PCA.AcquireTokenAsync(Constants.B2C.Scopes, App.UiParent);
+                        AuthenticationResult ar;
+                        if (accounts.ToList().Count == 0)
+                        {
+                            ar = await App.PublicClientApplication.AcquireTokenAsync(Constants.B2C.Scopes, App.UiParent);
+                        }
+                        else
+                        {
+                            var account = accounts.FirstOrDefault();
+                            ar = await App.PublicClientApplication.AcquireTokenSilentAsync(Constants.B2C.Scopes, account);
+                        }
+
                         UpdateUserInfo(ar);
                         UpdateSignInState(true);
                     }
@@ -95,8 +105,8 @@ namespace NewsApp.ViewModels
                     {
                         while (accounts.Any())
                         {
-                            await App.PCA.RemoveAsync(accounts.FirstOrDefault());
-                            accounts = await App.PCA.GetAccountsAsync();
+                            await App.PublicClientApplication.RemoveAsync(accounts.FirstOrDefault());
+                            accounts = await App.PublicClientApplication.GetAccountsAsync();
                         }
                         UpdateSignInState(false);
                     }
@@ -160,7 +170,7 @@ namespace NewsApp.ViewModels
             {
                 try
                 {
-                    AuthenticationResult ar = await App.PCA.AcquireTokenAsync(Constants.B2C.Scopes, (IAccount)null,
+                    AuthenticationResult ar = await App.PublicClientApplication.AcquireTokenAsync(Constants.B2C.Scopes, (IAccount)null,
                         UIBehavior.SelectAccount, string.Empty, null, Constants.B2C.Reset, App.UiParent);
                     UpdateUserInfo(ar);
                 }

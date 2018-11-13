@@ -40,7 +40,7 @@ namespace NewsApp
             }
         }
 
-        public static PublicClientApplication PCA { get; private set; }
+        public static PublicClientApplication PublicClientApplication { get; private set; }
 
         public static UIParent UiParent { get; set; }
 
@@ -52,7 +52,7 @@ namespace NewsApp
 
             InitializeComponent();
 
-            PCA = new PublicClientApplication(Constants.B2C.ApplicationId, Constants.B2C.Authority)
+            PublicClientApplication = new PublicClientApplication(Constants.B2C.ApplicationId, Constants.B2C.Authority)
             {
                 RedirectUri = Constants.B2C.RedirectUrl
             };
