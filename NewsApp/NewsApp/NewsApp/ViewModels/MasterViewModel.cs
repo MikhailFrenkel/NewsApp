@@ -23,7 +23,6 @@ namespace NewsApp.ViewModels
         private ObservableCollection<Topic> _topics;
         private string _logInOut;
         private string _userEmail;
-        private bool _userEmailVisible;
         private readonly ShowMessageDelegate _output;
 
         public ObservableCollection<Topic> Topics
@@ -65,56 +64,28 @@ namespace NewsApp.ViewModels
             }
         }
 
-        public bool UserEmailVisible
-        {
-            get => _userEmailVisible;
-            set
-            {
-                if (_userEmailVisible != value)
-                {
-                    _userEmailVisible = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public ICommand LogInOutCommand => new Command(async () =>
         {
             if (CrossConnectivity.Current.IsConnected)
             {
                 try
                 {
-                    IEnumerable<IAccount> accounts = await App.PublicClientApplication.GetAccountsAsync();
                     if (_logInOut == Resource.MasterPageLoginText)
                     {
-                        AuthenticationResult ar;
-                        if (accounts.ToList().Count == 0)
-                        {
-                            ar = await App.PublicClientApplication.AcquireTokenAsync(Constants.B2C.Scopes, App.UiParent);
-                        }
-                        else
-                        {
-                            var account = accounts.FirstOrDefault();
-                            ar = await App.PublicClientApplication.AcquireTokenSilentAsync(Constants.B2C.Scopes, account);
-                        }
+                        var authenticationResult =  await App.AuthorizationService.Login();
 
-                        UpdateUserInfo(ar);
+                        UpdateUserInfo(authenticationResult);
                         UpdateSignInState(true);
                     }
                     else
                     {
-                        while (accounts.Any())
-                        {
-                            await App.PublicClientApplication.RemoveAsync(accounts.FirstOrDefault());
-                            accounts = await App.PublicClientApplication.GetAccountsAsync();
-                        }
+                        await App.AuthorizationService.Logout();
                         UpdateSignInState(false);
                     }
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.Contains("AADB2C90118"))
-                        OnPasswordReset();
+                    
                 }
             }
             else
@@ -126,13 +97,21 @@ namespace NewsApp.ViewModels
             }
         });
 
-        public MasterViewModel(ShowMessageDelegate output)
+        public MasterViewModel(ShowMessageDelegate output, AuthenticationResult ar)
         {
             _topics = new ObservableCollection<Topic>(Constants.Topics);
             _output = output;
-            _logInOut = Resource.MasterPageLoginText;
-            _userEmail = Resource.MasterPageNoUserEmailText;
-            _userEmailVisible = false;
+            if (ar != null)
+            {
+                _logInOut = Resource.MasterPageLogoutText;
+                _userEmail = Resource.MasterPageUserEmailText +
+                             App.AuthorizationService.ParseIdToken(ar.IdToken)["emails"]?[0];
+            }
+            else
+            {
+                _logInOut = Resource.MasterPageLoginText;
+                _userEmail = Resource.MasterPageNoUserEmailText;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -142,55 +121,15 @@ namespace NewsApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string Base64UrlDecode(string s)
-        {
-            s = s.Replace('-', '+').Replace('_', '/');
-            s = s.PadRight(s.Length + (4 - s.Length % 4) % 4, '=');
-            var byteArray = Convert.FromBase64String(s);
-            var decoded = Encoding.UTF8.GetString(byteArray, 0, byteArray.Count());
-            return decoded;
-        }
-
         private void UpdateUserInfo(AuthenticationResult ar)
         {
-            JObject user = ParseIdToken(ar.IdToken);
+            var user = App.AuthorizationService.ParseIdToken(ar.IdToken);
             UserEmail = Resource.MasterPageUserEmailText + user["emails"]?[0];
-        }
-
-        private JObject ParseIdToken(string idToken)
-        {
-            idToken = idToken.Split('.')[1];
-            idToken = Base64UrlDecode(idToken);
-            return JObject.Parse(idToken);
-        }
-
-        private async void OnPasswordReset()
-        {
-            if (CrossConnectivity.Current.IsConnected)
-            {
-                try
-                {
-                    AuthenticationResult ar = await App.PublicClientApplication.AcquireTokenAsync(Constants.B2C.Scopes, (IAccount)null,
-                        UIBehavior.SelectAccount, string.Empty, null, Constants.B2C.Reset, App.UiParent);
-                    UpdateUserInfo(ar);
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-            else
-            {
-                if (_output != null)
-                {
-                    await _output(Resource.MasterPageNoInternetTitle, Resource.NoInternetText, Resource.MasterPageNoInternetCancel);
-                }
-            }
         }
 
         private void UpdateSignInState(bool isSignedIn)
         {
             LogInOutText = isSignedIn ? Resource.MasterPageLogoutText : Resource.MasterPageLoginText;
-            UserEmailVisible = isSignedIn;
             if (!isSignedIn)
                 UserEmail = Resource.MasterPageNoUserEmailText;
         }

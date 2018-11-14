@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
 using NewsApp.DAL.Repositories;
+using NewsApp.Helpers;
 using NewsApp.Resources;
 using NewsApp.Views;
 using Xamarin.Forms;
@@ -40,11 +43,9 @@ namespace NewsApp
             }
         }
 
-        public static PublicClientApplication PublicClientApplication { get; private set; }
+        public static AuthorizationService AuthorizationService { get; private set; }
 
-        public static UIParent UiParent { get; set; }
-
-        public App()
+        public App(UIParent uiParent)
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Constants.SyncFusionLicenseKey);
 
@@ -52,14 +53,15 @@ namespace NewsApp
 
             InitializeComponent();
 
-            PublicClientApplication = new PublicClientApplication(Constants.B2C.ApplicationId, Constants.B2C.Authority)
-            {
-                RedirectUri = Constants.B2C.RedirectUrl
-            };
+            AuthorizationService = new AuthorizationService(Constants.B2C.ApplicationId, Constants.B2C.Authority, 
+                Constants.B2C.Edit, Constants.B2C.Reset, Constants.B2C.RedirectUrl, Constants.B2C.Scopes, uiParent);
+
+            var task = Task.Run(LoginUser);
+            task.Wait();
 
             InitializeNewsPages();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new MainPage(task.Result));
         }
 
         /// <summary>
@@ -72,6 +74,19 @@ namespace NewsApp
             foreach (var page in NewsPages)
             {
                 page.OnSleep();
+            }
+        }
+
+        private async Task<AuthenticationResult> LoginUser()
+        {
+            try
+            {
+                return await AuthorizationService.SilentLogin();
+
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

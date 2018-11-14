@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Identity.Client;
 using NewsApp.Models;
 using NewsApp.ViewModels;
 using Syncfusion.DataSource.Extensions;
@@ -14,10 +15,10 @@ namespace NewsApp.Views
 	public partial class MasterPage : ContentPage
 	{
 	    private readonly MasterViewModel _masterVm;
-		public MasterPage ()
+		public MasterPage (AuthenticationResult ar)
 		{
 			InitializeComponent ();
-		    _masterVm = new MasterViewModel(ShowMessage);
+		    _masterVm = new MasterViewModel(ShowMessage, ar);
             BindingContext = _masterVm;
         }
 

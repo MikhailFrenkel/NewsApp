@@ -22,9 +22,7 @@ namespace NewsApp.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             SfPullToRefreshRenderer.Init();
-            LoadApplication(new App());
-
-            App.UiParent = new UIParent();
+            LoadApplication(new App(new UIParent()));
 
             return base.FinishedLaunching(app, options);
         }
